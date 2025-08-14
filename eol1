@@ -1,0 +1,3 @@
+#!/bin/bash
+
+find . -type f \( -name "pom\.xml" -o -name "*\.pom" \) -exec file {} \;

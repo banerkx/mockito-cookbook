@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# shellcheck disable=all
+git reset mockito-bom.pom pom.xml **/pom.xml
+git checkout mockito-bom.pom pom.xml **/pom.xml

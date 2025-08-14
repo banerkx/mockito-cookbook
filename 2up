@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# shellcheck disable=all
+echo ''
+source ${HOME}/scripts/power-shell/misc/update-pom-version --version 4.5.6-SNAPSHOT
+echo ''

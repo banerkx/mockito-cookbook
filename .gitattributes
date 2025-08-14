@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.xml text eol=lf
+pom.xml text eol=lf
+*.pom text eol=lf
