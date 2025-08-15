@@ -15,8 +15,7 @@
 
 <!-- Target for compiling the java code-->
   <target name="compile">
-    <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
-    </javac>
+    <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false"/>
   </target>
 
 <!-- Target for running the java code-->
