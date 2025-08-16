@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while IFS= read -r pom
+do
+  ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile "${pom}"
+done <<< "$(find . -type f \( -name "*\.pom" -o -name "pom\.xml" \))"
+
