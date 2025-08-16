@@ -1,37 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>com.blogspot.toomuchcoding</groupId>
     <artifactId>mockito-cookbook-bom</artifactId>
     <version>1.0</version>
   </parent>
 
-
-  <modelVersion>4.0.0</modelVersion>
   <groupId>com.blogspot.toomuchcoding</groupId>
   <artifactId>mockito-cookbook</artifactId>
-  <name></name>
   <version>1.0</version>
   <packaging>pom</packaging>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
-
-    <spring.version>4.0.4.RELEASE</spring.version>
-    <springockito.version>1.0.9</springockito.version>
-    <jmock.version>2.6.0</jmock.version>
-    <powermock.version>1.5.4</powermock.version>
-    <surefire.version>2.15</surefire.version>
-  </properties>
-
-  <repositories>
-    <repository>
-      <id>spring-release</id>
-      <url>http://maven.springframework.org/release</url>
-    </repository>
-  </repositories>
+  <name/>
 
   <modules>
     <module>common</module>
@@ -48,18 +30,33 @@
     <module>chapter10</module>
   </modules>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+
+    <spring.version>4.0.4.RELEASE</spring.version>
+    <springockito.version>1.0.9</springockito.version>
+    <jmock.version>2.6.0</jmock.version>
+    <powermock.version>1.5.4</powermock.version>
+    <surefire.version>2.15</surefire.version>
+  </properties>
+
   <dependencyManagement>
     <dependencies>
+
       <dependency>
         <groupId>org.codehaus.groovy</groupId>
         <artifactId>groovy-all</artifactId>
         <version>2.3.2</version>
       </dependency>
+
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
         <version>${spring.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
@@ -72,71 +69,83 @@
         <version>1.3</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.11</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
         <version>6.8.7</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-all</artifactId>
         <version>1.9.5</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
         <version>1.6.0</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.powermock</groupId>
         <artifactId>powermock-api-mockito</artifactId>
         <version>${powermock.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.powermock</groupId>
         <artifactId>powermock-module-junit4</artifactId>
         <version>${powermock.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.powermock</groupId>
         <artifactId>powermock-module-testng</artifactId>
         <version>${powermock.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>com.googlecode.catch-exception</groupId>
         <artifactId>catch-exception</artifactId>
         <version>1.2.0</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>com.jayway.awaitility</groupId>
         <artifactId>awaitility</artifactId>
         <version>1.6.0</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-test</artifactId>
         <version>${spring.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>com.google.inject</groupId>
         <artifactId>guice</artifactId>
         <version>3.0</version>
       </dependency>
+
       <dependency>
         <groupId>org.jukito</groupId>
         <artifactId>jukito</artifactId>
@@ -149,65 +158,83 @@
           </exclusion>
         </exclusions>
       </dependency>
+
       <dependency>
         <groupId>org.kubek2k</groupId>
         <artifactId>springockito</artifactId>
         <version>${springockito.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.kubek2k</groupId>
         <artifactId>springockito-annotations</artifactId>
         <version>${springockito.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.easymock</groupId>
         <artifactId>easymock</artifactId>
         <version>3.2</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>com.googlecode.jmockit</groupId>
         <artifactId>jmockit</artifactId>
         <version>1.7</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.jmock</groupId>
         <artifactId>jmock-junit4</artifactId>
         <version>${jmock.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.jmock</groupId>
         <artifactId>jmock-legacy</artifactId>
         <version>${jmock.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.jmock</groupId>
         <artifactId>jmock</artifactId>
         <version>${jmock.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.spockframework</groupId>
         <artifactId>spock-core</artifactId>
         <version>0.7-groovy-2.0</version>
         <scope>test</scope>
       </dependency>
+
     </dependencies>
   </dependencyManagement>
+
+  <repositories>
+    <repository>
+      <id>spring-release</id>
+      <url>http://maven.springframework.org/release</url>
+    </repository>
+  </repositories>
 
   <build>
     <pluginManagement>
       <plugins>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>2.5.1</version>
         </plugin>
+
         <plugin>
           <groupId>org.codehaus.gmaven</groupId>
           <artifactId>gmaven-plugin</artifactId>
@@ -238,6 +265,7 @@
             </dependency>
           </dependencies>
         </plugin>
+
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${surefire.version}</version>
@@ -268,6 +296,7 @@
             </sources>
           </configuration>
         </plugin>
+
       </plugins>
     </pluginManagement>
   </build>
