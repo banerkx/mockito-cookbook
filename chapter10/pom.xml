@@ -10,7 +10,7 @@
 
   <artifactId>mockito-cookbook-chapter10</artifactId>
 
-  <name/>
+  <name></name>
 
   <dependencies>
     <dependency>

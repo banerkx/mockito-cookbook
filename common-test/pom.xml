@@ -10,7 +10,7 @@
 
   <artifactId>mockito-cookbook-common-test</artifactId>
 
-  <name/>
+  <name></name>
 
   <dependencies>
     <dependency>

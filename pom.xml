@@ -13,7 +13,7 @@
   <version>1.0</version>
   <packaging>pom</packaging>
 
-  <name/>
+  <name></name>
 
   <modules>
     <module>common</module>
