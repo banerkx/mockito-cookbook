@@ -6,14 +6,17 @@ file=build.xml
 git reset "${file}" > /dev/null
 
 sed -i 's@\(^ *\)\(<\)\([a-z]\+\)\( [a-z]\+.*\)\(/>$\)@\1\2\3\4></\3>@' "${file}"
+sed -i 's/^ *//' "${file}"
 ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile "${file}" -Schema ant.xsd
 ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile "${file}"
 
 source ~/.dotfiles/xml_functions
 sed -i 's@\(^ *\)\(<\)\([a-z]\+\)\( [a-z]\+.*\)\(/>$\)@\1\2\3\4></\3>@' "${file}"
+sed -i 's/^ *//' "${file}"
 validate_against_schema_with_xmllint "${file}" ant.xsd
 beautify_xml_with_xmllint "${file}" 'Maven BOM/POM file'
 
+echo ''
 set -x
 git status "${file}"
 set +x
