@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sed -i 's@\(^ *\)\(<\)\([a-z]\+\)\( [a-z]\+.*\)\(/>$\)@\1\2\3\4></\3>@' build.xml
+ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile build.xml
+ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile build.xml -Schema ant.xsd
