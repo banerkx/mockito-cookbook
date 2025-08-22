@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Set the project name, basedir and default target to be executed-->
+<project name="SystemInfo" default="compile" basedir=".">
+
+<!-- Sets the properties here-->
+  <property name="src.dir" location="."/>
+  <property name="build.dir" location="."/>
+
+<!-- Target for deleting the existing directories-->
+  <target name="clean">
+    <delete file="SystemInfo.class"/>
+    <delete dir="kbjava"/>
+  </target>
+
+<!-- Target for compiling the java code-->
+  <target name="compile">
+    <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
+    </javac>
+  </target>
+
+<!-- Target for running the java code-->
+  <target name="run" depends="compile">
+    <java classname="kbjava.system.SystemInfo" classpath="."/>
+  </target>
+
+<!-- Target to generate ant.dtd file. -->
+  <target name="dtdgen">
+    <antstructure output="ant.dtd"/>
+  </target>
+</project>
+

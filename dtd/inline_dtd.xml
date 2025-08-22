@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE library [
+  <!ELEMENT library (book+)>
+  <!ELEMENT book (title, author, year)>
+  <!ELEMENT title (#PCDATA)>
+  <!ELEMENT author (#PCDATA)>
+  <!ELEMENT year (#PCDATA)>
+]>
+<library>
+  <book>
+    <title>1984</title>
+    <author>George Orwell</author>
+    <year>1949</year>
+  </book>
+  <book>
+    <title>Brave New World</title>
+    <author>Aldous Huxley</author>
+    <year>1932</year>
+  </book>
+</library>
+

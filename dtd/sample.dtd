@@ -1,0 +1,5 @@
+<!ELEMENT root (item+)>
+<!ELEMENT item (name, price)>
+<!ATTLIST item id CDATA #REQUIRED>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT price (#PCDATA)>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright © 2018-2025 K. Banerjee                                            -->
+<!--                                                                               -->
+<!--  This file is part of .git_template.                                          -->
+<!--                                                                               -->
+<!--  .git_template is free software: you can redistribute it and/or modify        -->
+<!--  it under the terms of the GNU General Public License as published by         -->
+<!--  the Free Software Foundation, either version 3 of the License, or            -->
+<!--  (at your option) any later version.                                          -->
+<!--                                                                               -->
+<!--  .git_template is distributed in the hope that it will be useful,             -->
+<!--  but WITHOUT ANY WARRANTY; without even the implied warranty of               -->
+<!--  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                -->
+<!--  GNU General Public License for more details.                                 -->
+<!--                                                                               -->
+<!--  You should have received a copy of the GNU General Public License            -->
+<!--  along with .git_template.  If not, see <https://www.gnu.org/licenses/>.      -->
+<!-- See the following for escaping special XML characters:                                           -->
+<!--   https://www.dvteclipse.com/documentation/svlinter/How_to_use_special_characters_in_XML.3F.html -->
+<!-- Variables to hold regular expressions for use in xs:pattern value attribute.                     -->
+<!-- To see the resolved entity references, use (NOTE: The double dashes have been escaped):          -->
+<!--   xmllint \-\-noent settings-security.xsd > settings-security_resolved.xsd                       -->
+<!DOCTYPE variables [
+<!ENTITY master_ascii "[\s\w!@#$^\()-+=:;,./\\]*">
+<!-- Windows directory and file names can contain all characters, except these: \/:*?"<>|.            --><!-- <relocation> must have a minimum length of 5. This disallows the file name ".xml".               --><!ENTITY relo_min_len "5">
+<!-- NOTE: To lessen the likelihood of having to escape characters in the <relocation>                --><!--       file name, the following characters are excluded from the set of allowed                   --><!--       characters:                                                                                --><!--         %&$#!^~'`                                                                                --><!ENTITY letters "a-zA-Z">
+<!ENTITY digits "0-9">
+<!ENTITY ascii_common "&letters;&digits;_ @\()\+=\-_\[\]{};,">
+<!ENTITY win_ascii_no_dot "[&ascii_common;]">
+<!ENTITY win_ascii "[&ascii_common;\.]">
+<!ENTITY win_cur_dir "\.\\">
+<!ENTITY win_par_dir "\.\.\\">
+<!-- Linux directory and file names can contain all characters, except: NUL                           --><!ENTITY lin_ascii "[&ascii_common;\.]">
+<!ENTITY lin_cur_dir "\./">
+<!ENTITY lin_par_dir "\.\./">
+<!ENTITY xml_suffix "\.xml">
+]>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="settingsSecurity">
+    <xs:complexType>
+<!-- Want exactly one of {master, relocation} element. -->
+      <xs:choice>
+        <xs:element name="master" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">
+              Encrypted password must be generated with:
+              mvn --encrypt-master-password [password] | sed 's@{@\\{@g'
+              Note that '{' may end up in the generated password. If it does, it must be escaped with a '\'.
+              See: https://maven.apache.org/guides/mini/guide-encryption.html
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+<!-- <master> is allowed to be null.                                                                    -->
+              <xs:pattern value=""/>
+<!-- Otherwise, <master> must:                                                                          -->
+<!--   - optionally begin with an arbitrary leading string                                              -->
+<!--   - then must have an opening '{'                                                                  -->
+<!--   - at least 44 instances of characters from the set {a-z, A-Z, 0-9, +, =, $, /}                   -->
+<!--   - then must have a closing '}'                                                                   -->
+<!--   - optionally end with an arbitrary trailing string                                               -->
+<!-- NOTE: The ['{', '}', '+', '\'] characters must be escaped in the following regular expression.     -->
+<!-- NOTE: It is possible for <master> to have a '{' between the mandatory opening '{' and closing '}'. -->
+<!--       In such cases, '{' must be escaped ==> '\{'.                                                 -->
+<!-- NOTE: Also want to allow referring to an environment variables, e.g.:                              -->
+<!--         <master>${env.SOME_MASTER_PASSWORD}</master>                                               -->
+              <xs:pattern value="&master_ascii;\{([&letters;&digits;+=/$]|\\\{){44,}\}&master_ascii;|$\{env\..*\}"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="relocation" minOccurs="1" maxOccurs="1">
+          <xs:simpleType>
+            <xs:restriction base="xs:anyURI">
+              <xs:minLength value="&relo_min_len;"/>
+<!-- Windows drive letter and UNC file paths.                                                                       -->
+<!--  - must start with "letter:\" or "\\"                                                                          -->
+<!--                    OR                                                                                          -->
+<!--     Examples:                                                                                                  -->
+<!--       C:\dir1\dir2\dir3\settings-security.xml                                                                  -->
+<!--       \\dir1\dir2\dir3\settings-security.xml                                                                   -->
+<!--                    OR                                                                                          -->
+<!-- Windows relative path that begins with ".." or "."                                                             -->
+<!--  - must start with ".\" or "..\"                                                                               -->
+<!--     Examples:                                                                                                  -->
+<!--       .\dir1\dir2\dir3\settings-security.xml                                                                   -->
+<!--       ..\dir1\dir2\dir3\settings-security.xml                                                                  -->
+<!--                    OR                                                                                          -->
+<!-- Windows path that begins with directory                                                                        -->
+<!--     Example:                                                                                                   -->
+<!--       dir1\dir2\dir3\settings-security.xml                                                                     -->
+<!--  - followed by >= 0 groups consisting of: (>= 1 characters from &win_ascii_no_dot; or ".\")                    -->
+<!--  - followed by >= 0 groups consisting of: (>= 1 characters from &win_ascii_no_dot; or >= 1 "..\" or >= 1 ".\") -->
+<!--  - followed by >= 1 characters from &win_ascii;                                                                -->
+<!--  - must end with ".xml"                                                                                        -->
+              <xs:pattern value="([&letters;]:\\|\\\\|&win_par_dir;|&win_par_dir;)?(&win_ascii_no_dot;+\\|&win_cur_dir;)*(&win_ascii_no_dot;+\\|&win_par_dir;+|&win_cur_dir;+)*&win_ascii;+&xml_suffix;"/>
+<!-- Linux file path                                                                                                -->
+<!--  - must start with 0 or 1 '/'                                                                                  -->
+<!--  - followed by >= 1 groups consisting of: (>= 1 characters from &lin_ascii; or "../" or "./") -->
+<!--  - followed by >= 1 characters from &lin_ascii;                                                                -->
+<!--  - must end with ".xml"                                                                                        -->
+<!-- Examples:                                                                                                      -->
+<!--   /dir1/dir2/dir3/settings-security.xml                                                                        -->
+<!--   dir1/dir2/dir3/settings-security.xml                                                                         -->
+<!--   ./dir1/dir2/dir3/settings-security.xml                                                                       -->
+<!--   ../dir1/dir2/dir3/settings-security.xml                                                                      -->
+              <xs:pattern value="/?(&lin_ascii;+/|&lin_par_dir;|&lin_cur_dir;)*&lin_ascii;+&xml_suffix;"/>
+<!-- Just the xml file name.                                                                                        -->
+<!-- Example:                                                                                                       -->
+<!--   settings-security.xml                                                                                        -->
+              <xs:pattern value="&win_ascii;+&xml_suffix;"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+

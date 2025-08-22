@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.in28minutes.mockito</groupId>
+  <artifactId>mockito-tutorial</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+<!-- NOTE: Do not use a literal file separator, i.e., '/' or '\', in any path value; -->
+<!-- always use the maven variable ${file.separator}. Otherwise, maven will -->
+<!-- not be able to consistently understand the path in a mixed Windows/Linux environment. -->
+    <jacoco.data.file> ${project.build.directory}${file.separator}coverage-reports${file.separator}jacoco-ut.exec </jacoco.data.file>
+    <jacoco.output.directory> ${project.reporting.outputDirectory}${file.separator}jacoco-ut </jacoco.output.directory>
+    <minimum.jacoco.test.coverage>0.20</minimum.jacoco.test.coverage>
+    <required.java.version>17.0.2</required.java.version>
+    <spotbugs.output.directory>${project.reporting.outputDirectory}${file.separator}spotbugs</spotbugs.output.directory>
+  </properties>
+  <inceptionYear>2024</inceptionYear>
+  <url>https://gitlab.com/user1/mockito_tutorial.git</url>
+  <licenses>
+    <license>
+      <name>GPL 3.0</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+    </license>
+  </licenses>
+  <issueManagement>
+    <system>git</system>
+    <url>https://gitlab.com/user1/mockito_tutorial.git</url>
+  </issueManagement>
+  <ciManagement>
+    <system>gitlab</system>
+    <url>https://gitlab.com/user1/mockito_tutorial.git</url>
+  </ciManagement>
+  <developers>
+    <developer>
+      <id>kbanerjee</id>
+      <name>K. Banerjee</name>
+    </developer>
+  </developers>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.4.3</version>
+      </plugin>
+<!-- See: https://maven.apache.org/plugins/maven-checkstyle-plugin/usage.html -->
+<!-- Use: mvn checkstyle:checkstyle -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.2.1</version>
+        <configuration>
+          <configLocation>checkstyle/checkstyle-configuration.xml</configLocation>
+          <encoding>UTF-8</encoding>
+          <consoleOutput>true</consoleOutput>
+          <failsOnError>false</failsOnError>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>checkstyle</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+<!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-maven-plugin/4.7.3.4 -->
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>4.7.3.4</version>
+        <configuration>
+          <htmlOutput>true</htmlOutput>
+          <outputDirectory>${spotbugs.output.directory}</outputDirectory>
+          <failOnError>false</failOnError>
+        </configuration>
+      </plugin>
+<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->
+<!-- See: https://maven.apache.org/plugins/maven-dependency-plugin/usage.html#dependency:analyze-report -->
+<!-- Use: mvn dependency:analyze-report -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.5.0</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>analyze-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>1.10.19</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>1.7.4</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>2.0.9</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>objenesis</groupId>
+          <artifactId>objenesis</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.powermock</groupId>
+          <artifactId>powermock-reflect</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.powermock</groupId>
+          <artifactId>powermock-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+<!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-testng -->
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-testng</artifactId>
+      <version>2.0.9</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.powermock</groupId>
+          <artifactId>powermock-reflect</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.powermock</groupId>
+          <artifactId>powermock-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito-common</artifactId>
+      <version>1.7.4</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.powermock</groupId>
+          <artifactId>powermock-reflect</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.powermock</groupId>
+          <artifactId>powermock-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+<!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-maven-plugin/4.7.3.4 -->
+    <dependency>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-maven-plugin</artifactId>
+      <version>4.7.3.4</version>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.ow2.asm</groupId>
+          <artifactId>asm</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.ow2.asm</groupId>
+          <artifactId>asm-analysis</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.ow2.asm</groupId>
+          <artifactId>asm-commons</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.ow2.asm</groupId>
+          <artifactId>asm-util</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.ow2.asm</groupId>
+          <artifactId>asm-tree</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.codehaus.plexus</groupId>
+          <artifactId>plexus-interpolation</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.codehaus.plexus</groupId>
+          <artifactId>plexus-utils</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.codehaus.plexus</groupId>
+          <artifactId>plexus-component-annotations</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.maven</groupId>
+          <artifactId>maven-model</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.google.code.findbugs</groupId>
+          <artifactId>jsr305</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.codehaus.plexus</groupId>
+          <artifactId>plexus-classworlds</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.maven.shared</groupId>
+          <artifactId>maven-common-artifact-filters</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.codehaus.plexus</groupId>
+          <artifactId>plexus-container-default</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-text</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-beanutils</groupId>
+          <artifactId>commons-beanutils</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.maven.reporting</groupId>
+          <artifactId>maven-reporting-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.maven.doxia</groupId>
+          <artifactId>doxia-logging-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.maven</groupId>
+          <artifactId>maven-artifact</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.maven</groupId>
+          <artifactId>maven-plugin-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.maven.doxia</groupId>
+          <artifactId>doxia-sink-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.maven.doxia</groupId>
+          <artifactId>doxia-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.maven</groupId>
+          <artifactId>maven-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-collections</groupId>
+          <artifactId>commons-collections</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-chain</groupId>
+          <artifactId>commons-chain</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-lang</groupId>
+          <artifactId>commons-lang</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-digester</groupId>
+          <artifactId>commons-digester</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.velocity</groupId>
+          <artifactId>velocity</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+  <build>
+    <defaultGoal>install</defaultGoal>
+    <directory>${basedir}${file.separator}target</directory>
+    <finalName>${project.groupId}.${project.artifactId}.${project.version}</finalName>
+    <plugins>
+<!-- To lint this pom.xml file, use: mvn lint:check -->
+<!-- The output of lint:check will be in: .../target/maven-lint-result.xml -->
+<!-- To list lint rules, use: mvn com.lewisd:lint-maven-plugin:list -->
+<!-- The output will be sent to stdout. -->
+      <plugin>
+        <groupId>com.lewisd</groupId>
+        <artifactId>lint-maven-plugin</artifactId>
+        <version>0.0.11</version>
+        <configuration>
+          <failOnViolation>false</failOnViolation>
+          <onlyRunRules>
+            <rule>DotVersionProperty</rule>
+            <rule>DuplicateDep</rule>
+            <rule>ExecutionId</rule>
+            <rule>GAVOrder</rule>
+            <rule>OSSContinuousIntegrationManagementSectionRule</rule>
+            <rule>OSSDevelopersSectionRule</rule>
+            <rule>OSSInceptionYearRule</rule>
+            <rule>OSSIssueManagementSectionRule</rule>
+            <rule>OSSLicenseSectionRule</rule>
+            <rule>OSSUrlSectionRule</rule>
+            <rule>ProfileOnlyAddModules</rule>
+            <rule>RedundantDepVersion</rule>
+            <rule>RedundantPluginVersion</rule>
+            <rule>VersionProp</rule>
+          </onlyRunRules>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.9.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+<!-- BREAKS Mockito!!! -->
+<!--                <executions> -->
+<!--                    <execution> -->
+<!--                        <id>maven-compiler</id> -->
+<!--                        <configuration> -->
+<!--                            <source>${required.java.version}</source> -->
+<!--                            <target>${required.java.version}</target> -->
+<!--                        </configuration> -->
+<!--                    </execution> -->
+<!--                </executions> -->
+      </plugin>
+<!--Modifications for jacoco from: -->
+<!-- https://www.lambdatest.com/blog/reporting-code-coverage-using-maven-and-jacoco-plugin/ -->
+<!--To generate jacoco output, use: mvn test -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+<!--NOTE: The surefire plugin looks for test classes named: *Test.java -->
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.12.4</version>
+        <executions>
+          <execution>
+            <id>default-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.3</version>
+        <executions>
+<!--Ensure there is a "prepare-agent" execution goal. This will prevent the error: -->
+<!--Skipping JaCoCo execution due to missing execution data file. -->
+          <execution>
+            <id>jacoco-prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+<!--The default value for <destFile> is: ${project.build.directory} -->
+              <destFile>${jacoco.data.file}</destFile>
+              <propertyName>${jacoco.propertyName}</propertyName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>jacoco-report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+<!-- The default value for <dataFile> is: ${project.build.directory} -->
+              <dataFile>${jacoco.data.file}</dataFile>
+<!-- The default value for <outputDirectory> is: ${project.reporting.outputDirectory} -->
+<!-- jacoco saves its output in csv, html, and xml format. -->
+<!-- jacoco will save its csv output to .../target/site/<outputDirectory>/jacoco.csv. -->
+<!-- jacoco will save its html output to .../target/site/<outputDirectory>/index.html. -->
+<!-- jacoco will save its xml output to .../target/site/<outputDirectory>/jacoco.xml. -->
+              <outputDirectory>${jacoco.output.directory}</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+<!-- See: https://www.eclemma.org/jacoco/trunk/doc/check-mojo.html -->
+            <id>jacoco-check</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <dataFile>${jacoco.data.file}</dataFile>
+<!-- If test coverage minimum percentages are not met, then no error will be reported. -->
+              <haltOnFailure>false</haltOnFailure>
+              <rules>
+                <rule>
+                  <element>PACKAGE</element>
+                  <excludes>
+<!-- Excluding unit test classes. -->
+                    <exclude>*Test</exclude>
+                  </excludes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>${minimum.jacoco.test.coverage}</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+                <rule>
+                  <element>CLASS</element>
+                  <excludes>
+<!-- Excluding unit test classes. -->
+                    <exclude>*Test</exclude>
+                  </excludes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>${minimum.jacoco.test.coverage}</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <id>no-duplicate-declared-dependencies</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <banDuplicatePomDependencyVersions/>
+              </rules>
+            </configuration>
+          </execution>
+          <execution>
+            <id>enforce-java</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+<!--                            <skip>true</skip> -->
+              <rules>
+                <requireJavaVersion>
+                  <version>${required.java.version}</version>
+                  <message>Invalid java version; the java version must be greater than or equal to
+                    [${required.java.version}]
+                  </message>
+                  <display>true</display>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+          <execution>
+            <id>enforce-maven</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <skip>true</skip>
+              <rules>
+                <requireMavenVersion>
+                  <version>3.9.1</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+

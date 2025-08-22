@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM "ant.dtd">
+<project name="InvalidBuild" default="compile" bogusAttr="true">
+
+<!-- This is an invalid element (should be <taskdef>) -->
+  <taskdefination name="hello" classname="com.example.HelloTask"/>
+
+<!-- Missing 'name' attribute -->
+  <target depends="init">
+    <echo message="This will fail validation."/>
+  </target>
+
+</project>
+

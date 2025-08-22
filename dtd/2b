@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# shellcheck disable=all
+declare -r SCRIPT=${0##*/}
+
+./upom
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -FileType "Maven POM" -Lint
+
+echo ''
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -FileType 'Maven POM'
+grep -Eq "^ \+(<!--|-->)" ${PWD}/pom.xml
+if [[ 0 -eq ${?} ]]
+then
+  echo "[${SCRIPT}] The file [pom.xml] has indented XML comment markers."
+fi
+
+echo ''
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/pom2.xml -FileType 'Maven POM'
+grep -Eq "^ \+(<!--|-->)" ${PWD}/pom2.xml
+if [[ 0 -eq ${?} ]]
+then
+  echo "[${SCRIPT}] The file [pom2.xml] has indented XML comment markers."
+fi

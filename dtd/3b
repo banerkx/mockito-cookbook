@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# shellcheck disable=all
+
+rm -f qq_*pom.xml
+
+PRE_COMMIT=~/.git_template/.git_hooks_dev/pre-commit
+
+function xindent
+{
+  export PRE_COMMIT_XML_BEAUTIFIER_COMMAND=xmlindent
+  export PRE_COMMIT_XML_LINTER_COMMAND=xmllint
+  export PRE_COMMIT_XML_VALIDATOR_COMMAND=xmllint
+  export PRE_COMMIT_XML_XPATH_COMMAND=xmllint
+  ./upom
+  ${PRE_COMMIT} pom.xml
+  cp pom.xml qq_${PRE_COMMIT_XML_BEAUTIFIER_COMMAND}_pom.xml
+}
+
+function xlint
+{
+  export PRE_COMMIT_XML_BEAUTIFIER_COMMAND=xmllint
+  export PRE_COMMIT_XML_LINTER_COMMAND=xmllint
+  export PRE_COMMIT_XML_VALIDATOR_COMMAND=xmllint
+  export PRE_COMMIT_XML_XPATH_COMMAND=xmllint
+  ./upom
+  ${PRE_COMMIT} pom.xml
+  cp pom.xml qq_${PRE_COMMIT_XML_BEAUTIFIER_COMMAND}_pom.xml
+}
+
+function xstar
+{
+  export PRE_COMMIT_XML_BEAUTIFIER_COMMAND=xmlstarlet
+  export PRE_COMMIT_XML_LINTER_COMMAND=xmlstarlet
+  export PRE_COMMIT_XML_VALIDATOR_COMMAND=xmlstarlet
+  export PRE_COMMIT_XML_XPATH_COMMAND=xmlstarlet
+  ./upom
+  ${PRE_COMMIT} pom.xml
+  cp pom.xml qq_${PRE_COMMIT_XML_BEAUTIFIER_COMMAND}_pom.xml
+}
+
+function xutils
+{
+  ./upom
+  ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -FileType 'Maven POM'
+  cp pom.xml qq_utilities_pom.xml
+}
+
+##xindent
+xlint
+##xstar
+xutils
+

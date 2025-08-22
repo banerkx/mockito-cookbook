@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# shellcheck disable=all
+
+set -x
+xmlstarlet validate --quiet --dtd ../../../pre_commit/schemas/ant.dtd build.xml
+stat=${?}
+set +x
+echo "LINE = [${LINENO}] stat = [${stat}]"
+echo '--------------------------------------------------------------------------------'
+echo ''
+
+set -x
+xmllint --noout --dtdvalid ../../../pre_commit/schemas/ant.dtd build.xml
+stat=${?}
+set +x
+echo "LINE = [${LINENO}] stat = [${stat}]"
+echo '--------------------------------------------------------------------------------'
+echo ''
+
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build.xml -Schema "../../../pre_commit/schemas/ant.xsd" -FileType "Ant build"
+stat=${?}
+echo "LINE = [${LINENO}] stat = [${stat}]"
+echo '--------------------------------------------------------------------------------'
+echo ''
+
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build.xml -Schema "../../../pre_commit/schemas/ant.dtd" -FileType "Ant build"
+stat=${?}
+echo "LINE = [${LINENO}] stat = [${stat}]"
+echo '--------------------------------------------------------------------------------'
+echo ''
+
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build_nodoc.xml -Schema "../../../pre_commit/schemas/ant.dtd" -FileType "Ant build"
+stat=${?}
+echo "LINE = [${LINENO}] stat = [${stat}]"
+echo '--------------------------------------------------------------------------------'
+echo ''
+
+##export PRE_COMMIT_POWER_SHELL_XML_VALIDATOR=./utilities-xml.ps1
+##export PRE_COMMIT_XML_VALIDATOR_COMMAND=${PRE_COMMIT_POWER_SHELL_XML_VALIDATOR}
+##cp ${PWD}/build.xml ${PWD}/build.xml_docbak
+##cp ${PWD}/build_nodoc.xml ${PWD}/build.xml
+##../../../pre-commit ${PWD}/build.xml
+##stat=${?}
+##echo "LINE = [${LINENO}] stat = [${stat}]"
+##mv ${PWD}/build.xml_docbak ${PWD}/build.xml
+##echo '--------------------------------------------------------------------------------'
+##echo ''
+

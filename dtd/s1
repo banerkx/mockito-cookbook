@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# shellcheck disable=all
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/settings.xml -Schema "./settings-1.2.0.xsd" -FileType 'Maven POM'
+echo ''
+
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/toolchains.xml -Schema "./toolchains-1.1.0.xsd" -FileType 'Maven POM'
+echo ''
+
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/settings-security.xml -Schema "./settings-security.xsd" -FileType 'Maven toolchains'
+echo ''
+

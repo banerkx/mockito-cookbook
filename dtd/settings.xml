@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 http://maven.apache.org/xsd/settings-1.2.0.xsd">
+
+<!-- <localRepository> -->
+<!-- Defines the local repository path where Maven stores downloaded dependencies. -->
+<!-- Default: ${user.home}/.m2/repository -->
+  <localRepository>/path/to/local/repo</localRepository>
+
+<!-- <interactiveMode> -->
+<!-- Determines whether Maven prompts for input during execution. -->
+<!-- Default: true (prompts for input if required) -->
+  <interactiveMode>true</interactiveMode>
+
+<!-- <usePluginRegistry> (Deprecated since Maven 3.2.0) -->
+<!-- Specifies whether Maven should use a plugin-registry.xml file to determine plugin versions. -->
+<!-- Default: false -->
+<!--     <usePluginRegistry>false</usePluginRegistry> -->
+
+<!-- <offline> -->
+<!-- Runs Maven in offline mode, preventing downloads from remote repositories. -->
+<!-- Default: false -->
+  <offline>false</offline>
+
+<!-- <servers> -->
+<!-- Contains authentication credentials for repositories. -->
+<!-- The <id> must match the repository ID in pom.xml. -->
+<!-- Security Concern: -->
+<!-- Storing plaintext passwords is insecure. Use an encrypted password via the mvn \-\-encrypt-password command. -->
+  <servers>
+    <server>
+      <id>nexus</id>
+      <username>myUser</username>
+      <password>myPassword</password>
+    </server>
+  </servers>
+
+<!-- <mirrors> -->
+<!-- Defines repository mirrors to redirect requests. -->
+<!-- <mirrorOf> can be set to: -->
+<!-- "*", which mirrors all repositories. -->
+<!-- "central", which mirrors Maven Central only. -->
+  <mirrors>
+    <mirror>
+      <id>central-mirror</id>
+      <mirrorOf>central</mirrorOf>
+      <url>https://my.custom.repo</url>
+      <layout>default</layout>
+    </mirror>
+  </mirrors>
+
+<!-- <proxies> -->
+<!-- Configures proxy settings. -->
+<!-- <active>: If true, the proxy is enabled. -->
+<!-- <nonProxyHosts>: A list of hosts that should bypass the proxy. -->
+  <proxies>
+    <proxy>
+      <id>proxy1</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>proxy.example.com</host>
+      <port>8080</port>
+      <username>proxyuser</username>
+      <password>proxypass</password>
+      <nonProxyHosts>www.example.com|*.example.org</nonProxyHosts>
+    </proxy>
+  </proxies>
+
+<!-- <profiles> -->
+<!-- Defines custom configurations activated by an <activeProfiles> setting. -->
+  <profiles>
+    <profile>
+      <id>custom-profile</id>
+      <repositories>
+        <repository>
+          <id>custom-repo</id>
+          <url>https://custom.repo.com</url>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+<!-- To activate: -->
+  <activeProfiles>
+    <activeProfile>custom-profile</activeProfile>
+  </activeProfiles>
+
+<!-- Global vs. User_Specific settings.xml -->
+<!-- +____________+_________________________________________+____________________________| -->
+<!-- | Feature    | Global ($MAVEN_HOME/conf/settings.xml)  | User (~/.m2/settings.xml)  | -->
+<!-- +____________+_________________________________________+____________________________| -->
+<!-- | Scope      | System_wide                             | User_specific              | -->
+<!-- +____________+_________________________________________+____________________________| -->
+<!-- | Overrides  | None                                    | Overrides global settings  | -->
+<!-- +____________+_________________________________________+____________________________| -->
+
+<!-- Checking Effective Settings -->
+<!-- To verify the active settings, run: -->
+<!--   mvn help:effective-settings -->
+
+</settings>
+

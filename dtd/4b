@@ -1,0 +1,125 @@
+#!/bin/bash
+
+# shellcheck disable=all
+declare -r SCRIPT=${0##*/}
+
+# ${1} - message
+# ${2} - message level
+# ${3} - line number (optional)
+function log_message
+{
+  if [[ ! -v ESCAPE ]]
+  then
+    declare -rg ESCAPE=""
+  fi
+
+  if [[ ! -v STOP_COLOR ]]
+  then
+    declare -rg STOP_COLOR="${ESCAPE}[0m"
+  fi
+
+  local message_level=${2}
+  if [[ -t 1 ]]
+  then
+    case ${2} in
+      ERROR   ) if [[ ! -v RED ]]
+                then
+                  declare -rg RED="${ESCAPE}[0;31m"
+                fi
+                message_level=${RED}${message_level}${STOP_COLOR};;
+      WARNING ) if [[ ! -v YELLOW ]]
+                then
+                  declare -rg YELLOW="${ESCAPE}[1;33m"
+                fi
+                message_level=${YELLOW}${message_level}${STOP_COLOR};;
+      INFO    ) if [[ ! -v GREEN ]]
+                then
+                  declare -rg GREEN="${ESCAPE}[0;32m"
+                fi
+                message_level=${GREEN}${message_level}${STOP_COLOR};;
+      *       ) :;;
+    esac
+  fi
+
+################################################################################
+# NOTE: Want to replace the value of the HOME environment variable with the    #
+#       literal string '${HOME}' in the message.                               #
+################################################################################
+  local stack="${SCRIPT}"
+  local message="${message_level}: ${1//${HOME}/\$\{HOME\}}"
+  message="${message//${USER}/\$\{USER\}}"
+  if [[ -n "${3}" ]]
+  then
+    message="Line = [${3}] ${message}"
+  fi
+
+  local -i index
+  for ((index = $((${#FUNCNAME[@]} - 1)); index >= 0; index--))
+  do
+    if [[ 0 -eq ${index} ]]
+    then
+      break
+    fi
+    case ${FUNCNAME[${index}]} in
+      log_info | log_warning | log_error | log_message ) break;;
+      *                                                ) stack+="::${BASH_LINENO[${index}]}->${FUNCNAME[${index}]}";;
+    esac
+  done
+  stack="[${stack}] "
+  echo "${stack}${message}"
+  return 0
+}
+
+# ${1} - error message
+# ${2} - line number (optional)
+function log_error
+{
+  log_message "${1}" ERROR "${2}"
+  return 0
+}
+
+# ${1} - warning message
+# ${2} - line number (optional)
+function log_warning
+{
+  log_message "${1}" WARNING "${2}"
+  return 0
+}
+
+# ${1} - info message
+# ${2} - line number (optional)
+function log_info
+{
+  log_message "${1}" INFO "${2}"
+  return 0
+}
+
+# ${1} - file
+# ${2} - dos2unix or unix2dos
+# ${3} - expected line endings
+function beautify_pom
+{
+  ./upom
+  ${2} "${1}"
+  ps1-wrapper utilities-xml.ps1 -XmlFile ${1} -FileType 'Maven POM'
+  file ${1} | grep -q 'with CRLF line terminators'
+  local -ir stat=${?}
+  case "${3}" in
+    crlf ) if [[ 0 -eq ${stat} ]]
+           then
+             log_info "The file [pom.xml] has expected [CRLF] line endings."
+           else
+             log_error "The file [pom.xml] does not have the expected [CRLF] line endings."
+           fi;;
+    *    ) if [[ 0 -ne ${stat} ]]
+           then
+             log_info "The file [pom.xml] has expected [LF] line endings."
+           else
+             log_error "The file [pom.xml] does not have the expected [LF] line endings."
+           fi;;
+  esac
+}
+
+beautify_pom pom.xml unix2dos crlf
+beautify_pom pom.xml dos2unix lf
+

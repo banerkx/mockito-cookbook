@@ -1,0 +1,597 @@
+#!/bin/bash
+
+# shellcheck disable=all
+
+file=pom.xml
+rm -f ${file}
+
+echo '<?xml version="1.0" encoding="UTF-8" standalone="no"?>   		 ' >> ${file}
+echo '   	   	   	 		  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">   		     	  	  		' >> ${file}
+echo '   	   	   	 		      <modelVersion>4.0.0</modelVersion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		      <groupId>com.in28minutes.mockito</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		      <artifactId>mockito-tutorial</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		      <version>0.0.1-SNAPSHOT</version>   		     	  	  		' >> ${file}
+echo '<!-- <versionqq/> -->' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '                      <!-- multi-line commend 1 start' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		        comment line 1		' >> ${file}
+echo '   	   	   	 		        comment line 2		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '                      multi-line commend 1 end -->' >> ${file}
+echo '<!-- <propertiesqq/> -->' >> ${file}
+echo '   	   	   	 		      <properties>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- NOTE: Do not use a literal file separator, i.e., \'/\' or \'\\', in any path value; -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- always use the maven variable ${file.separator}. Otherwise, maven will -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- not be able to consistently understand the path in a mixed Windows/Linux environment. -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <jacoco.data.file> ${project.build.directory}${file.separator}coverage-reports${file.separator}jacoco-ut.exec </jacoco.data.file>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <jacoco.output.directory> ${project.reporting.outputDirectory}${file.separator}jacoco-ut </jacoco.output.directory>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <minimum.jacoco.test.coverage>0.20</minimum.jacoco.test.coverage>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <required.java.version>17.0.2</required.java.version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <spotbugs.output.directory>${project.reporting.outputDirectory}${file.separator}spotbugs</spotbugs.output.directory>   		     	  	  		' >> ${file}
+echo '   	   	   	 		      </properties>   		     	  	  		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '                      <!-- multi-line commend 2 start' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		        comment line 1		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		        comment line 2		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '                      multi-line commend 2 end      ' >> ${file}
+echo '                                   -->          ' >> ${file}
+echo '   	   	   	 		      <inceptionYear>2024</inceptionYear>   		     	  	  		' >> ${file}
+echo '   	   	   	 		      <url>https://gitlab.com/user1/mockito_tutorial.git</url>   		     	  	  		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		      <licenses>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <license>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <name>GPL 3.0</name>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          </license>   		     	  	  		' >> ${file}
+echo '   	   	   	 		      </licenses>   		     	  	  		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		      <issueManagement>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <system>git</system>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <url>https://gitlab.com/user1/mockito_tutorial.git</url>   		     	  	  		' >> ${file}
+echo '   	   	   	 		      </issueManagement>   		     	  	  		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		      <ciManagement>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <system>gitlab</system>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <url>https://gitlab.com/user1/mockito_tutorial.git</url>   		     	  	  		' >> ${file}
+echo '   	   	   	 		      </ciManagement>   		     	  	  		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		      <developers>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <developer>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <id>jdoe</id> <!-- inline trailing comment A -->' >> ${file}
+echo ' <!-- inline leading comment B -->      <name>J. Doe</name>   		     	  	  		' >> ${file}
+echo '                                          	   	 		          </developer>   		     	  	  		' >> ${file}
+echo '   	   	   	 		      </developers>   		     	  	  		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		      <reporting>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <plugins>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                 		     	  	  		' >> ${file}
+echo '   	   	   	 		              <plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <groupId>org.apache.maven.plugins</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <artifactId>maven-project-info-reports-plugin</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <version>3.4.3</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                 		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- See: https://maven.apache.org/plugins/maven-checkstyle-plugin/usage.html -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- Use: mvn checkstyle:checkstyle -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <groupId>org.apache.maven.plugins</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <artifactId>maven-checkstyle-plugin</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <version>3.2.1</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <configLocation>checkstyle/checkstyle-configuration.xml</configLocation>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <encoding>UTF-8</encoding>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <consoleOutput>true</consoleOutput>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <failsOnError>false</failsOnError>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <reportSets>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <reportSet>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <reports>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <report>checkstyle</report>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </reports>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      </reportSet>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </reportSets>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                 		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-maven-plugin/4.7.3.4 -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <groupId>com.github.spotbugs</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <artifactId>spotbugs-maven-plugin</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <version>4.7.3.4</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <htmlOutput>true</htmlOutput>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <outputDirectory>${spotbugs.output.directory}</outputDirectory>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <failOnError>false</failOnError>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                 		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- See: https://maven.apache.org/plugins/maven-dependency-plugin/usage.html#dependency:analyze-report -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- Use: mvn dependency:analyze-report -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <groupId>org.apache.maven.plugins</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <artifactId>maven-dependency-plugin</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <version>3.5.0</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <reportSets>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <reportSet>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <reports>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <report>analyze-report</report>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </reports>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      </reportSet>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </reportSets>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                 		     	  	  		' >> ${file}
+echo '   	   	   	 		          </plugins>   		     	  	  		' >> ${file}
+echo '   	   	   	 		      </reporting>   		     	  	  		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		      <dependencies>   		     	  	  		' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		          <dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <groupId>junit</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <artifactId>junit</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <version>4.13.2</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <scope>test</scope>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.hamcrest</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>hamcrest-core</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		          <dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <groupId>org.hamcrest</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <artifactId>hamcrest-all</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <version>1.3</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <scope>test</scope>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		          <dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <groupId>org.mockito</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <artifactId>mockito-core</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <version>1.10.19</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <scope>test</scope>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.hamcrest</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>hamcrest-core</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		          <dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <artifactId>powermock-api-mockito</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <version>1.7.4</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <scope>test</scope>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.mockito</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>mockito-core</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		          <dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <artifactId>powermock-module-junit4</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <version>2.0.9</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <scope>test</scope>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>junit</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>junit</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>objenesis</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>objenesis</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>powermock-reflect</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>powermock-core</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-testng -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <artifactId>powermock-module-testng</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <version>2.0.9</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <scope>test</scope>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>powermock-reflect</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>powermock-core</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
+echo '   	   <!-- 2 blank lines -->' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		          <dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <artifactId>powermock-api-mockito-common</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <version>1.7.4</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <scope>test</scope>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>powermock-reflect</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>powermock-core</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.mockito</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>mockito-core</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
+echo '   	   <!-- 3 blank lines -->' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-maven-plugin/4.7.3.4 -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <groupId>com.github.spotbugs</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <artifactId>spotbugs-maven-plugin</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <version>4.7.3.4</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <scope>compile</scope>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.ow2.asm</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>asm</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.ow2.asm</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>asm-analysis</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.ow2.asm</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>asm-commons</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.ow2.asm</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>asm-util</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.ow2.asm</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>asm-tree</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.slf4j</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>slf4j-api</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.codehaus.plexus</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>plexus-interpolation</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.codehaus.plexus</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>plexus-utils</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.codehaus.plexus</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>plexus-component-annotations</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.maven</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>maven-model</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>com.google.code.findbugs</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>jsr305</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.codehaus.plexus</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>plexus-classworlds</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.maven.shared</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>maven-common-artifact-filters</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.commons</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>commons-lang3</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.codehaus.plexus</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>plexus-container-default</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.commons</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>commons-text</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>commons-beanutils</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>commons-beanutils</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.maven.reporting</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>maven-reporting-api</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.maven.doxia</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>doxia-logging-api</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.maven</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>maven-artifact</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>commons-io</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>commons-io</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.maven</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>maven-plugin-api</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.maven.doxia</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>doxia-sink-api</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.maven.doxia</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>doxia-core</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.maven</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>maven-core</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>commons-collections</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>commons-collections</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>commons-chain</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>commons-chain</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>commons-lang</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>commons-lang</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>commons-digester</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>commons-digester</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <groupId>org.apache.velocity</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <artifactId>velocity</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		      </dependencies>   		     	  	  		' >> ${file}
+echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '   	   	   	 		      <build>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <defaultGoal>install</defaultGoal>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <directory>${basedir}${file.separator}target</directory>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <finalName>${project.groupId}.${project.artifactId}.${project.version}</finalName>   		     	  	  		' >> ${file}
+echo '   	   	   	 		             		     	  	  		' >> ${file}
+echo '   	   	   	 		          <plugins>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                 		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- To lint this ${file} file, use: mvn lint:check -->   		     	  	  		' >> pom.xml
+echo '   	   	   	 		          		 	 	 	<!-- The output of lint:check will be in: .../target/maven-lint-result.xml -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- To list lint rules, use: mvn com.lewisd:lint-maven-plugin:list -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- The output will be sent to stdout. -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <groupId>com.lewisd</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <artifactId>lint-maven-plugin</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <version>0.0.11</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <failOnViolation>false</failOnViolation>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <onlyRunRules>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>DotVersionProperty</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>DuplicateDep</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>ExecutionId</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>GAVOrder</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>OSSContinuousIntegrationManagementSectionRule</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>OSSDevelopersSectionRule</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>OSSInceptionYearRule</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>OSSIssueManagementSectionRule</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>OSSLicenseSectionRule</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>OSSUrlSectionRule</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>ProfileOnlyAddModules</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>RedundantDepVersion</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>RedundantPluginVersion</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <rule>VersionProp</rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      </onlyRunRules>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                 		     	  	  		' >> ${file}
+echo '   	   	   	 		              <plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <groupId>org.apache.maven.plugins</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <artifactId>maven-compiler-plugin</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <version>3.9.0</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <source>1.8</source>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <target>1.8</target>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- BREAKS Mockito!!! -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--                <executions> -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--                    <execution> -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--                        <id>maven-compiler</id> -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--                        <configuration> -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--                            <source>${required.java.version}</source> -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--                            <target>${required.java.version}</target> -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--                        </configuration> -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--                    </execution> -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--                </executions> -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                 		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--Modifications for jacoco from: -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- https://www.lambdatest.com/blog/reporting-code-coverage-using-maven-and-jacoco-plugin/ -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--To generate jacoco output, use: mvn test -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <groupId>org.apache.maven.plugins</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--NOTE: The surefire plugin looks for test classes named: *Test.java -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <artifactId>maven-surefire-plugin</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <version>2.12.4</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <executions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <id>default-test</id>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <phase>test</phase>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <goal>test</goal>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      </execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </executions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                 		     	  	  		' >> ${file}
+echo '   	   	   	 		              <plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <groupId>org.jacoco</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <artifactId>jacoco-maven-plugin</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <version>0.8.3</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <executions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--Ensure there is a "prepare-agent" execution goal. This will prevent the error: -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--Skipping JaCoCo execution due to missing execution data file. -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <id>jacoco-prepare-agent</id>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <goal>prepare-agent</goal>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--The default value for <destFile> is: ${project.build.directory} -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <destFile>${jacoco.data.file}</destFile>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <propertyName>${jacoco.propertyName}</propertyName>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      </execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <id>jacoco-report</id>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <phase>test</phase>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <goal>report</goal>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- The default value for <dataFile> is: ${project.build.directory} -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <dataFile>${jacoco.data.file}</dataFile>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- The default value for <outputDirectory> is: ${project.reporting.outputDirectory} -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- jacoco saves its output in csv, html, and xml format. -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- jacoco will save its csv output to .../target/site/<outputDirectory>/jacoco.csv. -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- jacoco will save its html output to .../target/site/<outputDirectory>/index.html. -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- jacoco will save its xml output to .../target/site/<outputDirectory>/jacoco.xml. -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <outputDirectory>${jacoco.output.directory}</outputDirectory>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      </execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- See: https://www.eclemma.org/jacoco/trunk/doc/check-mojo.html -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <id>jacoco-check</id>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <phase>verify</phase>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <goal>check</goal>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <dataFile>${jacoco.data.file}</dataFile>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- If test coverage minimum percentages are not met, then no error will be reported. -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <haltOnFailure>false</haltOnFailure>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <rules>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                  <rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      <element>PACKAGE</element>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      <excludes>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- Excluding unit test classes. -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                          <exclude>*Test</exclude>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      </excludes>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      <limits>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                          <limit>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                              <counter>LINE</counter>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                              <value>COVEREDRATIO</value>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                              <minimum>${minimum.jacoco.test.coverage}</minimum>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                          </limit>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      </limits>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                  </rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                  <rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      <element>CLASS</element>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      <excludes>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- Excluding unit test classes. -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                          <exclude>*Test</exclude>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      </excludes>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      <limits>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                          <limit>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                              <counter>LINE</counter>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                              <value>COVEREDRATIO</value>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                              <minimum>${minimum.jacoco.test.coverage}</minimum>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                          </limit>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      </limits>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                  </rule>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              </rules>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      </execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </executions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                 		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		              <plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <groupId>org.apache.maven.plugins</groupId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <artifactId>maven-enforcer-plugin</artifactId>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <version>3.3.0</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  <executions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <id>no-duplicate-declared-dependencies</id>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <goal>enforce</goal>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <rules>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                  <banDuplicatePomDependencyVersions/>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              </rules>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      </execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <id>enforce-java</id>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <goal>enforce</goal>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          		 	 	 	<!--                            <skip>true</skip> -->   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <rules>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                  <requireJavaVersion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      <version>${required.java.version}</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      <message>Invalid java version; the java version must be greater than or equal to   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                          [${required.java.version}]   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      </message>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      <display>true</display>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                  </requireJavaVersion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              </rules>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      </execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <id>enforce-maven</id>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <goal>enforce</goal>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </goals>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          <configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <skip>true</skip>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              <rules>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                  <requireMavenVersion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                      <version>3.9.1</version>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                                  </requireMavenVersion>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                              </rules>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                          </configuration>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      </execution>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                  </executions>   		     	  	  		' >> ${file}
+echo '   	   	   	 		              </plugin>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                 		     	  	  		' >> ${file}
+echo '   	   	   	 		          </plugins>   		     	  	  		' >> ${file}
+echo '   	   	   	 		      </build>   		     	  	  		' >> ${file}
+echo '   	   	   	 		  </project>   		     	  	  		' >> ${file}
+echo '   	   	   	 		     		     	  	  		' >> ${file}
+echo '   	   	   	 		     		     	  	  		' >> ${file}
+echo '   	   	   	 		     		     	  	  		' >> ${file}
+echo '   	   	   	              		     	  	  		' >> ${file}
+echo '   	             	   	 		     		     	  	  		' >> ${file}

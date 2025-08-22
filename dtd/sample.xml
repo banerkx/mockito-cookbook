@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE root SYSTEM "sample.dtd"[]>
+<root>
+  <item id2="1">
+    <name>Product A</name>
+    <price>10.99</price>
+  </item>
+
+  <item id="2">
+    <name>Product B</name>
+<!--     <price>15.99</price> -->
+  </item>
+</root>
+

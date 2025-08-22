@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# shellcheck disable=all
+
+function add_doctype
+{
+  grep -q "DOCTYPE .*\.dtd" "${1}"
+  if [[ 0 -ne ${?} ]]
+  then
+    local -r doctype='<!DOCTYPE project SYSTEM "ant.dtd">'
+    sed -i "1a ${doctype}" "${1}"
+  fi
+}
+
+function xval1
+{
+  while [[ -n "${1}" ]]
+  do
+    echo "===== ${FUNCNAME[0]} BEGIN [${1}] ====="
+    xmllint --noout --dtdvalid ./ant.dtd "${1}"
+    echo "===== ${FUNCNAME[0]}  END  [${1}] ====="
+    echo ''
+    shift 1
+  done
+}
+
+function udocval1
+{
+  while [[ -n "${1}" ]]
+  do
+    echo "===== ${FUNCNAME[0]} BEGIN [${1}] ====="
+    ps1-wrapper ./utilities-xml.ps1 -XmlFile "${1}" -Schema ant.dtd
+    echo "===== ${FUNCNAME[0]}  END  [${1}] ====="
+    echo ''
+    shift 1
+  done
+}
+
+clear
+##xval1 build.xml bad_build.xml
+
+udocval1 build.xml bad_build.xml
+udocval1 build_nodoc.xml bad_build_nodoc.xml
+
