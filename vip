@@ -1,6 +1,7 @@
 #!/bin/bash
 
-vi ./pom.xml \
+vi mockito-bom.pom \
+./pom.xml \
 ./common/pom.xml \
 ./chapter01/pom.xml \
 ./chapter02/pom.xml \
