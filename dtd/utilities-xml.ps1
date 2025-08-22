@@ -472,7 +472,7 @@ function Pre-Beautify-XML
 ################################################################################
   try
   {
-    ${xmlContent} = Get-Content -Path ${XmlFile} -ErrorAction Stop
+    ${xmlContent} = Get-Content -Path ${XmlFile} -Encoding UTF8 -ErrorAction Stop
   }
   catch
   {
@@ -571,9 +571,9 @@ function Pre-Beautify-XML
     {
       ${_}
     }
-  } | Set-Content ${XmlFile} -ErrorAction Stop
+  } | Set-Content ${XmlFile} -Encoding UTF8 -ErrorAction Stop
 
-  (Get-Content -Path ${XmlFile} -ErrorAction Stop) | ForEach-Object {
+  (Get-Content -Path ${XmlFile} -Encoding UTF8 -ErrorAction Stop) | ForEach-Object {
 ################################################################################
 # Replacing blank lines within multi-line comments with the multi-line comment #
 # blank line marker.                                                           #
@@ -620,7 +620,7 @@ function Pre-Beautify-XML
       Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to replace blank lines in [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
       return 1
     }
-  } | Set-Content -Path ${XmlFile} -ErrorAction Stop
+  } | Set-Content -Path ${XmlFile} -Encoding UTF8 -ErrorAction Stop
   return 0
 }
 
@@ -669,7 +669,7 @@ function Post-Beautify-XML
 ################################################################################
 # Replacing instances of " />" with "/>".                                      #
 ################################################################################
-    ${lines} = (Get-Content -Path ${XmlFile} -ErrorAction Stop) -replace '\s+/>' , '/>' | ForEach-Object {
+    ${lines} = (Get-Content -Path ${XmlFile} -Encoding UTF8 -ErrorAction Stop) -replace '\s+/>' , '/>' | ForEach-Object {
       ${line} = ${_}
 ################################################################################
 # Restoring initially blank lines.                                             #
@@ -718,14 +718,14 @@ function Post-Beautify-XML
 # Joining the lines and then writing them with their original line ending.     #
 ################################################################################
     ${joined} = ${lines} -join ${OriginalEOL}
-    [System.IO.File]::WriteAllText(${XmlFile}, ${joined} + ${OriginalEOL}, [System.Text.Encoding]::Default)
+    [System.IO.File]::WriteAllText(${XmlFile}, ${joined} + ${OriginalEOL}, [System.Text.Encoding]::UTF8)
 
 ################################################################################
 # Adding a single trailing blank line (if not already present).                #
 ################################################################################
     if (${lines}[-1] -ne '')
     {
-      [System.IO.File]::AppendAllText(${XmlFile}, ${OriginalEOL}, [System.Text.Encoding]::Default)
+      [System.IO.File]::AppendAllText(${XmlFile}, ${OriginalEOL}, [System.Text.Encoding]::UTF8)
     }
   }
   catch
@@ -846,7 +846,7 @@ function Beautify-XML
 ################################################################################
     try
     {
-      ${originalXmlContent} = Get-Content -Path ${XmlFile} -Raw -ErrorAction Stop
+      ${originalXmlContent} = Get-Content -Path ${XmlFile} -Raw -Encoding UTF8 -ErrorAction Stop
     }
     catch
     {
@@ -883,7 +883,7 @@ function Beautify-XML
 # Reading the XML file.                                                        #
 ################################################################################
     ${xmlDoc} = New-Object System.Xml.XmlDocument
-    ${xmlContent} = Get-Content -Path ${XmlFile} -Raw -ErrorAction Stop
+    ${xmlContent} = Get-Content -Path ${XmlFile} -Raw -Encoding UTF8 -ErrorAction Stop
     ${xmlDoc}.LoadXml(${xmlContent})
 
 ################################################################################
@@ -937,6 +937,15 @@ function Beautify-XML
     ${stat} = Post-Beautify-XML -XmlFile ${XmlFile} -FileType ${FileType} -OriginalEOL ${originalEOL}
     if (0 -eq ${stat})
     {
+################################################################################
+# Ensuring the XML declaration is in upper case.                               #
+################################################################################
+      ${content} = Get-Content -Path ${XmlFile} -Raw -Encoding UTF8
+      if (${content} -match '^\s*<\?xml')
+      {
+        ${content} = ${content} -replace 'encoding="utf-8"', 'encoding="UTF-8"'
+        Set-Content -Path ${XmlFile} -Value ${content} -NoNewline -Encoding UTF8
+      }
       Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Beautified [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] using [PowerShell] script [${script:SCRIPT}].`n"
     }
     else
@@ -1751,4 +1760,3 @@ else
   ${stat} = Beautify-XML -XmlFile ${XmlFile} -Indent ${Indent} -FileType ${FileType}
   exit ${stat}
 }
-
