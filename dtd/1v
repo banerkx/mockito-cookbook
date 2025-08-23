@@ -3,4 +3,6 @@
 # shellcheck disable=all
 ./upom
 
-ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -Schema "../../../pre_commit/schemas/maven-4.0.0.xsd"  -FileType 'Maven POM'
+SCHEMAS=${HOME}/.git_template/.git_hooks_dev/pre_commit/schemas
+
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -Schema "${SCHEMAS}/maven-4.0.0.xsd"  -FileType 'Maven POM'

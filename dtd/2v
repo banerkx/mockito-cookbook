@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # shellcheck disable=all
+SCHEMAS=${HOME}/.git_template/.git_hooks_dev/pre_commit/schemas
 
 set -x
-xmlstarlet validate --quiet --dtd ../../../pre_commit/schemas/ant.dtd build.xml
+xmlstarlet validate --quiet --dtd ${SCHEMAS}/ant.dtd build.xml
 stat=${?}
 set +x
 echo "LINE = [${LINENO}] stat = [${stat}]"
@@ -11,26 +12,26 @@ echo '--------------------------------------------------------------------------
 echo ''
 
 set -x
-xmllint --noout --dtdvalid ../../../pre_commit/schemas/ant.dtd build.xml
+xmllint --noout --dtdvalid ${SCHEMAS}/ant.dtd build.xml
 stat=${?}
 set +x
 echo "LINE = [${LINENO}] stat = [${stat}]"
 echo '--------------------------------------------------------------------------------'
 echo ''
 
-ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build.xml -Schema "../../../pre_commit/schemas/ant.xsd" -FileType "Ant build"
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build.xml -Schema "${SCHEMAS}/ant.xsd" -FileType "Ant build"
 stat=${?}
 echo "LINE = [${LINENO}] stat = [${stat}]"
 echo '--------------------------------------------------------------------------------'
 echo ''
 
-ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build.xml -Schema "../../../pre_commit/schemas/ant.dtd" -FileType "Ant build"
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build.xml -Schema "${SCHEMAS}/ant.dtd" -FileType "Ant build"
 stat=${?}
 echo "LINE = [${LINENO}] stat = [${stat}]"
 echo '--------------------------------------------------------------------------------'
 echo ''
 
-ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build_nodoc.xml -Schema "../../../pre_commit/schemas/ant.dtd" -FileType "Ant build"
+ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build_nodoc.xml -Schema "${SCHEMAS}/ant.dtd" -FileType "Ant build"
 stat=${?}
 echo "LINE = [${LINENO}] stat = [${stat}]"
 echo '--------------------------------------------------------------------------------'
