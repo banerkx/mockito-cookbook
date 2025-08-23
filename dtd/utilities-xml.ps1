@@ -573,13 +573,13 @@ function Pre-Beautify-XML
     }
   } | Set-Content ${XmlFile} -Encoding UTF8 -ErrorAction Stop
 
-  ${insideCommentRef} = [ref]${false}
-  ${tagStackRef} = [ref](New-Object System.Collections.Stack)
-  (Get-Content -Path ${XmlFile} -Encoding UTF8 -ErrorAction Stop) | ForEach-Object { # Pipeline Stage 1: Handle comments
 ################################################################################
 # Replacing blank lines within multi-line comments with the multi-line comment #
 # blank line marker.                                                           #
 ################################################################################
+  ${insideCommentRef} = [ref]${false}
+  ${tagStackRef} = [ref](New-Object System.Collections.Stack)
+  (Get-Content -Path ${XmlFile} -Encoding UTF8 -ErrorAction Stop) | ForEach-Object {
     try
     {
       ${line} = ${_}
