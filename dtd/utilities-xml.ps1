@@ -573,7 +573,9 @@ function Pre-Beautify-XML
     }
   } | Set-Content ${XmlFile} -Encoding UTF8 -ErrorAction Stop
 
-  (Get-Content -Path ${XmlFile} -Encoding UTF8 -ErrorAction Stop) | ForEach-Object {
+  ${insideCommentRef} = [ref]${false}
+  ${tagStackRef} = [ref](New-Object System.Collections.Stack)
+  (Get-Content -Path ${XmlFile} -Encoding UTF8 -ErrorAction Stop) | ForEach-Object { # Pipeline Stage 1: Handle comments
 ################################################################################
 # Replacing blank lines within multi-line comments with the multi-line comment #
 # blank line marker.                                                           #
@@ -581,17 +583,17 @@ function Pre-Beautify-XML
     try
     {
       ${line} = ${_}
-      if (${_} -match '^ *<!--')
+      if (${_} -match '^\s*<!--')
       {
-        ${insideComment} = ${true}
+        ${insideCommentRef}.Value = ${true}
       }
-      if (${insideComment} -and ${_} -match '^\s*$')
+      if (${insideCommentRef}.Value -and ${_} -match '^\s*$')
       {
         ${line} = ${script:MULTI_LINE_COMMENT_BLANK_MARKER}
       }
-      if (${_} -match '--> *$')
+      if (${_} -match '-->\s*$')
       {
-        ${insideComment} = ${false}
+        ${insideCommentRef}.Value = ${false}
       }
       ${line}
     }
@@ -600,24 +602,55 @@ function Pre-Beautify-XML
       Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to replace blank lines within multi-line comments in [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
       return 1
     }
-  } | ForEach-Object {
+  } | ForEach-Object { # Pipeline Stage 2: Handle other blank lines
 ################################################################################
-# Replacing all remaining blank lines with the blank line marker.              #
+# Replacing all remaining blank lines with the blank line marker, unless they  #
+# are inside an XML element.                                                   #
 ################################################################################
     try
     {
-      if (${_} -match '^$')
+      ${line} = ${_}
+      ${isLineBlank} = ${line} -match '^\s*$'
+      ${isInsideElement} = ${tagStackRef}.Value.Count -gt 0
+
+      if (-not ${isLineBlank})
       {
-        ${script:XML_BLANK_MARKER}
+        ${tagRegex} = '</?[\w\:\-]+(?:[^>]*?)/?>'
+        ${tagMatches} = [regex]::Matches(${line}, ${tagRegex})
+        foreach (${match} in ${tagMatches})
+        {
+          ${tag} = ${match}.Value
+          if (${tag} -match '/>\s*$')
+          {
+            continue
+          }
+          if (${tag} -match '^</')
+          {
+            if (${tagStackRef}.Value.Count -gt 0)
+            {
+              [void]${tagStackRef}.Value.Pop()
+            }
+          }
+          else
+          {
+            ${tagName} = (${tag} -replace '^<|>$' -split '[\s>]+')[0]
+            ${tagStackRef}.Value.Push(${tagName})
+          }
+        }
+      }
+
+      if (${isLineBlank} -and -not ${isInsideElement})
+      {
+        ${script:XML_BLANK_MARKER} # Replace blank line
       }
       else
       {
-        ${_}
+        ${line} # Preserve blank line or output non-blank line
       }
     }
     catch
     {
-      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to replace blank lines in [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
+      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to process blank lines in [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
       return 1
     }
   } | Set-Content -Path ${XmlFile} -Encoding UTF8 -ErrorAction Stop
