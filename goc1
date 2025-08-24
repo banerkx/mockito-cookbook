@@ -2,4 +2,18 @@
 
 # shellcheck disable=all
 git reset mockito-bom.pom pom.xml **/pom.xml
-git checkout mockito-bom.pom pom.xml **/pom.xml
+
+git checkout mockito-bom.pom \
+pom.xml \
+chapter01/pom.xml \
+chapter02/pom.xml \
+chapter03/pom.xml \
+chapter04/pom.xml \
+chapter05/pom.xml \
+chapter06/pom.xml \
+chapter07/pom.xml \
+chapter08/pom.xml \
+chapter09/pom.xml \
+chapter10/pom.xml \
+common-test/pom.xml \
+common/pom.xml
