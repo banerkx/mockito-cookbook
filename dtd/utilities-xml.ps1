@@ -142,7 +142,7 @@ function Normalize-Path
       }
 
 ################################################################################
-# Trimming trailing whitespace from the full path.                             #
+# Trimming trailing whitespace.                                                #
 ################################################################################
       ${trimmedPath} = $([System.IO.Path]::GetFullPath(${Path})).Trim()
 
@@ -160,11 +160,15 @@ function Normalize-Path
       {
         if (${unixPath} -match '^//([^/]+)/([^/]+)(.*)')
         {
+          ${unixPath} = '/' + ${matches}[1] + '/' + ${matches}[2] + ${matches}[3]
+        }
+        elseif (${unixPath} -match '^([A-Za-z]):')
+        {
 ################################################################################
 # Handling UNC paths on Windows.                                               #
 #   //server/share/path -> /server/share/path                                  #
 ################################################################################
-          ${unixPath} = '/' + ${matches}[1] + '/' + ${matches}[2] + ${matches}[3]
+          ${unixPath} = '/' + ${matches}[1].ToLower() + ${unixPath}.Substring(2)
         }
       }
       return ${unixPath}
@@ -177,27 +181,30 @@ function Normalize-Path
   }
 }
 
-################################################################################
-# Sanitize-Path                                                                #
-################################################################################
 <#
 .SYNOPSIS
-  Replaces the user's home directory path in a file path with '${HOME}'.
+  Replaces the user's home directory path in a given file path
+  with the literal string '${HOME}'.
 
 .DESCRIPTION
-  Makes file paths portable/anonymized by replacing the home directory portion
-  with '${HOME}'.
+  This function takes a file path as input and replaces any
+  occurrence of the user's home directory path with the string
+  '${HOME}'. It retrieves the home directory path using the
+  "USERPROFILE" environment variable on Windows or "HOME" on Unix.
+  Regular expression replacement is used to ensure proper escaping.
 
-.PARAMETER FilePath
-  The file path to sanitize.
+.PARAMETER Path
+  The file path to sanitize. This parameter is mandatory.
 
 .EXAMPLE
-  Sanitize-Path -FilePath "/home/user/config/settings.ini"
-# Output: ${HOME}/config/settings.ini
+  Sanitize-Path -Path "C:\Users\JohnDoe\Documents\MyFile.txt"
+# Expected Output (if JohnDoe is the user's home directory):
+# ${HOME}\Documents\MyFile.txt
 
 .NOTES
   Author: K. Banerjee
-  Date: May 18, 2025
+  Version: 1.0
+  Date: 05-18-2025
 #>
 function Sanitize-Path
 {
@@ -207,12 +214,12 @@ function Sanitize-Path
   param
   (
     [Parameter(Mandatory = ${true}, ValueFromPipeline = ${false})]
-    [string]${FilePath}
+    [string]${Path}
   )
 
   process
   {
-    ${FilePath} = Normalize-Path -Path "${FilePath}"
+    ${Path} = Normalize-Path -Path "${Path}"
 
 ################################################################################
 # Using HOME on Unix, USERPROFILE on Windows.                                  #
@@ -228,11 +235,11 @@ function Sanitize-Path
 
     if ([string]::IsNullOrEmpty(${homePath}))
     {
-      return ${FilePath}
+      return ${Path}
     }
 
-    ${homePath} = Normalize-Path "${homePath}"
-    ${sanitizedPath} = ${FilePath} -replace [regex]::Escape(${homePath}), '${HOME}'
+    ${homePath} = Normalize-Path -Path "${homePath}"
+    ${sanitizedPath} = ${Path} -replace [regex]::Escape(${homePath}), '${HOME}'
     return ${sanitizedPath}
   }
 }
@@ -280,7 +287,7 @@ function Check-File-Exists-Readable
 
     if (-not (Test-Path -Path ${FilePath} -PathType Leaf))
     {
-      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The file [$(Sanitize-Path -FilePath ${FilePath})] does not exist."
+      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The file [$(Sanitize-Path -Path ${FilePath})] does not exist."
       return ${false}
     }
 
@@ -294,7 +301,7 @@ function Check-File-Exists-Readable
     }
     catch
     {
-      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The file [$(Sanitize-Path -FilePath ${FilePath})] is not readable due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
+      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The file [$(Sanitize-Path -Path ${FilePath})] is not readable due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
       return ${false}
     }
   }
@@ -359,17 +366,17 @@ function Lint-XML-File
     ${xmlDoc}.LoadXml(${xmlContent})
     if (${true} -eq ${Wordy})
     {
-      Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] The linter [${script:SCRIPT}] found no issues in [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})]."
+      Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] The linter [${script:SCRIPT}] found no issues in [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})]."
     }
   }
   catch [System.Xml.XmlException]
   {
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The linter [${script:SCRIPT}] found issue(s) in [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The linter [${script:SCRIPT}] found issue(s) in [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
     return 1
   }
   catch
   {
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to lint [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to lint [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
     return 2
   }
   return 0
@@ -419,12 +426,12 @@ function Restore-Original-XmlFile
   try
   {
     Set-Content -Path ${FilePath} -Value ${OriginalContent} -NoNewline -Force -Encoding UTF8 -ErrorAction Stop
-    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Restored original XML file [$(Sanitize-Path -FilePath ${FilePath})]."
+    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Restored original XML file [$(Sanitize-Path -Path ${FilePath})]."
     return 0
   }
   catch
   {
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to restore original XML file [$(Sanitize-Path -FilePath ${FilePath})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to restore original XML file [$(Sanitize-Path -Path ${FilePath})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
     return 1
   }
 }
@@ -476,7 +483,7 @@ function Pre-Beautify-XML
   }
   catch
   {
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to open [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to open [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
     return 1
   }
   if (-not (${xmlContent} | Where-Object { ${_} -match '[ \t]*$' }))
@@ -490,7 +497,7 @@ function Pre-Beautify-XML
 ################################################################################
   if (${xmlContent} | Where-Object { ${_} -ceq ${script:MULTI_LINE_COMMENT_BLANK_MARKER} })
   {
-    Write-Information "${WARNING_LABEL} [$(${MyInvocation}.MyCommand.Name)] Can not beautify [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [${script:MULTI_LINE_COMMENT_BLANK_MARKER}] being present in the file."
+    Write-Information "${WARNING_LABEL} [$(${MyInvocation}.MyCommand.Name)] Can not beautify [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [${script:MULTI_LINE_COMMENT_BLANK_MARKER}] being present in the file."
     return 1
   }
 
@@ -499,7 +506,7 @@ function Pre-Beautify-XML
 ################################################################################
   if (${xmlContent} | Where-Object { ${_} -like "*${script:XML_BLANK_MARKER}*" })
   {
-    Write-Information "${WARNING_LABEL} [$(${MyInvocation}.MyCommand.Name)] Can not beautify [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [${script:XML_BLANK_MARKER}] being present in the file."
+    Write-Information "${WARNING_LABEL} [$(${MyInvocation}.MyCommand.Name)] Can not beautify [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [${script:XML_BLANK_MARKER}] being present in the file."
     return 1
   }
 
@@ -599,7 +606,7 @@ function Pre-Beautify-XML
     }
     catch
     {
-      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to replace blank lines within multi-line comments in [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
+      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to replace blank lines within multi-line comments in [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
       return 1
     }
   } | ForEach-Object { # Pipeline Stage 2: Handle other blank lines
@@ -650,7 +657,7 @@ function Pre-Beautify-XML
     }
     catch
     {
-      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to process blank lines in [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
+      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to process blank lines in [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
       return 1
     }
   } | Set-Content -Path ${XmlFile} -Encoding UTF8 -ErrorAction Stop
@@ -741,7 +748,7 @@ function Post-Beautify-XML
   }
   catch
   {
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to post-process [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to post-process [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
     return 1
   }
 
@@ -763,7 +770,7 @@ function Post-Beautify-XML
   }
   catch
   {
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to write [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] with original line endings due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to write [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] with original line endings due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
     return 1
   }
   return 0
@@ -883,7 +890,7 @@ function Beautify-XML
     }
     catch
     {
-      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to backup the original XML file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
+      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to backup the original XML file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
       exit 1
     }
 
@@ -979,7 +986,7 @@ function Beautify-XML
         ${content} = ${content} -replace 'encoding="utf-8"', 'encoding="UTF-8"'
         Set-Content -Path ${XmlFile} -Value ${content} -NoNewline -Encoding UTF8
       }
-      Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Beautified [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] using [PowerShell] script [${script:SCRIPT}].`n"
+      Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Beautified [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] using [PowerShell] script [${script:SCRIPT}].`n"
     }
     else
     {
@@ -992,14 +999,14 @@ function Beautify-XML
   }
   catch [System.Xml.XmlException]
   {
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The command [${script:SCRIPT}] failed to lint/beautify [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The command [${script:SCRIPT}] failed to lint/beautify [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
     Restore-Original-XmlFile -FilePath ${XmlFile} -OriginalContent ${originalXmlContent}
     exit 1
   }
   catch
   {
     Restore-Original-XmlFile -FilePath ${XmlFile} -OriginalContent ${originalXmlContent}
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to lint/beautify [${FileType}] file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to lint/beautify [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
     exit 2
   }
   return 0
@@ -1103,7 +1110,7 @@ function Get-Schema-File-Type
     }
     catch
     {
-      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to determine if the specified schema file [$(Sanitize-Path -FilePath ${Schema})] is DTD or XSD due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
+      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to determine if the specified schema file [$(Sanitize-Path -Path ${Schema})] is DTD or XSD due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
       return 'Unknown'
     }
   }
@@ -1163,7 +1170,7 @@ function Ensure-DOCTYPE-Declaration
 ################################################################################
     if (${xmlContent} -match '(?i)<!DOCTYPE\s+[^>]+>')
     {
-      Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] The XML file [$(Sanitize-Path -FilePath ${XmlFile})] contains a DOCTYPE declaration."
+      Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] The XML file [$(Sanitize-Path -Path ${XmlFile})] contains a DOCTYPE declaration."
       return [PSCustomObject]@{
         ModifiedXMLFile    = ${XmlFile}
         IsTemporaryXMLFile = ${false}
@@ -1174,9 +1181,9 @@ function Ensure-DOCTYPE-Declaration
 # Since no DOCTYPE declaration was found, proceeding to create a temporary     #
 # file.                                                                        #
 ################################################################################
-    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] No DOCTYPE declaration was found in [$(Sanitize-Path -FilePath ${XmlFile})]; creating a temporary file."
+    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] No DOCTYPE declaration was found in [$(Sanitize-Path -Path ${XmlFile})]; creating a temporary file."
     ${rootElement} = Execute-XPath-Query -XmlFile ${XmlFile} -XPath 'name(/*)'
-    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Root element in [$(Sanitize-Path -FilePath ${XmlFile})] is [${rootElement}]."
+    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Root element in [$(Sanitize-Path -Path ${XmlFile})] is [${rootElement}]."
 
 ################################################################################
 # Generating a unique temporary file path.                                     #
@@ -1240,7 +1247,7 @@ function Ensure-DOCTYPE-Declaration
 # Writing the modified content to the temporary file.                          #
 ################################################################################
     Set-Content -Path ${tempXmlFile} -Value ${modifiedXmlContent} -Encoding UTF8 -ErrorAction Stop
-    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Created temporary XML file [$(Sanitize-Path -FilePath ${tempXmlFile})] with DOCTYPE."
+    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Created temporary XML file [$(Sanitize-Path -Path ${tempXmlFile})] with DOCTYPE."
     return [PSCustomObject]@{
       ModifiedXMLFile    = ${tempXmlFile}
       IsTemporaryXMLFile = ${true}
@@ -1546,12 +1553,12 @@ function Validate-XML-File
 ################################################################################
   if (${validationErrors}.Count -eq 0)
   {
-    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] [${FileType}] file [$(Sanitize-Path -FilePath ${originalXmlFile})] passed validation with ${type} file [$(Sanitize-Path -FilePath ${Schema})] using [${script:SCRIPT}].`n"
+    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] [${FileType}] file [$(Sanitize-Path -Path ${originalXmlFile})] passed validation with ${type} file [$(Sanitize-Path -Path ${Schema})] using [${script:SCRIPT}].`n"
     ${stat} = 0
   }
   else
   {
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] [${FileType}] file [$(Sanitize-Path -FilePath ${originalXmlFile})] failed validation with ${type} file [$(Sanitize-Path -FilePath ${Schema})], using [${script:SCRIPT}], due to [$(${validationErrors}.Count)] error(s)."
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] [${FileType}] file [$(Sanitize-Path -Path ${originalXmlFile})] failed validation with ${type} file [$(Sanitize-Path -Path ${Schema})], using [${script:SCRIPT}], due to [$(${validationErrors}.Count)] error(s)."
     foreach (${eventArguments} in ${validationErrors})
     {
       Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] ${eventArguments}"
@@ -1561,7 +1568,7 @@ function Validate-XML-File
   if (${true} -eq ${doctypeTempXML})
   {
     Remove-Item -Path ${XmlFile} -ErrorAction SilentlyContinue
-    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Deleted temporary file [$(Sanitize-Path -FilePath ${XmlFile})]."
+    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Deleted temporary file [$(Sanitize-Path -Path ${XmlFile})]."
   }
   exit ${stat}
 }
@@ -1625,7 +1632,7 @@ function Execute-XPath-Query
   }
   catch
   {
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to load XML file [$(Sanitize-Path -FilePath ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to load XML file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
     exit 1
   }
 
