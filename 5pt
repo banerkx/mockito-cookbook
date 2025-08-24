@@ -19,6 +19,7 @@ do
   cr8_target_pom "${target}"
 done
 
+rm -f dtd/pom.xml
 ps1-wrapper ${HOME}/scripts/power-shell/misc/pom-versions.ps1
 
 for target in ${targets}
