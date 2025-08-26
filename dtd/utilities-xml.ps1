@@ -160,15 +160,11 @@ function Normalize-Path
       {
         if (${unixPath} -match '^//([^/]+)/([^/]+)(.*)')
         {
-          ${unixPath} = '/' + ${matches}[1] + '/' + ${matches}[2] + ${matches}[3]
-        }
-        elseif (${unixPath} -match '^([A-Za-z]):')
-        {
 ################################################################################
 # Handling UNC paths on Windows.                                               #
 #   //server/share/path -> /server/share/path                                  #
 ################################################################################
-          ${unixPath} = '/' + ${matches}[1].ToLower() + ${unixPath}.Substring(2)
+          ${unixPath} = '/' + ${matches}[1] + '/' + ${matches}[2] + ${matches}[3]
         }
       }
       return ${unixPath}

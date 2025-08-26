@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile pom.xml
+
