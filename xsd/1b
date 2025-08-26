@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# shellcheck disable=all
+ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile maven-4.0.0.xsd
+##ps1-wrapper ./utilities-xml-buggy.ps1 -XmlFile maven-4.0.0.xsd
