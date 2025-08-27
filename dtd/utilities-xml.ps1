@@ -142,7 +142,7 @@ function Normalize-Path
       }
 
 ################################################################################
-# Trimming trailing whitespace.                                                #
+# Trimming trailing whitespace from the full path.                             #
 ################################################################################
       ${trimmedPath} = $([System.IO.Path]::GetFullPath(${Path})).Trim()
 
@@ -177,30 +177,27 @@ function Normalize-Path
   }
 }
 
+################################################################################
+# Sanitize-Path                                                                #
+################################################################################
 <#
 .SYNOPSIS
-  Replaces the user's home directory path in a given file path
-  with the literal string '${HOME}'.
+  Replaces the user's home directory path in a file path with '${HOME}'.
 
 .DESCRIPTION
-  This function takes a file path as input and replaces any
-  occurrence of the user's home directory path with the string
-  '${HOME}'. It retrieves the home directory path using the
-  "USERPROFILE" environment variable on Windows or "HOME" on Unix.
-  Regular expression replacement is used to ensure proper escaping.
+  Makes file paths portable/anonymized by replacing the home directory portion
+  with '${HOME}'.
 
 .PARAMETER Path
-  The file path to sanitize. This parameter is mandatory.
+  The file path to sanitize.
 
 .EXAMPLE
-  Sanitize-Path -Path "C:\Users\JohnDoe\Documents\MyFile.txt"
-# Expected Output (if JohnDoe is the user's home directory):
-# ${HOME}\Documents\MyFile.txt
+  Sanitize-Path -Path "/home/user/config/settings.ini"
+# Output: ${HOME}/config/settings.ini
 
 .NOTES
   Author: K. Banerjee
-  Version: 1.0
-  Date: 05-18-2025
+  Date: May 18, 2025
 #>
 function Sanitize-Path
 {
@@ -250,11 +247,11 @@ function Sanitize-Path
 .DESCRIPTION
   Returns true if the file exists and can be read, false otherwise.
 
-.PARAMETER FilePath
+.PARAMETER Path
   The path to the file.
 
 .EXAMPLE
-  Check-File-Exists-Readable -FilePath "report.txt"
+  Check-File-Exists-Readable -Path "report.txt"
 
 .NOTES
   Author: K. Banerjee
@@ -268,22 +265,22 @@ function Check-File-Exists-Readable
   param
   (
     [Parameter(Mandatory = ${true}, ValueFromPipeline = ${false})]
-    [string]${FilePath}
+    [string]${Path}
   )
 
   process
   {
-    if ([string]::IsNullOrWhiteSpace(${FilePath}))
+    if ([string]::IsNullOrWhiteSpace(${Path}))
     {
       Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The file path is empty or null."
       return ${false}
     }
 
-    ${FilePath} = Normalize-Path -Path "${FilePath}"
+    ${Path} = Normalize-Path -Path "${Path}"
 
-    if (-not (Test-Path -Path ${FilePath} -PathType Leaf))
+    if (-not (Test-Path -Path ${Path} -PathType Leaf))
     {
-      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The file [$(Sanitize-Path -Path ${FilePath})] does not exist."
+      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The file [$(Sanitize-Path -Path ${Path})] does not exist."
       return ${false}
     }
 
@@ -292,12 +289,12 @@ function Check-File-Exists-Readable
 ################################################################################
 # Trying to open the file for reading.                                         #
 ################################################################################
-      ${null} = Get-Content -Path ${FilePath} -TotalCount 1 -ErrorAction Stop
+      ${null} = Get-Content -Path ${Path} -TotalCount 1 -ErrorAction Stop
       return ${true}
     }
     catch
     {
-      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The file [$(Sanitize-Path -Path ${FilePath})] is not readable due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
+      Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The file [$(Sanitize-Path -Path ${Path})] is not readable due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
       return ${false}
     }
   }
@@ -388,14 +385,14 @@ function Lint-XML-File
 .DESCRIPTION
   Overwrites the specified XML file with provided original content.
 
-.PARAMETER FilePath
+.PARAMETER Path
   Path to the XML file.
 
 .PARAMETER OriginalContent
   The original XML content to restore.
 
 .EXAMPLE
-  Restore-Original-XmlFile -FilePath "settings.xml.bak" -OriginalContent "..."
+  Restore-Original-XmlFile -Path "settings.xml" -OriginalContent "..."
 
 .NOTES
   Author: K. Banerjee
@@ -407,27 +404,27 @@ function Restore-Original-XmlFile
   param
   (
     [Parameter(Mandatory = ${true})]
-    [string]${FilePath},
+    [string]${Path},
 
     [Parameter(Mandatory = ${true})]
     [string]${OriginalContent}
   )
 
-  if ([string]::IsNullOrWhiteSpace(${FilePath}) -or [string]::IsNullOrWhiteSpace(${OriginalContent}))
+  if ([string]::IsNullOrWhiteSpace(${Path}) -or [string]::IsNullOrWhiteSpace(${OriginalContent}))
   {
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] FilePath or OriginalContent is empty."
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Path or OriginalContent is empty."
     return 1
   }
 
   try
   {
-    Set-Content -Path ${FilePath} -Value ${OriginalContent} -NoNewline -Force -Encoding UTF8 -ErrorAction Stop
-    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Restored original XML file [$(Sanitize-Path -Path ${FilePath})]."
+    Set-Content -Path ${Path} -Value ${OriginalContent} -NoNewline -Force -Encoding UTF8 -ErrorAction Stop
+    Write-Information "${INFO_LABEL} [$(${MyInvocation}.MyCommand.Name)] Restored original XML file [$(Sanitize-Path -Path ${Path})]."
     return 0
   }
   catch
   {
-    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to restore original XML file [$(Sanitize-Path -Path ${FilePath})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
+    Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to restore original XML file [$(Sanitize-Path -Path ${Path})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
     return 1
   }
 }
@@ -783,14 +780,14 @@ function Post-Beautify-XML
   Reads the specified file and determines whether its line endings are CRLF (`r`n) or LF (`n`).
   Returns the detected line ending as a string. Defaults to LF if no line endings are found.
 
-.PARAMETER FilePath
+.PARAMETER Path
   The path to the file whose line endings should be detected.
 
 .OUTPUTS
   System.String
 
 .EXAMPLE
-  Detect-Original-LineEnding -FilePath "example.xml"
+  Detect-Original-LineEnding -Path "example.xml"
 # Returns "`r`n" if CRLF is detected, "`n" if LF is detected.
 
 .NOTES
@@ -805,9 +802,9 @@ function Detect-Original-LineEnding
   param
   (
     [Parameter(Mandatory = ${true})]
-    [string]${FilePath}
+    [string]${Path}
   )
-  ${bytes} = [System.IO.File]::ReadAllBytes(${FilePath})
+  ${bytes} = [System.IO.File]::ReadAllBytes(${Path})
   ${text} = [System.Text.Encoding]::Default.GetString(${bytes})
   if (${text} -match "`r`n")
   {
@@ -893,7 +890,7 @@ function Beautify-XML
 ################################################################################
 # Saving the original line ending (LF or CRLF).                                #
 ################################################################################
-    ${originalEOL} = Detect-Original-LineEnding -FilePath ${XmlFile}
+    ${originalEOL} = Detect-Original-LineEnding -Path ${XmlFile}
 
 ################################################################################
 # Linting the XML file.                                                        #
@@ -919,6 +916,7 @@ function Beautify-XML
 # Reading the XML file.                                                        #
 ################################################################################
     ${xmlDoc} = New-Object System.Xml.XmlDocument
+    ${xmlDoc}.PreserveWhitespace = ${true}
     ${xmlContent} = Get-Content -Path ${XmlFile} -Raw -Encoding UTF8 -ErrorAction Stop
     ${xmlDoc}.LoadXml(${xmlContent})
 
@@ -989,19 +987,19 @@ function Beautify-XML
 ################################################################################
 # Restoring the original XML file since beautifying failed.                    #
 ################################################################################
-      Restore-Original-XmlFile -FilePath ${XmlFile} -OriginalContent ${originalXmlContent}
+      Restore-Original-XmlFile -Path ${XmlFile} -OriginalContent ${originalXmlContent}
     }
     exit ${stat}
   }
   catch [System.Xml.XmlException]
   {
     Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] The command [${script:SCRIPT}] failed to lint/beautify [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
-    Restore-Original-XmlFile -FilePath ${XmlFile} -OriginalContent ${originalXmlContent}
+    Restore-Original-XmlFile -Path ${XmlFile} -OriginalContent ${originalXmlContent}
     exit 1
   }
   catch
   {
-    Restore-Original-XmlFile -FilePath ${XmlFile} -OriginalContent ${originalXmlContent}
+    Restore-Original-XmlFile -Path ${XmlFile} -OriginalContent ${originalXmlContent}
     Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to lint/beautify [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: [$(${_}.Exception.Message)]."
     exit 2
   }
@@ -1046,7 +1044,7 @@ function Get-Schema-File-Type
 ################################################################################
 # Verifying the input schema exists and is readable.                           #
 ################################################################################
-    ${result} = Check-File-Exists-Readable -FilePath ${Schema}
+    ${result} = Check-File-Exists-Readable -Path ${Schema}
     if (${false} -eq ${result})
     {
       exit 1
@@ -1758,7 +1756,7 @@ if (0 -ge ${Indent})
 # Verifying the input XML exists and is readable.                              #
 ################################################################################
 ${XmlFile} = [System.IO.Path]::GetFullPath(${XmlFile})
-${result} = Check-File-Exists-Readable -FilePath ${XmlFile}
+${result} = Check-File-Exists-Readable -Path ${XmlFile}
 if (${false} -eq ${result})
 {
   exit 1
