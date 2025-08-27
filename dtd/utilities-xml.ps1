@@ -578,7 +578,6 @@ function Pre-Beautify-XML
 # blank line marker.                                                           #
 ################################################################################
   ${insideCommentRef} = [ref]${false}
-  ${tagStackRef} = [ref](New-Object System.Collections.Stack)
   (Get-Content -Path ${XmlFile} -Encoding UTF8 -ErrorAction Stop) | ForEach-Object {
     try
     {
@@ -602,50 +601,20 @@ function Pre-Beautify-XML
       Write-Error "${ERROR_LABEL} [$(${MyInvocation}.MyCommand.Name)] Failed to replace blank lines within multi-line comments in [${FileType}] file [$(Sanitize-Path -Path ${XmlFile})] due to [$(${_}.GetType().FullName)]: $(${_}.Exception.Message)"
       return 1
     }
-  } | ForEach-Object { # Pipeline Stage 2: Handle other blank lines
+  } | ForEach-Object {
 ################################################################################
-# Replacing all remaining blank lines with the blank line marker, unless they  #
-# are inside an XML element.                                                   #
+# Replacing all remaining blank lines with the blank line marker.              #
 ################################################################################
     try
     {
       ${line} = ${_}
-      ${isLineBlank} = ${line} -match '^\s*$'
-      ${isInsideElement} = ${tagStackRef}.Value.Count -gt 0
-
-      if (-not ${isLineBlank})
+      if (${line} -match '^\s*$')
       {
-        ${tagRegex} = '</?[\w\:\-]+(?:[^>]*?)/?>'
-        ${tagMatches} = [regex]::Matches(${line}, ${tagRegex})
-        foreach (${match} in ${tagMatches})
-        {
-          ${tag} = ${match}.Value
-          if (${tag} -match '/>\s*$')
-          {
-            continue
-          }
-          if (${tag} -match '^</')
-          {
-            if (${tagStackRef}.Value.Count -gt 0)
-            {
-              [void]${tagStackRef}.Value.Pop()
-            }
-          }
-          else
-          {
-            ${tagName} = (${tag} -replace '^<|>$' -split '[\s>]+')[0]
-            ${tagStackRef}.Value.Push(${tagName})
-          }
-        }
-      }
-
-      if (${isLineBlank} -and -not ${isInsideElement})
-      {
-        ${script:XML_BLANK_MARKER} # Replace blank line
+        ${script:XML_BLANK_MARKER}
       }
       else
       {
-        ${line} # Preserve blank line or output non-blank line
+        ${line}
       }
     }
     catch
@@ -916,7 +885,7 @@ function Beautify-XML
 # Reading the XML file.                                                        #
 ################################################################################
     ${xmlDoc} = New-Object System.Xml.XmlDocument
-    ${xmlDoc}.PreserveWhitespace = ${true}
+    ${xmlDoc}.PreserveWhitespace = ${false}
     ${xmlContent} = Get-Content -Path ${XmlFile} -Raw -Encoding UTF8 -ErrorAction Stop
     ${xmlDoc}.LoadXml(${xmlContent})
 
@@ -965,7 +934,7 @@ function Beautify-XML
 # Writing the beautified XML.                                                  #
 ################################################################################
     ${writer} = [System.Xml.XmlWriter]::Create(${OutputFile}, ${settings})
-    ${xmlDoc}.WriteContentTo(${writer})
+    ${xmlDoc}.Save(${writer})
     ${writer}.Close()
 
     ${stat} = Post-Beautify-XML -XmlFile ${XmlFile} -FileType ${FileType} -OriginalEOL ${originalEOL}
