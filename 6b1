@@ -1,4 +1,10 @@
 #!/bin/bash
 
+# shellcheck disable=all
+
+echo "Beautifying:"
 ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile pom.xml
+
+echo "Linting:"
+ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile pom.xml -Lint
 

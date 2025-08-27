@@ -4,4 +4,5 @@
 ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile maven-4.0.0.xsd
 ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile maven-4.0.0.xsd -Lint
 
-git checkout maven-4.0.0.xsd
+##git checkout maven-4.0.0.xsd > /dev/null 2>&1
+
