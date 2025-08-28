@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# shellcheck disable=all
+
+# "de-formats" pom files
+
+while IFS= read -r pom
+do
+  sed -i 's/$/                  /'               "${pom}"
+  sed -i 's/<groupId>/               <groupId>/' "${pom}"
+  sed -i 's/<artifactId>/ <artifactId>/'         "${pom}"
+  sed -i 's/<modules>/         <modules>/'       "${pom}"
+  sed -i 's|<name></name>|<name/>|'              "${pom}"
+  sed -i 's/^ *<dependency>/<dependency>/'       "${pom}"
+done <<< "$(find . -type f \( -name "*\.pom" -o -name "pom\.xml" \))"
+
