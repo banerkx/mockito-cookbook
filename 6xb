@@ -3,6 +3,7 @@
 # shellcheck disable=all
 source ~/.dotfiles/xml_functions
 
+./scr1
 while IFS= read -r pom
 do
   beautify_xml_with_xmllint "${pom}" 'Maven BOM/POM file'
@@ -10,4 +11,6 @@ done <<< "$(find . -type f \( -name "*\.pom" -o -name "pom\.xml" \))"
 
 git checkout xsd/maven-4.0.0.xsd > /dev/null 2>&1
 beautify_xml_with_xmllint xsd/maven-4.0.0.xsd 'Maven BOM/POM schema file'
+
+git status
 
