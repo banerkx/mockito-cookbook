@@ -1,6 +1,7 @@
 # Requires PowerShell 5.1 or later.
-# This script formats XML and XSD files, applying a consistent indentation
-# and handling whitespace.
+# This script formats XML and XSD files by manually managing indentation.
+# This approach ensures all constraints, including preserving blank lines
+# within <xs:documentation> tags, are met.
 #
 # Constraints handled:
 # 1. Indents with 2 spaces.
@@ -49,67 +50,71 @@ function Format-XmlFile {
         Write-Host "Processing file: $($file.FullName)"
 
         try {
-            # Step 1: Read all lines and identify blank ones using the -split operator.
+            # Step 1: Read all lines from the file.
             $originalLines = (Get-Content -Path $file.FullName -Raw) -split "`n"
             
-            # Use a collection to store the indices of blank lines.
-            $blankLineIndices = [System.Collections.ArrayList]::new()
-            $nonBlankLines = @()
+            # This is where the formatted output will be stored.
+            $formattedLines = [System.Collections.ArrayList]::new()
+            
+            # Track the current indentation level.
+            $indentationLevel = 0
+            
+            # Regular expression to identify tags for indentation.
+            $openTagPattern = '^\s*<([\w\-\.:]+)(\s+.*)?>.*(?!<\/)(?<!\/>)$'
+            $closeTagPattern = '^\s*<\/(?:[\w\-\.:]+)>.*$'
+
+            # Use a state variable to handle multi-line elements (like documentation blocks).
+            $insideDocumentation = $false
 
             for ($i = 0; $i -lt $originalLines.Count; $i++) {
-                if ([string]::IsNullOrWhiteSpace($originalLines[$i])) {
-                    $blankLineIndices.Add($i) | Out-Null
-                } else {
-                    $nonBlankLines += $originalLines[$i]
+                $line = $originalLines[$i]
+
+                # Trim leading and trailing whitespace.
+                $trimmedLine = $line.Trim()
+
+                # Preserve blank lines.
+                if ([string]::IsNullOrWhiteSpace($trimmedLine)) {
+                    $formattedLines.Add("") | Out-Null
+                    continue
                 }
-            }
 
-            # If the file is empty or only has blank lines, there's nothing to format.
-            if (-not $nonBlankLines) {
-                Write-Host "File is empty or contains only blank lines. Skipping formatting." -ForegroundColor Yellow
-                $originalLines | Set-Content -Path $file.FullName -Force -Encoding UTF8
-                continue
-            }
+                # Check if we are entering or leaving a documentation block.
+                if ($trimmedLine -like '<xs:documentation*') {
+                    $insideDocumentation = $true
+                }
+                if ($trimmedLine -like '</xs:documentation*') {
+                    $insideDocumentation = $false
+                }
 
-            # Step 2: Format the non-blank lines using the .NET XML library.
-            # This will handle correct indentation but will not preserve original line breaks.
-            $contentToFormat = ($nonBlankLines -join "`n")
-            $xmlDoc = New-Object System.Xml.XmlDocument
-            $xmlDoc.LoadXml($contentToFormat)
+                # If inside a documentation block, just re-add the line with original leading spaces.
+                # This bypasses the indentation logic for documentation content.
+                if ($insideDocumentation -and $trimmedLine -ne '<xs:documentation>' -and $trimmedLine -ne '</xs:documentation>') {
+                    $formattedLines.Add($line.Replace("`t", "  ")) | Out-Null
+                    continue
+                }
 
-            $stringWriter = New-Object System.IO.StringWriter
-            $writerSettings = New-Object System.Xml.XmlWriterSettings
-            $writerSettings.Indent = $true
-            $writerSettings.IndentChars = "  " # Use 2 spaces for indentation
-            $writerSettings.NewLineChars = [System.Environment]::NewLine
-            $writerSettings.OmitXmlDeclaration = $false
-            $writerSettings.Encoding = [System.Text.Encoding]::UTF8
+                # Check if the line is a closing tag.
+                if ($trimmedLine -match $closeTagPattern) {
+                    # Decrease indentation level before writing the line.
+                    $indentationLevel--
+                }
+                
+                # Apply the current indentation.
+                $indentation = "  " * $indentationLevel
+                $formattedLine = $indentation + $trimmedLine
 
-            $xmlWriter = [System.Xml.XmlWriter]::Create($stringWriter, $writerSettings)
-            $xmlDoc.Save($xmlWriter)
-            $formattedXml = $stringWriter.ToString()
+                # Handle empty nodes: <name/> becomes <name></name>
+                # This regex ensures we only expand self-closing tags without attributes.
+                # Tags with attributes, like <name attr="value"/>, are not changed.
+                $formattedLine = $formattedLine -replace '<(?![\/])([\w\-\.:]+)\s*\/>', '<$1></$1>'
 
-            # The XML declaration can sometimes be malformed during the save.
-            # To fix this, we replace it with a standard declaration.
-            $formattedXml = $formattedXml -replace '<\?xml version="1.0" encoding="utf-8" standalone="yes"?>', '<?xml version="1.0" encoding="utf-8"?>'
+                # Add the formatted line to the list.
+                $formattedLines.Add($formattedLine) | Out-Null
 
-            # Step 3: Expand empty nodes (e.g., <name/> to <name></name>)
-            # This regex specifically targets self-closing tags that do not have attributes.
-            # It captures the tag name and uses it to construct the full open/close tags.
-            $formattedXml = $formattedXml -replace '<(?![\/])([\w\-\.:]+)\s*\/>', '<$1></$1>'
-
-            # Step 4: Re-insert blank lines at their saved positions.
-            # We now cast the array to an ArrayList to allow insertions.
-            $formattedLines = [System.Collections.ArrayList]($formattedXml -split "`n")
-            
-            # Insert a blank line at each stored index.
-            # We must adjust the index as we insert new lines.
-            $offset = 0
-            foreach ($index in $blankLineIndices) {
-                $adjustedIndex = $index + $offset
-                if ($adjustedIndex -le $formattedLines.Count) {
-                    $formattedLines.Insert($adjustedIndex, "") | Out-Null
-                    $offset++
+                # Check if the line is an opening tag.
+                if ($trimmedLine -match $openTagPattern) {
+                    # Increase indentation level after writing the line.
+                    $indentationLevel++
                 }
             }
 
@@ -124,6 +129,5 @@ function Format-XmlFile {
         }
     }
 }
-
 
 Format-XmlFile -Path ${Path}
