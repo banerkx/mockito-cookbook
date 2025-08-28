@@ -4,10 +4,10 @@
 declare -r SCRIPT=${0##*/}
 
 ./upom
-ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -FileType "Maven POM" -Lint
+ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -FileType "Maven POM" -Lint
 
 echo ''
-ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -FileType 'Maven POM'
+ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -FileType 'Maven POM'
 grep -Eq "^ \+(<!--|-->)" ${PWD}/pom.xml
 if [[ 0 -eq ${?} ]]
 then
@@ -15,7 +15,7 @@ then
 fi
 
 echo ''
-ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/pom2.xml -FileType 'Maven POM'
+ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile ${PWD}/pom2.xml -FileType 'Maven POM'
 grep -Eq "^ \+(<!--|-->)" ${PWD}/pom2.xml
 if [[ 0 -eq ${?} ]]
 then

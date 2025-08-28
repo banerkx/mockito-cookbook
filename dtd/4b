@@ -101,7 +101,7 @@ function beautify_pom
 {
   ./upom
   ${2} "${1}"
-  ps1-wrapper utilities-xml.ps1 -XmlFile ${1} -FileType 'Maven POM'
+  ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile ${1} -FileType 'Maven POM'
   file ${1} | grep -q 'with CRLF line terminators'
   local -ir stat=${?}
   case "${3}" in

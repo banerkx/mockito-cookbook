@@ -19,25 +19,25 @@ echo "LINE = [${LINENO}] stat = [${stat}]"
 echo '--------------------------------------------------------------------------------'
 echo ''
 
-ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build.xml -Schema "${SCHEMAS}/ant.xsd" -FileType "Ant build"
+ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile ${PWD}/build.xml -Schema "${SCHEMAS}/ant.xsd" -FileType "Ant build"
 stat=${?}
 echo "LINE = [${LINENO}] stat = [${stat}]"
 echo '--------------------------------------------------------------------------------'
 echo ''
 
-ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build.xml -Schema "${SCHEMAS}/ant.dtd" -FileType "Ant build"
+ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile ${PWD}/build.xml -Schema "${SCHEMAS}/ant.dtd" -FileType "Ant build"
 stat=${?}
 echo "LINE = [${LINENO}] stat = [${stat}]"
 echo '--------------------------------------------------------------------------------'
 echo ''
 
-ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/build_nodoc.xml -Schema "${SCHEMAS}/ant.dtd" -FileType "Ant build"
+ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile ${PWD}/build_nodoc.xml -Schema "${SCHEMAS}/ant.dtd" -FileType "Ant build"
 stat=${?}
 echo "LINE = [${LINENO}] stat = [${stat}]"
 echo '--------------------------------------------------------------------------------'
 echo ''
 
-##export PRE_COMMIT_POWER_SHELL_XML_VALIDATOR=./utilities-xml.ps1
+##export PRE_COMMIT_POWER_SHELL_XML_VALIDATOR=./${HOME}/scripts/power-shell/utilities-xml.ps1
 ##export PRE_COMMIT_XML_VALIDATOR_COMMAND=${PRE_COMMIT_POWER_SHELL_XML_VALIDATOR}
 ##cp ${PWD}/build.xml ${PWD}/build.xml_docbak
 ##cp ${PWD}/build_nodoc.xml ${PWD}/build.xml

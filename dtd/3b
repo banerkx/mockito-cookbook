@@ -42,7 +42,7 @@ function xstar
 function xutils
 {
   ./upom
-  ps1-wrapper utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -FileType 'Maven POM'
+  ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -FileType 'Maven POM'
   cp pom.xml qq_utilities_pom.xml
 }
 

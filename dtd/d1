@@ -29,7 +29,7 @@ function udocval1
   while [[ -n "${1}" ]]
   do
     echo "===== ${FUNCNAME[0]} BEGIN [${1}] ====="
-    ps1-wrapper ./utilities-xml.ps1 -XmlFile "${1}" -Schema ant.dtd
+    ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile "${1}" -Schema ant.dtd
     echo "===== ${FUNCNAME[0]}  END  [${1}] ====="
     echo ''
     shift 1
