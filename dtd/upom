@@ -138,10 +138,12 @@ echo '   	   	   	 		              <artifactId>junit</artifactId>   		     	  	 
 echo '   	   	   	 		              <version>4.13.2</version>   		     	  	  		' >> ${file}
 echo '   	   	   	 		              <scope>test</scope>   		     	  	  		' >> ${file}
 echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.hamcrest</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>hamcrest-core</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
 echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
 echo '   	   	   	 		             		     	  	  		' >> ${file}
@@ -184,22 +186,27 @@ echo '   	   	   	 		              <artifactId>powermock-module-junit4</artifact
 echo '   	   	   	 		              <version>2.0.9</version>   		     	  	  		' >> ${file}
 echo '   	   	   	 		              <scope>test</scope>   		     	  	  		' >> ${file}
 echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>junit</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>junit</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>objenesis</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>objenesis</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>powermock-reflect</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>powermock-core</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
 echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
 echo '   	   	   	 		             		     	  	  		' >> ${file}
@@ -210,14 +217,17 @@ echo '   	   	   	 		              <artifactId>powermock-module-testng</artifact
 echo '   	   	   	 		              <version>2.0.9</version>   		     	  	  		' >> ${file}
 echo '   	   	   	 		              <scope>test</scope>   		     	  	  		' >> ${file}
 echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>powermock-reflect</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>powermock-core</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
 echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
 echo '   	   <!-- 2 blank lines -->' >> ${file}
@@ -229,18 +239,22 @@ echo '   	   	   	 		              <artifactId>powermock-api-mockito-common</art
 echo '   	   	   	 		              <version>1.7.4</version>   		     	  	  		' >> ${file}
 echo '   	   	   	 		              <scope>test</scope>   		     	  	  		' >> ${file}
 echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>powermock-reflect</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.powermock</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>powermock-core</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.mockito</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>mockito-core</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
 echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
 echo '   	   <!-- 3 blank lines -->' >> ${file}
@@ -254,126 +268,157 @@ echo '   	   	   	 		              <artifactId>spotbugs-maven-plugin</artifactId
 echo '   	   	   	 		              <version>4.7.3.4</version>   		     	  	  		' >> ${file}
 echo '   	   	   	 		              <scope>compile</scope>   		     	  	  		' >> ${file}
 echo '   	   	   	 		              <exclusions>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.ow2.asm</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>asm</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.ow2.asm</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>asm-analysis</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.ow2.asm</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>asm-commons</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.ow2.asm</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>asm-util</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.ow2.asm</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>asm-tree</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.slf4j</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>slf4j-api</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.codehaus.plexus</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>plexus-interpolation</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.codehaus.plexus</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>plexus-utils</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.codehaus.plexus</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>plexus-component-annotations</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.maven</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>maven-model</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>com.google.code.findbugs</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>jsr305</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.codehaus.plexus</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>plexus-classworlds</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.maven.shared</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>maven-common-artifact-filters</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.commons</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>commons-lang3</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.codehaus.plexus</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>plexus-container-default</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.commons</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>commons-text</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>commons-beanutils</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>commons-beanutils</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.maven.reporting</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>maven-reporting-api</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.maven.doxia</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>doxia-logging-api</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.maven</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>maven-artifact</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>commons-io</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>commons-io</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.maven</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>maven-plugin-api</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.maven.doxia</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>doxia-sink-api</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.maven.doxia</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>doxia-core</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.maven</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>maven-core</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>commons-collections</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>commons-collections</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>commons-chain</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>commons-chain</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>commons-lang</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>commons-lang</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>commons-digester</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>commons-digester</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		                  <exclusion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <groupId>org.apache.velocity</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <artifactId>velocity</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </exclusion>   		     	  	  		' >> ${file}
+echo '' >> ${file}
 echo '   	   	   	 		              </exclusions>   		     	  	  		' >> ${file}
 echo '   	   	   	 		          </dependency>   		     	  	  		' >> ${file}
 echo '   	   	   	 		             		     	  	  		' >> ${file}
