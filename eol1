@@ -1,3 +1,5 @@
 #!/bin/bash
 
-find . -type f \( -name "pom\.xml" -o -name "*\.pom" \) -exec file {} \;
+# shellcheck disable=all
+find . -type f \( -name "pom\.xml" -o -name "*\.pom" \) -exec file {} \; | sed 's/^/| /;s/:/ | /;s/$/ |/' | column -s'|' -o'|' -t
+
