@@ -1,4 +1,5 @@
 #!/bin/bash
 
 # shellcheck disable=all
-ps1-wrapper ${HOME}/scripts/power-shell/misc/artifacts-array.ps1 -Array MOCKITO_COOKBOOK_ARTIFACTS
+##ps1-wrapper ${HOME}/scripts/power-shell/misc/artifacts-array.ps1 -Array MOCKITO_COOKBOOK_ARTIFACTS
+ps1-wrapper ${HOME}/scripts/power-shell/misc/artifacts-array.ps1
