@@ -4,11 +4,12 @@
 
 # "de-formats" pom files
 
-file pom.xml | grep -q ' CRFL '
-declare -i has_crlf=${?}
+declare -i has_crlf=0
 
 while IFS= read -r pom
 do
+  file "${pom}" | grep -q ' CRFL '
+  has_crlf=${?}
   if [[ 0 -eq ${hrlf} ]]
   then
     dos2unix "${pom}" > /dev/null 2>&1
