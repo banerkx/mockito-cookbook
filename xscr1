@@ -10,7 +10,7 @@ while IFS= read -r pom
 do
   file "${pom}" | grep -q ' CRFL '
   has_crlf=${?}
-  if [[ 0 -eq ${hrlf} ]]
+  if [[ 0 -eq ${has_crlf} ]]
   then
     dos2unix "${pom}" > /dev/null 2>&1
   fi
@@ -20,7 +20,7 @@ do
   sed -i 's/<modules>/         <modules>/'       "${pom}"
   sed -i 's|<name></name>|<name/>|'              "${pom}"
   sed -i 's/^ *<dependency>/<dependency>/'       "${pom}"
-  if [[ 0 -eq ${hrlf} ]]
+  if [[ 0 -eq ${has_crlf} ]]
   then
     unix2dos "${pom}" > /dev/null 2>&1
   fi
