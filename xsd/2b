@@ -2,6 +2,8 @@
 
 # shellcheck disable=all
 source ~/.dotfiles/xml_functions
+sed -i 's|\(^.*\)\(<xs:documentation source=".*">$\)|\1   \t\t\t   \t\t\2|'  maven-4.0.0.xsd
+sed -i 's|\(^ *\)\(</xs:documentation>$\)|   \t\t\t   \t\t\2|'  maven-4.0.0.xsd
 
 beautify_xml_with_xmllint maven-4.0.0.xsd 'Maven BOM/POM schema file'
 
