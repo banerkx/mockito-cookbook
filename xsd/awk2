@@ -1,9 +1,14 @@
 #!/usr/bin/gawk -f
 
+################################################################################
+# Replaces blank lines, that are not within <xs:documentation ...>,            #
+# </xs:documentation> with marker.                                             #
+################################################################################
 BEGIN {
   in_xs_doc=0;
   marker="<!--xxxx-xxxx-xxxx-->"
 }
+
 {
   if (0 != match($0, /^\s*<xs:documentation .+=".+">$/))
   {
