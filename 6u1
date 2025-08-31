@@ -2,9 +2,13 @@
 
 # shellcheck disable=all
 
+file="pom.xml"
+
+git checkout "${file}" > /dev/null 2>&1
+
 echo "Beautifying:"
-ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile pom.xml
+ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile "${file}"
 
 echo "Linting:"
-ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile pom.xml -Lint
+ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile "${file}" -Lint
 
