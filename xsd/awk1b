@@ -1,0 +1,75 @@
+#!/usr/bin/gawk -f
+
+################################################################################
+# Properly indents <xs:documentation ...>, </xs:documentation> blocks.
+# This version is refactored for clarity, efficiency, and robustness.          #
+################################################################################
+BEGIN {
+  in_xs_doc = 0
+  xs_doc_indent = ""
+}
+{
+  # Case 1: We are inside a documentation block.
+  if (in_xs_doc)
+  {
+    # Check for the closing tag, capturing optional content before it.
+    # Assumes content on the same line as the tag does not contain '<'.
+    if (match($0, /(^\s*)([^<]*)(<\/xs:documentation>)/, m))
+    {
+      content = m[2]
+      sub(/^\s*|\s*$/, "", content) # Trim whitespace from content.
+      if (length(content) > 0)
+      {
+        print xs_doc_indent "  " content
+      }
+
+      # Print the correctly indented closing tag.
+      print xs_doc_indent m[3]
+
+      # Reset state.
+      in_xs_doc = 0
+      xs_doc_indent = ""
+    }
+    else
+    {
+      # It's a line of content inside the block.
+      content = $0
+      sub(/^\s*/, "", content) # Strip leading space.
+      if (length(content) > 0)
+      {
+        print xs_doc_indent "  " content
+      }
+      else
+      {
+        # Preserve empty lines within the block.
+        print
+      }
+    }
+  }
+  # Case 2: We are NOT inside a documentation block.
+  else
+  {
+    # Check for the opening tag.
+    # The regex captures the tag and any potential content on the same line.
+    if (match($0, /(^\s*)(<xs:documentation[^>]*>)(.*)/, m))
+    {
+      xs_doc_indent = m[1]
+      in_xs_doc = 1
+
+      # Print the opening tag.
+      print m[1] m[2]
+
+      content = m[3]
+      sub(/^\s*|\s*$/, "", content) # Trim whitespace from content.
+      if (length(content) > 0)
+      {
+        print xs_doc_indent "  " content
+      }
+    }
+    else
+    {
+      # It's a regular line, print it as is.
+      print
+    }
+  }
+}
