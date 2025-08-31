@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./xscr1
+./scr1
 while IFS= read -r pom
 do
   ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile "${pom}"

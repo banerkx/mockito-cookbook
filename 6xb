@@ -3,7 +3,7 @@
 # shellcheck disable=all
 source ~/.dotfiles/xml_functions
 
-./xscr1
+./scr1
 while IFS= read -r pom
 do
   beautify_xml_with_xmllint "${pom}" 'Maven BOM/POM file'
