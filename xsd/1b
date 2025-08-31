@@ -1,13 +1,15 @@
 #!/bin/bash
 
 # shellcheck disable=all
-git checkout maven-4.0.0.xsd > /dev/null 2>&1
-##sed -i 's|\(^.*\)\(<xs:documentation source=".*">$\)|\1   \t\t\t   \t\t\2|'  maven-4.0.0.xsd
-##sed -i 's|\(^ *\)\(</xs:documentation>$\)|   \t\t\t   \t\t\2|'  maven-4.0.0.xsd
-sed -i 's/\(^.*xs:documentation\)\(.*$\)/\1\2\t\t\t   \t\t\t\t    \t\t  /' maven-4.0.0.xsd
 
-ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile maven-4.0.0.xsd
-ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile maven-4.0.0.xsd -Lint
+file=maven-4.0.0.xsd
+git checkout "${file}" > /dev/null 2>&1
+##sed -i 's|\(^.*\)\(<xs:documentation source=".*">$\)|\1   \t\t\t   \t\t\2|'  "${file}"
+##sed -i 's|\(^ *\)\(</xs:documentation>$\)|   \t\t\t   \t\t\2|'  "${file}"
+sed -i 's/\(^.*xs:documentation\)\(.*$\)/\1\2\t\t\t   \t\t\t\t    \t\t  /' "${file}"
 
-##git checkout maven-4.0.0.xsd > /dev/null 2>&1
+ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile "${file}"
+ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile "${file}" -Lint
+
+##git checkout "${file}" > /dev/null 2>&1
 
