@@ -8,6 +8,11 @@ BEGIN {
   in_xs_doc=0;
 }
 {
+  if (0 != match($0, /^\s*<xs:documentation.*<\/xs:documentation>$/))
+  {
+    print
+    next
+  }
   if (0 != match($0, /(^\s*)(<xs:documentation .+=".+">$)/, matches))
   {
     xs_doc_indent=matches[1];

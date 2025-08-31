@@ -9,6 +9,11 @@ BEGIN {
   xs_doc_indent = ""
 }
 {
+  if (0 != match($0, /^\s*<xs:documentation.*<\/xs:documentation>$/))
+  {
+    print
+    next
+  }
   # Case 1: We are inside a documentation block.
   if (in_xs_doc)
   {
