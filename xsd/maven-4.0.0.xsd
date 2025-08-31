@@ -24,7 +24,7 @@
               comment 2 blank lines
 
 
-              with severla blank lines 3 blank lines
+              with several blank lines 3 blank lines
 
 
 
@@ -819,6 +819,7 @@
             href="https://maven.apache.org/pom.html#Dependency_Version_Requirement_Specification"&gt;Dependency Version
             Requirement Specification&lt;/a&gt;
             and &lt;a
+
 
 
             href="https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Transitive_Dependencies"&gt;Transitive Dependencies&lt;/a&gt; for more details.
@@ -1755,6 +1756,7 @@
             &lt;a
 
 
+
             href="https://codehaus-plexus.github.io/plexus-utils/apidocs/org/codehaus/plexus/util/xml/Xpp3DomUtils.html"&gt;Xpp3DomUtils&lt;/a&gt;
             for more information.&lt;/p&gt;
 
@@ -1832,6 +1834,7 @@
             &lt;p&gt;See &lt;a href="https://maven.apache.org/pom.html#Plugins"&gt;POM Reference
             documentation&lt;/a&gt; and
             &lt;a
+
 
 
             href="https://codehaus-plexus.github.io/plexus-utils/apidocs/org/codehaus/plexus/util/xml/Xpp3DomUtils.html"&gt;Xpp3DomUtils&lt;/a&gt;
@@ -2506,6 +2509,7 @@
             &lt;a
 
 
+
             href="https://codehaus-plexus.github.io/plexus-utils/apidocs/org/codehaus/plexus/util/xml/Xpp3DomUtils.html"&gt;Xpp3DomUtils&lt;/a&gt;
             for more information.&lt;/p&gt;
 
@@ -2596,6 +2600,7 @@
             &lt;p&gt;See &lt;a href="https://maven.apache.org/pom.html#Plugins"&gt;POM Reference
             documentation&lt;/a&gt; and
             &lt;a
+
 
 
             href="https://codehaus-plexus.github.io/plexus-utils/apidocs/org/codehaus/plexus/util/xml/Xpp3DomUtils.html"&gt;Xpp3DomUtils&lt;/a&gt;

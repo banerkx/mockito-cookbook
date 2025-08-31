@@ -3,14 +3,27 @@
 ################################################################################
 # Replaces blank lines, that are not within <xs:documentation ...>,            #
 # </xs:documentation> with marker.                                             #
+#   awk2 --include inplace ...                                                 #
 ################################################################################
 BEGIN {
   in_xs_doc=0;
-  marker="<!--xxxx-xxxx-xxxx-->"
+  marker="<!--xxxx-xxxx-xxxx-->";
+  multi_line_marker="multi-line-comment-blank-line-marker";
+  in_multi_line=0;
 }
 
 {
-  if (0 != match($0, /^\s*<xs:documentation .+=".+">$/))
+  if ((0 != match($0, /^\s*<!--/)) && (0 == match($0, /-->\s*$/)))
+  {
+    in_multi_line=1;
+    printf("%s\n", $0);
+  }
+  else if ((0 == match($0, /^\s*<!--/)) && (0 != match($0, /-->\s*$/)))
+  {
+    in_multi_line=0;
+    printf("%s\n", $0);
+  }
+  else if (0 != match($0, /^\s*<xs:documentation .+=".+">$/))
   {
     in_xs_doc=1;
     printf("%s\n", $0);
@@ -37,7 +50,11 @@ BEGIN {
   }
   else if (0 == length($0))
   {
-    if (0 == in_xs_doc)
+    if (1 == in_multi_line)
+    {
+      printf("%s\n", multi_line_marker);
+    }
+    else if (0 == in_xs_doc)
     {
       printf("%s\n", marker);
     }
