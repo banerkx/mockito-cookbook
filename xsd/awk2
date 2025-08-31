@@ -1,38 +1,38 @@
 #!/usr/bin/gawk -f
 
 BEGIN {
-  inXsDoc=0;
+  in_xs_doc=0;
   marker="<!--xxxx-xxxx-xxxx-->"
 }
 {
   if (0 != match($0, /^\s*<xs:documentation .+=".+">$/))
   {
-    inXsDoc=1;
+    in_xs_doc=1;
     printf("%s\n", $0);
   }
   else if (0 != match($0, /^\s*<xs:documentation>$/))
   {
-    inXsDoc=1;
+    in_xs_doc=1;
     printf("%s\n", $0);
   }
   else if (0 != match($0, /^\s*<xs:documentation .+=".+">.+[^>]$/))
   {
-    inXsDoc=1;
+    in_xs_doc=1;
     printf("%s\n", $0);
   }
   else if (0 != match($0, /^\s*<\/xs:documentation>$/))
   {
-    inXsDoc=0;
+    in_xs_doc=0;
     printf("%s\n", $0);
   }
   else if (0 != match($0, /^\s+[^ <].*<\/xs:documentation>$/))
   {
-    inXsDoc=0;
+    in_xs_doc=0;
     printf("%s\n", $0);
   }
   else if (0 == length($0))
   {
-    if (0 == inXsDoc)
+    if (0 == in_xs_doc)
     {
       printf("%s\n", marker);
     }
