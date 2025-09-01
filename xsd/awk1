@@ -1,8 +1,7 @@
 #!/usr/bin/gawk -f
 
 ################################################################################
-# Properly indents <xs:documentation ...>, </xs:documentation> blocks.
-# This version is refactored for clarity, efficiency, and robustness.          #
+# Properly indents <xs:documentation ...>, </xs:documentation> blocks.         #
 ################################################################################
 BEGIN {
   in_xs_doc = 0
@@ -32,7 +31,7 @@ BEGIN {
       }
 
 ################################################################################
-# Printing the correctly indented closing tag.
+# Printing the correctly indented closing tag.                                 #
 ################################################################################
       print xs_doc_indent m[3]
 
@@ -62,7 +61,8 @@ BEGIN {
   {
 ################################################################################
 # Checking for the opening tag. The regex captures the tag and any potential   #
-# content on the same line.
+# content on the same line.                                                    #
+################################################################################
     if (match($0, /(^\s*)(<xs:documentation[^>]*>)(.*)/, m))
     {
       xs_doc_indent = m[1]
