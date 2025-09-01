@@ -6,58 +6,33 @@
 #   awk2 --include inplace ...                                                 #
 ################################################################################
 BEGIN {
-  in_xs_doc=0;
   marker="<!--xxxx-xxxx-xxxx-->";
   multi_line_marker="multi-line-comment-blank-line-marker";
-  in_multi_line=0;
 }
 
+# A multi-line comment block.
+/^\s*<!--/,/-->\s*$/ {
+    if (/^\s*$/) {
+        print multi_line_marker;
+    } else {
+        print;
+    }
+    next;
+}
+
+# A documentation block. Blank lines inside are preserved.
+/^\s*<xs:documentation/,/<\/xs:documentation>/ {
+    print;
+    next;
+}
+
+# Handle blank lines outside of the above blocks.
+/^\s*$/ {
+    print marker;
+    next;
+}
+
+# Print any other non-blank line.
 {
-  if ((0 != match($0, /^\s*<!--/)) && (0 == match($0, /-->\s*$/)))
-  {
-    in_multi_line=1;
-  }
-  else if ((0 == match($0, /^\s*<!--/)) && (0 != match($0, /-->\s*$/)))
-  {
-    in_multi_line=0;
-  }
-  else if (0 != match($0, /^\s*<xs:documentation .+=".+">$/))
-  {
-    in_xs_doc=1;
-  }
-  else if (0 != match($0, /^\s*<xs:documentation>$/))
-  {
-    in_xs_doc=1;
-  }
-  else if (0 != match($0, /^\s*<xs:documentation .+=".+">.+[^>]$/))
-  {
-    in_xs_doc=1;
-  }
-  else if (0 != match($0, /^\s*<\/xs:documentation>$/))
-  {
-    in_xs_doc=0;
-  }
-  else if (0 != match($0, /^\s+[^ <].*<\/xs:documentation>$/))
-  {
-    in_xs_doc=0;
-  }
-  if (0 == length($0))
-  {
-    if (1 == in_multi_line)
-    {
-      printf("%s\n", multi_line_marker);
-    }
-    else if (0 == in_xs_doc)
-    {
-      printf("%s\n", marker);
-    }
-    else
-    {
-      printf("\n");
-    }
-  }
-  else
-  {
-    printf("%s\n", $0);
-  }
+    print;
 }

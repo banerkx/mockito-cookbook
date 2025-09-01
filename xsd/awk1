@@ -1,62 +1,89 @@
 #!/usr/bin/gawk -f
 
 ################################################################################
-# Properly indents <xs:documentation ...>, </xs:documentation> blocks.         #
+# Properly indents <xs:documentation ...>, </xs:documentation> blocks.
+# This version is refactored for clarity, efficiency, and robustness.          #
 ################################################################################
 BEGIN {
-  xs_doc_indent="";
-  in_xs_doc=0;
+  in_xs_doc = 0
+  xs_doc_indent = ""
 }
 {
-  if (0 != match($0, /^\s*<xs:documentation.*<\/xs:documentation>$/))
+  if ((0 != match($0, /^\s*<xs:documentation.*<\/xs:documentation>$/)) || (0 != match($0, /^\s*<xs:documentation .*\/>$/)))
   {
     print
     next
   }
-  if (0 != match($0, /(^\s*)(<xs:documentation .+=".+">$)/, matches))
+  # Case 1: We are inside a documentation block.
+  if (in_xs_doc)
   {
-    xs_doc_indent=matches[1];
-    in_xs_doc=1;
-    printf("%s\n", $0);
-  }
-  else if (0 != match($0, /(^\s*)(<xs:documentation>$)/, matches))
-  {
-    xs_doc_indent=matches[1];
-    in_xs_doc=1;
-    printf("%s\n", $0);
-  }
-  else if (0 != match($0, /(^\s*)(<xs:documentation .+=".+">)(.+[^>]$)/, matches))
-  {
-    xs_doc_indent=matches[1];
-    in_xs_doc=1;
-    printf("%s%s\n%s  %s\n", xs_doc_indent, matches[2], xs_doc_indent, matches[3]);
-  }
-  else if (0 != match($0, /(^\s*)(<\/xs:documentation>$)/, matches))
-  {
-    printf("%s%s\n", xs_doc_indent, matches[2]);
-    xs_doc_indent="";
-    in_xs_doc=0;
-  }
-  else if (0 != match($0, /(^\s+)([^ <].*)(<\/xs:documentation>$)/, matches))
-  {
-    printf("%s  %s\n%s%s", xs_doc_indent, matches[2], xs_doc_indent, matches[3]);
-    xs_doc_indent="";
-    in_xs_doc=0;
-  }
-  else if ((1 == in_xs_doc) && (0 != length($0)))
-  {
-    match($0, /(^\s+)(.*)/, matches);
-    if (length(matches[1]) < length(xs_doc_indent))
+################################################################################
+# Checking for the closing tag, capturing optional content before it. Assumes  #
+# content on the same line as the tag and does not contain '<'.                #
+################################################################################
+    if (match($0, /(^\s*)([^<]*)(<\/xs:documentation>)/, m))
     {
-      printf("%s%s\n", xs_doc_indent, matches[2]);
+      content = m[2]
+      sub(/^\s*/, "", content)
+      sub(/\s*$/, "", content)
+      if (length(content) > 0)
+      {
+        print xs_doc_indent "  " content
+      }
+
+################################################################################
+# Printing the correctly indented closing tag.
+################################################################################
+      print xs_doc_indent m[3]
+
+      # Reset state.
+      in_xs_doc = 0
+      xs_doc_indent = ""
     }
     else
     {
-      printf("%s\n", $0);
+# Now we have a line of content inside the block.
+      content = $0
+# Stripping leading space.
+      sub(/^\s*/, "", content)
+      if (length(content) > 0)
+      {
+        print xs_doc_indent "  " content
+      }
+      else
+      {
+# Preserving empty lines within the block.
+        print
+      }
     }
   }
+# We are **not** inside a documentation block.
   else
   {
-    printf("%s\n", $0);
+################################################################################
+# Checking for the opening tag. The regex captures the tag and any potential   #
+# content on the same line.
+    if (match($0, /(^\s*)(<xs:documentation[^>]*>)(.*)/, m))
+    {
+      xs_doc_indent = m[1]
+      in_xs_doc = 1
+
+# Printing the opening tag.
+      print m[1] m[2]
+
+      content = m[3]
+# Trimming whitespace from content.
+      sub(/^\s*/, "", content)
+      sub(/\s*$/, "", content)
+      if (length(content) > 0)
+      {
+        print xs_doc_indent "  " content
+      }
+    }
+    else
+    {
+# We have a regular line, print it as is.
+      print
+    }
   }
 }
