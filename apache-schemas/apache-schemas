@@ -654,11 +654,15 @@ function pre_beautify_xml
     return "${stat}"
   fi
 
-  sort_schema_attributes "${1}" "${file_type}"
-  stat=${?}
-  if [[ 0 -ne ${stat} ]]
+  local -r ext="$(get_file_extension "${1}")"
+  if [[ "xsd" == "${ext}" ]]
   then
-    return "${stat}"
+    sort_schema_attributes "${1}" "${file_type}"
+    stat=${?}
+    if [[ 0 -ne ${stat} ]]
+    then
+      return "${stat}"
+    fi
   fi
 
   xml_encoding_to_upper_case "${1}" "${file_type}"
