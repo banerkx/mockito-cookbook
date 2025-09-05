@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# ${1} - array indexed with integers
+# ${2} - label (optional)
+function print_int_array
+{
+  local -r label=${2:-${1}}
+  local -n array=${1}
+  local -i i=0
+  echo "${label} size = [${#array[@]}]"
+  for ((i = 0; i < ${#array[@]}; i++))
+  do
+    echo "${label}[${i}] = [${array[${i}]}]" | sed 's/=/;/g'
+  done | column -s"=" -o"=" -t | sed 's/;/=/g'
+}
+
+# ${1} - xsd file
+function sort_schema_attributes
+{
+  local -a attributes
+  mapfile -t attributes < <(grep '^<xs:schema .*>$' "${1}" | sed 's/>$//;s/   */ /g;s/ /\n/g')
+  local schema_line
+  local xmlns
+  for ((i = 1; i < ${#attributes[@]}; i++))
+  do
+    if [[ "${attributes[${i}]}" =~ ^xmlns ]]
+    then
+      xmlns+=" ${attributes[${i}]}"
+    else
+      schema_line+=" ${attributes[${i}]}"
+    fi
+  done
+  schema_line=$(echo "${schema_line}" | tr ' ' '\n' | sort | paste -sd' ')
+  schema_line="${attributes[0]} ${xmlns# } ${schema_line# }>"
+  sed -i "s|^<xs:schema .*>$|${schema_line}|" "${1}"
+}
+
+while [[ -n "${1}" ]]
+do
+  sort_schema_attributes "${1}"
+  shift 1
+done
