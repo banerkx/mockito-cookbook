@@ -998,7 +998,7 @@ function beautify_xml_with_xmllint
   fi
 
   local -r command=xmllint
-  XMLLINT_INDENT="${INDENT_SPACES}" "${command}" --output "${1}" --format "${1}" 2> /dev/null
+  XMLLINT_INDENT="${INDENT_SPACES}" "${command}" --noblanks --output "${1}" --format "${1}" 2> /dev/null
   stat=${?}
   check_for_beautifier_error "${stat}" "${file_type}" "${1}" "XMLLINT_INDENT=\"${INDENT_SPACES}\" ${command} --output \"${1}\" --format" "${LINENO}"
   stat=${?}
