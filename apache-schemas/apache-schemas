@@ -1182,7 +1182,7 @@ function get_apache_schema
     rm -f "${xsd}"
   else
     log_info "Downloaded schema [${1}]." "${LINENO}"
-    dos2unix "${xsd}"
+    dos2unix "${xsd}" > /dev/null 2>&1
     beautify_xml "${xsd}" XSD
   fi
   echo ''
