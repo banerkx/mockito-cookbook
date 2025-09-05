@@ -8,7 +8,7 @@ declare -i has_crlf=0
 
 while IFS= read -r pom
 do
-  file "${pom}" | grep -q ' CRFL '
+  file "${pom}" | grep -Eq '(CRFL|CR)'
   has_crlf=${?}
   if [[ 0 -eq ${has_crlf} ]]
   then
@@ -24,5 +24,5 @@ do
   then
     unix2dos "${pom}" > /dev/null 2>&1
   fi
-done <<< "$(find . -type f \( -name "*\.pom" -o -name "pom\.xml" \))"
+done <<< "$(find . -type f \( -name "*\.pom" -o -name "pom\.xml" \) | sort)"
 
