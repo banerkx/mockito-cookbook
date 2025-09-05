@@ -623,6 +623,13 @@ function pre_beautify_xml
     return "${stat}"
   fi
 
+  xml_encoding_to_upper_case "${1}" "${file_type}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
 ################################################################################
 # Want to preserve blank lines in multi-line XML comments. So if something     #
 # like the following:                                                          #
@@ -655,13 +662,6 @@ function pre_beautify_xml
   if [[ ! -v XML_BLANK_MARKER ]]
   then
     declare -rg XML_BLANK_MARKER="<!--xxxx-xxxx-xxxx-->"
-  fi
-
-  xml_encoding_to_upper_case "${1}" "${file_type}"
-  stat=${?}
-  if [[ 0 -ne ${stat} ]]
-  then
-    return "${stat}"
   fi
 
 ################################################################################
@@ -998,9 +998,9 @@ function beautify_xml_with_xmllint
   fi
 
   local -r command=xmllint
-  XMLLINT_INDENT="  " "${command}" --output "${1}" --format "${1}" 2> /dev/null
+  XMLLINT_INDENT="${INDENT_SPACES}" "${command}" --output "${1}" --format "${1}" 2> /dev/null
   stat=${?}
-  check_for_beautifier_error "${stat}" "${file_type}" "${1}" "XMLLINT_INDENT=\"  \" ${command} --output \"${1}\" --format" "${LINENO}"
+  check_for_beautifier_error "${stat}" "${file_type}" "${1}" "XMLLINT_INDENT=\"${INDENT_SPACES}\" ${command} --output \"${1}\" --format" "${LINENO}"
   stat=${?}
   if [[ 0 -ne ${stat} ]]
   then
@@ -1228,6 +1228,7 @@ function set_variables
   set_xml_linter_command
   set_xml_beautifier_command
   declare -rg APACHE_SCHEMAS_URL=https://maven.apache.org/xsd/
+  declare -rg INDENT_SPACES="  "
   echo ''
 }
 
