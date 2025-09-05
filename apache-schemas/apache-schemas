@@ -1187,11 +1187,12 @@ function print_int_array
 function get_apache_schema
 {
   local -r xsd="$(basename "${1}")"
-  "${CURL}" "${1}" 2> /dev/null | sed 's@^<?xml version="1.0"?>$@<?xml version="1.0" encoding="UTF-8"?>@' >| "${xsd}"
+  local schema="${APACHE_SCHEMAS_URL}${xsd}"
+  "${CURL}" "${schema}" 2> /dev/null | sed 's@^<?xml version="1.0"?>$@<?xml version="1.0" encoding="UTF-8"?>@' >| "${xsd}"
   local -i stat=${PIPESTATUS[0]}
   if [[ 0 -ne ${?} ]]
   then
-    echo "[${SCRIPT}] ERROR: Could not download schema [${1}] due to error code [${stat}]."
+    echo "[${SCRIPT}] ERROR: Could not download schema [${schema}] due to error code [${stat}]."
     rm -f "${xsd}"
   else
     log_info "Downloaded schema [${1}]." "${LINENO}"
