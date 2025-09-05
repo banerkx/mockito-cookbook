@@ -30,7 +30,7 @@ function sort_schema_attributes
       schema_line+=" ${attributes[${i}]}"
     fi
   done
-  xmlns+=$(echo "${xmlns}" | tr ' ' '\n' | sort | paste -sd' ')
+  xmlns=$(echo "${xmlns}" | tr ' ' '\n' | sort | paste -sd' ')
   schema_line=$(echo "${schema_line}" | tr ' ' '\n' | sort | paste -sd' ')
   schema_line="${attributes[0]} ${xmlns# } ${schema_line# }>"
   sed -i "s|^<xs:schema .*>$|${schema_line}|" "${1}"

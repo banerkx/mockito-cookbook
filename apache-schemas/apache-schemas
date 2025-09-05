@@ -534,6 +534,37 @@ function process_xml_comments
   return "${stat}"
 }
 
+# ${1} - xsd file
+# ${2} - file type
+function sort_schema_attributes
+{
+  local -r file_type="${2}"
+  local -a attributes
+  mapfile -t attributes < <(grep '^<xs:schema .*>$' "${1}" | sed 's/>$//;s/   */ /g;s/ /\n/g')
+  local schema_line
+  local xmlns
+  local -i i=1
+  for ((i = 1; i < ${#attributes[@]}; i++))
+  do
+    if [[ "${attributes[${i}]}" =~ ^xmlns ]]
+    then
+      xmlns+=" ${attributes[${i}]}"
+    else
+      schema_line+=" ${attributes[${i}]}"
+    fi
+  done
+  xmlns=$(echo "${xmlns}" | tr ' ' '\n' | sort | paste -sd' ')
+  schema_line=$(echo "${schema_line}" | tr ' ' '\n' | sort | paste -sd' ')
+  schema_line="${attributes[0]} ${xmlns# } ${schema_line# }>"
+  sed -i "s|^<xs:schema .*>$|${schema_line}|" "${1}"
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_error "Failed to sort attributes for [xs:schema] in [${file_type}] file [${1}] due to error code [${stat}]." "${LINENO}"
+  fi
+  return "${stat}"
+}
+
 # ${1} - xml file
 # ${2} - xml file type
 function xml_encoding_to_upper_case
@@ -617,6 +648,13 @@ function pre_beautify_xml
   fi
 
   process_xml_comments "${1}" "${file_type}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  sort_schema_attributes "${1}" "${file_type}"
   stat=${?}
   if [[ 0 -ne ${stat} ]]
   then
