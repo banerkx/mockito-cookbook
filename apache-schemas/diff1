@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# shellcheck disable=all
+
+declare -i stat=0
+for xsd in xb/*.xsd
+do
+##  diff -q "${xsd}" "${xsd/xb/ub}" > /dev/null 2>&1
+  diff -q <(sed '/^<xs:schema/d' "${xsd}") <(sed '/^<xs:schema/d' "${xsd/xb/ub}") > /dev/null 2>&1
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    echo "gdiff ${xsd} ${xsd/xb/ub}"
+  fi
+done
+

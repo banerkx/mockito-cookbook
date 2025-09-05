@@ -12,4 +12,3 @@ target/*
 *.iws
 build/*
 *.class
-apache-schemas-raw
