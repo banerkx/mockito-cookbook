@@ -17,7 +17,7 @@
   specific language governing permissions and limitations
   under the License.
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0" targetNamespace="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0" elementFormDefault="qualified" targetNamespace="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0">
   <xs:element name="assembly" type="Assembly">
     <xs:annotation>
       <xs:documentation source="version">1.0.0+</xs:documentation>
