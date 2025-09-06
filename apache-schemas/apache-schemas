@@ -1226,6 +1226,7 @@ function print_int_array
 }
 
 # ${1} - Apache schema file url
+# ${2} - schema file number
 function get_apache_schema
 {
   local -r xsd="$(basename "${1}")"
@@ -1237,7 +1238,7 @@ function get_apache_schema
     echo "[${SCRIPT}] ERROR: Could not download schema [${schema}] due to error code [${stat}]."
     rm -f "${xsd}"
   else
-    log_info "Downloaded schema [${1}]." "${LINENO}"
+    log_info "Downloaded schema number [${2}] [${1}]." "${LINENO}"
     dos2unix "${xsd}" > /dev/null 2>&1
     beautify_xml "${xsd}" XSD
   fi
@@ -1251,7 +1252,7 @@ function get_apache_schemas
   local -i i=0
   for ((i = 0; i < ${#schemas[@]}; i++))
   do
-    get_apache_schema "${schemas[${i}]}"
+    get_apache_schema "${schemas[${i}]}" $((${i} + 1))
   done
 }
 
@@ -1282,9 +1283,11 @@ if [[ 0 -eq ${#} ]]
 then
   get_apache_schemas
 else
+  declare -i index=1
   while [[ -n "${1}" ]]
   do
-    get_apache_schema "${1}"
+    get_apache_schema "${1}" "${index}"
+    index=$((${index} + 1))
     shift 1
   done
 fi
