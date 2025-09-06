@@ -6,6 +6,7 @@
     <groupId>com.blogspot.toomuchcoding</groupId>
     <artifactId>mockito-cookbook-bom</artifactId>
     <version>1.0</version>
+    <relativePath>./mockito-bom.pom</relativePath>
   </parent>
 
   <groupId>com.blogspot.toomuchcoding</groupId>
