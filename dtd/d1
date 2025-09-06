@@ -39,6 +39,9 @@ function udocval1
 clear
 ##xval1 build.xml bad_build.xml
 
-udocval1 build.xml bad_build.xml
-udocval1 build_nodoc.xml bad_build_nodoc.xml
+##udocval1 build.xml bad_build.xml
+##udocval1 build_nodoc.xml bad_build_nodoc.xml
+
+udocval1 build.xml
+udocval1 build_nodoc.xml
 

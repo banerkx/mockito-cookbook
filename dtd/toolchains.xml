@@ -49,7 +49,7 @@
       <vendor>Oracle</vendor>
     </provides>
     <configuration>
-      <jdkHome>C:\\Users\\e369597\\jdk17</jdkHome>
+      <jdkHome>C:\\Users\\user1\\jdk17</jdkHome>
     </configuration>
   </toolchain>
 
