@@ -1167,7 +1167,7 @@ function set_xml_beautifier_command
   if [[ ! -v XML_BEAUTIFIER_COMMANDS ]]
   then
     local commands=""
-    commands+=" xmllint"
+##    commands+=" xmllint"
     commands+=" ${POWER_SHELL_XML_BEAUTIFIER}"
     declare -rg XML_BEAUTIFIER_COMMANDS=${commands# }
   fi
@@ -1198,7 +1198,7 @@ function set_xml_linter_command
   if [[ ! -v XML_LINTER_COMMANDS ]]
   then
     local commands=""
-    commands+=" xmllint"
+##    commands+=" xmllint"
     commands+=" ${POWER_SHELL_XML_LINTER}"
     declare -rg XML_LINTER_COMMANDS=${commands# }
   fi
