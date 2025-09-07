@@ -52,9 +52,9 @@ pwsh_validate_ant buildi_no_doctype.xml ant.dtd
 
 source ~/.dotfiles/xml_functions
 validate_ant build.xml ant.xsd
-validate_ant build.xml ant.dtd
 validate_ant buildi_no_doctype.xml ant.xsd
-validate_ant buildi_no_doctype.xml ant.dtd
+##validate_ant build.xml ant.dtd
+##validate_ant buildi_no_doctype.xml ant.dtd
 
 git status build.xml buildi_no_doctype.xml
 
