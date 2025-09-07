@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# shellcheck disable=all
+
+./rapache-schemas
+cp *.xsd raw
+rm *.xsd
+git status -- raw
+

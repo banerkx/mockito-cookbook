@@ -1,0 +1,1340 @@
+#!/bin/bash
+
+declare -r SCRIPT=${0##*/}
+
+function set_color_variables
+{
+  if [[ ! -v ESCAPE ]]
+  then
+    declare -rg ESCAPE=""
+  fi
+  if [[ ! -v STOP_COLOR ]]
+  then
+    declare -rg STOP_COLOR="${ESCAPE}[0m"
+  fi
+  if [[ ! -v RED ]]
+  then
+    declare -rg RED="${ESCAPE}[0;31m"
+  fi
+  if [[ ! -v YELLOW ]]
+  then
+    declare -rg YELLOW="${ESCAPE}[1;33m"
+  fi
+  if [[ ! -v GREEN ]]
+  then
+    declare -rg GREEN="${ESCAPE}[0;32m"
+  fi
+}
+
+# ${1} - message
+# ${2} - message level
+# ${3} - line number (optional)
+function log_message
+{
+  local message_level=${2}
+  if [[ -t 1 ]]
+  then
+    case ${2} in
+      ERROR   ) message_level=${RED}${message_level}${STOP_COLOR};;
+      WARNING ) message_level=${YELLOW}${message_level}${STOP_COLOR};;
+      INFO    ) message_level=${GREEN}${message_level}${STOP_COLOR};;
+      *       ) :;;
+    esac
+  fi
+
+################################################################################
+# NOTE: Want to replace the value of the HOME environment variable with the    #
+#       literal string '${HOME}' in the message.                               #
+################################################################################
+  local message="${message_level}: ${1//${HOME}/\$\{HOME\}}"
+  message="${message//${USER}/\$\{USER\}}"
+  if [[ -n "${3}" ]]
+  then
+    message="Line = [${3}] ${message}"
+  fi
+  echo "[${SCRIPT}] ${message}"
+  return 0
+}
+
+# ${1} - error message
+# ${2} - line number (optional)
+function log_error
+{
+  log_message "${1}" ERROR "${2}"
+  return 0
+}
+
+# ${1} - warning message
+# ${2} - line number (optional)
+function log_warning
+{
+  log_message "${1}" WARNING "${2}"
+  return 0
+}
+
+# ${1} - info message
+# ${2} - line number (optional)
+function log_info
+{
+  log_message "${1}" INFO "${2}"
+  return 0
+}
+
+function get_platform
+{
+  local platform=$(uname)
+  case ${platform} in
+    MINGW64_NT-* ) platform="git-bash"
+################################################################################
+# Cygwin binaries do not always work under git-bash. Therefore, all cygwin64   #
+# bin directories are removed from the PATH environment variable.              #
+################################################################################
+                   PATH=$(echo "${PATH}" | tr ':' '\n' | grep -v "^/[a-z]/cygwin64/.*bin$" | tr '\n' ':')
+                   PATH=${PATH%:};;
+    Linux        ) platform="linux";;
+    *            ) log_error "The platform [${platform}] is not supported. Exiting." "${LINENO}"
+                   exit 1;;
+  esac
+  echo "${platform}"
+}
+
+# ${1} - file whose extension is sought
+function get_file_extension
+{
+################################################################################
+# NOTE: If the input file ${1} does not have a file extension, then the return #
+#       value will be simply ${1}.                                             #
+################################################################################
+# NOTE: shellcheck thinks the following is an useless echo.
+# shellcheck disable=SC2005
+  echo "$(basename "${1##*.}")"
+}
+
+# ${1} - file
+# ${2} - file type
+function remove_terminal_blank_lines
+{
+  sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' "${1}"
+  local -i stat=${?}
+  check_for_error "${stat}" "${2}" "${1}" sed
+  return "${stat}"
+}
+
+# ${1} - file
+# ${2} - file type
+function add_terminal_blank_line
+{
+  remove_terminal_blank_lines "${1}" "${2}"
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+################################################################################
+# - for a markdown file, the linter mdl flags a trailing empty line as an      #
+#   error                                                                      #
+################################################################################
+  local -r file_ext=$(get_file_extension "${1}")
+  case "${file_ext}" in
+    md ) return 0;;
+    *  ) :;;
+  esac
+
+################################################################################
+# Adding single blank line at the end of the file.                             #
+################################################################################
+  echo '' >> "${1}"
+# NOTE: shellcheck incorrectly thinks that we want to capture the status of a previous command and not the echo command.
+# shellcheck disable=SC2320
+  stat=${?}
+  check_for_error "${stat}" "${2}" "${1}" "echo ''"
+  return "${stat}"
+}
+
+# ${1} - text file
+# ${2} - file type
+function multi_blank_lines_to_single
+{
+  local -r file_type="${2}"
+  sed -i '/^$/N;/^\n$/D' "${1}" 2> /dev/null
+  local -i stat=${?}
+  check_for_error "${stat}" "${file_type}" "${1}" sed
+  return "${stat}"
+}
+
+# ${1} - input file
+# ${2} - file type (optional)
+function trim_trailing_whitespace
+{
+  local -r file_type=${2:-$(get_file_extension "${1}")}
+  grep -Pq '[ \t]\r?$' "${1}"
+  stat=${?}
+  if [[ 0 -eq ${stat} ]]
+  then
+################################################################################
+# Removing trailing whitespace.                                                #
+################################################################################
+    sed -i 's/[\t ]*$//;s/[\t ]*\r$/\r/' "${1}"
+    stat=${?}
+    if [[ 0 -ne ${stat} ]]
+    then
+      log_error "Failed to trim trailing whitespace from [${file_type}] file [${1}] due to error code [${stat}]." "${LINENO}"
+      return "${stat}"
+    fi
+    log_info "Trimmed trailing whitespace from [${file_type}] file [${1}]." "${LINENO}"
+  fi
+  return 0
+}
+
+# ${1} - command to be checked
+function check_command
+{
+  command -v "${1}" > /dev/null
+  local -i stat=0
+  return "${stat}"
+}
+
+# ${1} - exit status of the beautify command
+# ${2} - file type
+# ${3} - file name(s)
+# ${4} - beautifier command and command options
+# ${5} - line number from which this function was called
+function check_for_error
+{
+  if [[ 0 != "${1}" ]]
+  then
+    log_error "The command [${4}] failed on [${2}] file [${3}] due to exit code = [${1}]." "${5}"
+    return "${1}"
+  fi
+  return 0
+}
+
+# ${1} - exit status of the beautify command
+# ${2} - file type
+# ${3} - file name(s)
+# ${4} - beautifier command and command options
+# ${5} - line number from where this function was called
+function check_for_beautifier_error
+{
+  if [[ 0 != "${1}" ]]
+  then
+    log_error "The command [${4} ${3}] failed to beautify [${2}] file(s) due to error code = [${1}]." "${5}"
+    return "${1}"
+  fi
+  return 0
+}
+
+# ${1} - exit status of the lint command
+# ${2} - file type
+# ${3} - file name(s)
+# ${4} - linter command and command options
+# ${5} - line number from where this function was called
+function check_for_linter_error
+{
+  if [[ 0 != "${1}" ]]
+  then
+    log_error " The linter [${4}] found issue(s) in [${2}] file [${3}] due to exit code = [${1}]." "${LINENO}"
+    return "${1}"
+  fi
+  return 0
+}
+
+# ${1} - beautifier command
+# ${2} - beautifier command options
+# ${3} - file type
+# ${4} - exactly one file that is to be beautified
+# ${5} - line number from where this function was called
+function run_beautify_command
+{
+# NOTE: shellcheck correctly recommends to enclose ${2} in double quotes, but in this instance, do actually want word splitting.
+# shellcheck disable=SC2086
+  ${1} ${2} "${4}" > /dev/null 2>&1
+  local -i stat=${?}
+  check_for_beautifier_error "${stat}" "${3}" "${4}" "${1} ${2}" "${5}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  add_terminal_blank_line "${4}" "${3}"
+  stat=${?}
+  if [[ 0 -eq ${stat} ]]
+  then
+    log_info "Beautified [${3}] file [${4}] using [${1}]." "${5}"
+  fi
+  return "${stat}"
+}
+
+# ${1} - linter command
+# ${2} - linter command options
+# ${3} - file type
+# ${4} - exactly one file that is to be linted
+# ${5} - line number from where this function was called
+# ${6} - any non-empty string to disable info message for successful linting
+function run_linter_command
+{
+################################################################################
+# Checking to see if the gawk command is available.                            #
+################################################################################
+  local -r file_type="${3}"
+  local -r command="${1}"
+  check_command "${command}"
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_warning "The linter [${command}] was not found; can not lint [${file_type}] file [${1}]." "${LINENO}"
+    return 1
+  fi
+
+# NOTE: shellcheck correctly recommends to enclose ${2} in double quotes, but in this instance, do actually want word splitting.
+# shellcheck disable=SC2086
+  ${1} ${2} "${4}" > /dev/null 2>&1
+  stat=${?}
+  check_for_linter_error "${stat}" "${3}" "${4}" "${1} ${2}" "${5}"
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  if [[ -z "${6}" ]]
+  then
+    log_info "The linter [${1}] found no issues in [${3}] file [${4}]." "${5}"
+  fi
+  return "${stat}"
+}
+
+# ${1} - XML file
+# ${2} - XML file type
+function run_xmllint_lint
+{
+  local -r file_type="${2}"
+  local -r command=xmllint
+  check_command "${command}"
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_warning "The linter [${command}] was not found; can not lint [${file_type}] file [${1}]." "${LINENO}"
+    return 1
+  fi
+
+  if [[ ! -v XML_LINT_COMMAND_OPTS ]]
+  then
+    local command_opts=""
+    command_opts+=" --noout"
+    command_opts="${command_opts# }"
+    declare -rg XML_LINT_COMMAND_OPTS="${command_opts}"
+  fi
+
+  run_linter_command "${command}" "${XML_LINT_COMMAND_OPTS}" "${file_type}" "${1}" "${LINENO}"
+  stat=${?}
+  return "${stat}"
+}
+
+# ${1} - array indexed with integers that holds the PowerShell messages
+function print_power_shell_output
+{
+################################################################################
+# Setting the local array and then deleting its last element since the last    #
+# simply contains the exit code of the PowerShell script.                      #
+################################################################################
+  local -n array=${1}
+  local -i stat=${array[-1]}
+  unset 'array[-1]'
+
+  local -i i=0
+  for ((i = 0; i < $((${#array[@]})); i++))
+  do
+    if [[ -z "${array[${i}]}" ]]
+    then
+      continue
+    fi
+    if [[ -t 1 && ${array[${i}]} =~ 'INFO:' ]]
+    then
+      echo "${array[${i}]/INFO:/${GREEN}INFO${STOP_COLOR}:}"
+    elif [[ -t 1 && ${array[${i}]} =~ 'WARNING:' ]]
+    then
+      echo "${array[${i}]/WARNING:/${YELLOW}WARNING${STOP_COLOR}:}"
+    elif [[ -t 1 && ${array[${i}]} =~ 'ERROR:' ]]
+    then
+      echo "${array[${i}]/ERROR:/${RED}ERROR${STOP_COLOR}:}"
+      if [[ 0 -eq ${stat} ]]
+      then
+        stat=1
+      fi
+    elif [[ ${array[${i}]} =~ 'Error' ]]
+    then
+      echo "${array[${i}]}"
+      if [[ 0 -eq ${stat} ]]
+      then
+        stat=1
+      fi
+    else
+      echo "${array[${i}]}"
+    fi
+  done
+  return "${stat}"
+}
+
+function set_power_shell_interpreter
+{
+  if [[ ! -v POWER_SHELL_SCRIPT ]]
+  then
+    local ps_interps
+    ps_interps+=" pwsh"
+    ps_interps+=" powershell"
+    ps_interps=${ps_interps# }
+
+    local interp
+    local -i stat
+    for interp in ${ps_interps}
+    do
+      command -v "${interp}" > /dev/null
+      stat=${?}
+      if [[ 0 -eq ${stat} ]]
+      then
+################################################################################
+# ${POWER_SHELL_SCRIPT} is used to execute a PowerShell script.                #
+# ${POWER_SHELL_COMMAND} is used to execute a PowerShell command.              #
+################################################################################
+        case "${interp}" in
+          pwsh       ) declare -rg POWER_SHELL_SCRIPT="pwsh -NoProfile";;
+          powershell ) declare -rg POWER_SHELL_SCRIPT="powershell -NoProfile -ExecutionPolicy Bypass -File";;
+          *          ) :;;
+        esac
+        log_info "PowerShell interpreter = [${interp}]." "${LINENO}"
+        return 0
+      fi
+    done
+    log_warning "No [PowerShell] interpreter was found from the set {${ps_interps// /, }}." "${LINENO}"
+    declare -rg POWER_SHELL_SCRIPT=""
+    return 1
+  fi
+  if [[ -n "${POWER_SHELL_SCRIPT}" ]]
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# ${1} - PowerShell script
+function check_power_shell_script
+{
+  set_power_shell_interpreter
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+  if [[ -r "${1}" ]]
+  then
+    return 0
+  else
+    log_warning "Did not find readable [${1}] PowerShell script." "${LINENO}"
+  fi
+  return 1
+}
+
+# ${1} - xml file
+# ${2} - xml file extension
+# ${3} - any non-empty string to disable info message for successful linting
+function run_power_shell_xml_lint
+{
+  local -r file_type="${2}"
+################################################################################
+# Using mapfile to capture the output lines of the command. Since the command  #
+# runs in a subshell, it is not possible to capture the exit code of the       #
+# command. Therefore, the exit status is returned along with the command       #
+# output, i.e., the last line in the array will be the exit code of the        #
+# command.                                                                     #
+################################################################################
+  local -a lint_output
+# NOTE: The array lint_output is actually used.
+# shellcheck disable=SC2034
+  mapfile -t lint_output < <(${POWER_SHELL_SCRIPT} "${POWER_SHELL_XML_LINTER}" -XmlFile "${1}" -FileType "${file_type}" -Lint 2>&1 | sed 's/\r$//'; echo "${?}")
+  print_power_shell_output lint_output "${3}"
+  local -i stat=${?}
+  return "${stat}"
+}
+
+# ${1} - xml file
+# ${2} - xml file type
+function run_xml_lint
+{
+  local -r file_type="${2}"
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_warning "No XML linter application was found; can not lint [${2}] file [${1}]." "${LINENO}"
+    return "${stat}"
+  fi
+
+  case "${XML_LINTER_COMMAND}" in
+    xmllint                     ) run_xmllint_lint "${1}" "${file_type}"
+                                  stat=${?};;
+    "${POWER_SHELL_XML_LINTER}" ) run_power_shell_xml_lint "${1}" "${file_type}"
+                                  stat=${?};;
+    *                           ) :;;
+  esac
+  return "${stat}"
+}
+
+# ${1} - XML file
+# ${2} - file type, e.g., xml, svg, etc
+function separate_xml_inline_comments
+{
+  local -r file_type="${2}"
+################################################################################
+# Placing inline leading and trailing comments on separate lines.              #
+################################################################################
+  sed -i -e 's/\(^[ \t]*\)\(<!--.*-->\)\([ \t]*\)\(<.*>\)\([ \t]*$\)/\2\n\1\3\4/'    \
+         -e 's/\(^[ \t]*\)\(<[^!].*[^-]>\)\([ \t]\)\(<!--.*-->\)\([ \t]*$\)/\4\n\1\2/' "${1}"
+  local -i stat=${?}
+  check_for_beautifier_error "${stat}" "${file_type}" "${1}" "${command}" "${LINENO}"
+  stat=${?}
+  return "${stat}"
+}
+
+# ${1} - XML file
+# ${2} - file type, e.g., xml, svg, etc
+function process_xml_comments
+{
+################################################################################
+# Do not want single line comments to be indented and want "<!--" and "-->"    #
+# from multi-line comments to be unindented and on separate lines.             #
+#                                                                              #
+# 's/\([ \t]*\)\(<!--.*-->\)\([ \t]*$\)/\2/' --> unindent single line comments #
+#                                                                              #
+# '/^[ \t]*<!--.*-->/! s/\(^[ \t]*\)\(<!--\)\(.\+[^ \t]\)\([ \t]*$\)/\2\n\1    \3/'
+#  --> excluding single line comments, capture leading whitespace, "<!--",     #
+#      all subsequent characters until the last non-whitespace character,,     #
+#      trailing whitespace, then                                               #
+#      write "<!--" and new line                                               #
+#      write captured leading whitespace and 4 spaces                          #
+#      write remaining portion consisting of some non-whitespace characters    #
+#                                                                              #
+# '/^[ \t]*<!--.*-->/! s/\(^.\+[^ \t]\)\([ \t]*\)\(-->$\)/\1\n\3/'             #
+# --> excluding single line comments, capture initial characters until a       #
+#     non-whitespace character, capture whitespace characters, capture "-->"   #
+#     write captured initial characters, new line and "-->"                    #
+#                                                                              #
+# 's/\(^[ \t]\+\)\(<!--$\)/\2/' --> unindent "<!--" lines                      #
+#                                                                              #
+# 's/\(^[ \t]\+\)\(-->$\)/\2/' --> unindent "-->" lines                        #
+################################################################################
+  sed -i -e 's/\(^[ \t]*\)\(<!--.*-->\)\([ \t]*$\)/\2/'                                       \
+         -e '/^[ \t]*<!--.*-->/! s/\(^[ \t]*\)\(<!--\)\(.\+[^ \t]\)\([ \t]*$\)/\2\n\1    \3/' \
+         -e '/^[ \t]*<!--.*-->/! s/\(^.\+[^ \t]\)\([ \t]*\)\(-->$\)/\1\n\3/'                  \
+         -e 's/\(^[ \t]\+\)\(<!--$\)/\2/'                                                     \
+         -e 's/\(^[ \t]\+\)\(-->$\)/\2/' "${1}"
+  local -i stat=${?}
+  check_for_beautifier_error "${stat}" "${file_type}" "${1}" sed "${LINENO}"
+  stat=${?}
+  return "${stat}"
+}
+
+# ${1} - xsd file
+# ${2} - file type
+function sort_schema_attributes
+{
+  local -r file_type="${2}"
+  grep -q '^<xs:schema .*[^>]$' "${1}"
+  local -i stat=${?}
+  if [[ 0 -eq ${stat} ]]
+  then
+################################################################################
+# Joining split <xs:schema> tokens.                                            #
+################################################################################
+    local -r command=sed
+    check_command "${command}"
+    local -i stat=${?}
+    if [[ 0 -eq ${stat} ]]
+    then
+      sed -i -E '
+################################################################################
+# Detect the start of a split <xs:schema ... line (not ending with ">").       #
+################################################################################
+        /^<xs:schema [^>]*$/ {
+          :join
+################################################################################
+# Read the next line into the pattern space.                                   #
+################################################################################
+            N
+################################################################################
+# Trim leading spaces after the newline.                                       #
+################################################################################
+            s/\n[[:space:]]+/ /
+################################################################################
+# If it still does not end with ">", keep joining.                             #
+################################################################################
+            />$/! b join
+        }
+      ' "${1}"
+      stat=${?}
+      if [[ 0 -ne ${stat} ]]
+      then
+        log_error "Failed to join split [xs:schema] lines in [${file_type}] file [${1}] due to error code [${stat}]" "${LINENO}"
+        return "${stat}"
+      fi
+    else
+      log_warning "The command [${command}] was not found; can not join split [xs:schema] lines in [${file_type}] file [${1}]." "${LINENO}"
+    fi
+  fi
+
+################################################################################
+# Sorting <xs:schema> tokens.                                                  #
+################################################################################
+  local -a attributes
+  mapfile -t attributes < <(grep '^<xs:schema .*>$' "${1}" | sed 's/>$//;s/   */ /g;s/ /\n/g')
+  local schema_line
+  local xmlns
+  local -i i=1
+  for ((i = 1; i < ${#attributes[@]}; i++))
+  do
+    if [[ "${attributes[${i}]}" =~ ^xmlns ]]
+    then
+      xmlns+=" ${attributes[${i}]}"
+    else
+      schema_line+=" ${attributes[${i}]}"
+    fi
+  done
+  xmlns=$(echo "${xmlns}" | tr ' ' '\n' | sort | paste -sd' ')
+  schema_line=$(echo "${schema_line}" | tr ' ' '\n' | sort | paste -sd' ')
+  schema_line="${attributes[0]} ${xmlns# } ${schema_line# }>"
+  sed -i "s|^<xs:schema .*>$|${schema_line}|" "${1}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_error "Failed to sort attributes for [xs:schema] in [${file_type}] file [${1}] due to error code [${stat}]." "${LINENO}"
+  fi
+  return "${stat}"
+}
+
+# ${1} - xml file
+# ${2} - xml file type
+function xml_encoding_to_upper_case
+{
+  local -r file_type="${2}"
+################################################################################
+# Converting lines resembling:                                                 #
+#   ^<?xml version="1.0"?>$                                                    #
+# to:                                                                          #
+#   ^<?xml version="1.0" encoding="UTF-8"?>$                                   #
+################################################################################
+  head -1 "${1}" | grep -q '^<?xml \+version="[0-9]\+\.[0-9]\+"?>$'
+  local -i stat=${?}
+  if [[ 0 -eq ${stat} ]]
+  then
+    sed -i '1s@\(^<?xml \+version="[0-9]\+\.[0-9]\+"\)\(?>$\)@\1 encoding="UTF-8"\2@' "${1}"
+    stat=${?}
+    if [[ 0 -ne ${stat} ]]
+    then
+      log_error "Failed to add text encoding in [${2}] file [${1}] due to error code [${stat}]." "${LINENO}"
+    fi
+    return "${stat}"
+  fi
+
+################################################################################
+# Converting lines resembling:                                                 #
+#   ^<?xml version="1.0" encoding="utf-8"?>$                                   #
+# to:                                                                          #
+#   ^<?xml version="1.0" encoding="UTF-8"?>$                                   #
+################################################################################
+  sed -i '1s@\(^<?xml \+version="[0-9]\+\.[0-9]\+" \+encoding="\)\([^ ]\+\)\(".*?>\)@\1\U\2\E\3@' "${1}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_error "Failed to change encoding to upper case in [${2}] file [${1}] due to error code [${stat}]." "${LINENO}"
+  fi
+  return "${stat}"
+}
+
+# ${1} - XML file
+# ${2} - file type, e.g., xml, svg, etc
+function pre_beautify_xml
+{
+  local -r file_type="${2}"
+  local -r command=gawk
+  check_command "${command}"
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_warning "The command [${command}] was not found; can not pre-beautify [${file_type}] file [${1}]." "${LINENO}"
+    return 1
+  fi
+
+################################################################################
+# Replacing tabs with 2 spaces.                                                #
+################################################################################
+  sed -i 's/\t/  /g' "${1}"
+  local -i stat=${?}
+  check_for_beautifier_error "${stat}" "${file_type}" "${1}" sed "${LINENO}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+################################################################################
+# Trimming all trailing whitespace so whitespace-only lines become blank lines.#
+################################################################################
+  trim_trailing_whitespace "${1}" "${file_type}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  separate_xml_inline_comments "${1}" "${file_type}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  process_xml_comments "${1}" "${file_type}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  local -r ext="$(get_file_extension "${1}")"
+  if [[ "xsd" == "${ext}" ]]
+  then
+    sort_schema_attributes "${1}" "${file_type}"
+    stat=${?}
+    if [[ 0 -ne ${stat} ]]
+    then
+      return "${stat}"
+    fi
+  fi
+
+  xml_encoding_to_upper_case "${1}" "${file_type}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+################################################################################
+# Want to preserve blank lines in multi-line XML comments. So if something     #
+# like the following:                                                          #
+#                                                                              #
+# <!--                                                                         #
+#  This is a multi-line comment                                                #
+#                                                                              #
+#                                                                              #
+#  with some blank lines.                                                      #
+# -->                                                                          #
+#                                                                              #
+# exists in the XML file, want to replace the blank lines within the           #
+# multi-line comments with ${MULTI_LINE_COMMENT_BLANK_MARKER}.                 #
+#                                                                              #
+# NOTE: Such replacement will still leave a valid XML file.                    #
+################################################################################
+  if [[ ! -v MULTI_LINE_COMMENT_BLANK_MARKER ]]
+  then
+    declare -rg MULTI_LINE_COMMENT_BLANK_MARKER="multi-line-comment-blank-line-marker"
+  fi
+
+################################################################################
+# An XML beautifier application may remove blank lines outside of multi-line   #
+# comments, e.g., xmllint. We want # # to preserve blank lines. To that end,   #
+# all blank lines outside of multi-line # comments will be replaced by         #
+# ${XML_BLANK_MARKER}.                                                         #
+#                                                                              #
+# NOTE: Such replacement will still leave a valid XML file.                    #
+################################################################################
+  if [[ ! -v XML_BLANK_MARKER ]]
+  then
+    declare -rg XML_BLANK_MARKER="<!--xxxx-xxxx-xxxx-->"
+  fi
+
+################################################################################
+# If there are no blank nor whitespace only lines, simply return 0.            #
+################################################################################
+  grep -Pq "^[ \r\t]*$" "${1}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return 0
+  fi
+
+################################################################################
+# If the XML file already contains                                             #
+# ${MULTI_LINE_COMMENT_BLANK_MARKER} lines, print a warning and return.        #
+################################################################################
+  grep -q "^${MULTI_LINE_COMMENT_BLANK_MARKER}$" "${1}"
+  stat=${?}
+  if [[ 0 -eq ${stat} ]]
+  then
+    log_warning "Can not beautify [${file_type}] file [${1}] due to [${MULTI_LINE_COMMENT_BLANK_MARKER}] being present in the file." "${LINENO}"
+    return 1
+  fi
+
+################################################################################
+# If the XML file already contains ${XML_BLANK_MARKER} lines, print a warning  #
+# and return.                                                                  #
+################################################################################
+  grep -q "${XML_BLANK_MARKER}" "${1}"
+  stat=${?}
+  if [[ 0 -eq ${stat} ]]
+  then
+    log_warning "Can not beautify [${file_type}] file [${1}] due to [${XML_BLANK_MARKER}] being present in the file." "${LINENO}"
+    return 1
+  fi
+
+################################################################################
+# Blank lines within multi-line comment blocks are replaced with               #
+# ${MULTI_LINE_COMMENT_BLANK_MARKER}.                                          #
+#                                                                              #
+# All other blank lines, excluding blank lines within [<xs:documentation ...,  #
+# </xs:documentation>] blocks, are replaced with ${XML_BLANK_MARKER}.          #
+################################################################################
+  "${command}" --include inplace -v xml_blank_marker="${XML_BLANK_MARKER}" -v multi_line_comment_blank_marker="${MULTI_LINE_COMMENT_BLANK_MARKER}" '/^\s*<!--/,/-->\s*$/ {
+################################################################################
+# Replacing blank lines with  multi-line comment blocks.                       #
+################################################################################
+    if (/^\s*$/)
+    {
+      print multi_line_comment_blank_marker;
+    }
+################################################################################
+# Print the line since it is not a blank line.                                 #
+################################################################################
+    else
+    {
+      print;
+    }
+    next;
+  }
+################################################################################
+# Print all lines within [<xs:documentation ..., </xs:documentation>] blocks.  #
+################################################################################
+  /^\s*<xs:documentation/,/<\/xs:documentation>/ {
+    print;
+    next;
+  }
+################################################################################
+# Replace blank lines with xml_blank_marker since we are outside of both       #
+# multi-line comment and xs:documentation blocks.                              #
+################################################################################
+  /^\s*$/ {
+    print xml_blank_marker;
+    next;
+  }
+################################################################################
+# Print the line since it is not a blank line.                                 #
+################################################################################
+  {
+    print;
+  }' "${1}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_error "Failed to replace blank lines with markers in [${2}] file [${1}] due to error code [${stat}]." "${LINENO}"
+  fi
+  return "${stat}"
+}
+
+# ${1} - XML file
+# ${2} - file type, e.g., XML, SVG, etc
+function unindent_xml_comment_markers
+{
+################################################################################
+#  Want to unindent single line comments, "<!--" only lines, and "-->" only    #
+#  lines.                                                                      #
+################################################################################
+  sed -i -e 's/\(^[ \t]*\)\(<!--.*-->\)\([ \t]*$\)/\2/' \
+         -e 's/\(^[ \t]\+\)\(<!--$\)/\2/'               \
+         -e 's/\(^[ \t]\+\)\(-->$\)/\2/' "${1}"
+  local -i stat=${?}
+  check_for_beautifier_error "${stat}" "${2}" "${1}" sed "${LINENO}"
+  stat=${?}
+  return "${stat}"
+}
+
+# ${1} - XML file
+# ${2} - file type, e.g., XML, SVG, etc
+function expand_empty_xml_nodes
+{
+  local -r file_type="${2}"
+################################################################################
+# Expanding empty nodes:                                                       #
+#   <node/> -> <node></node>                                                   #
+################################################################################
+  sed -i 's|<\([a-zA-Z0-9:_-]\+\)/>|<\1></\1>|g' "${1}"
+  local -i stat=${?}
+  check_for_beautifier_error "${stat}" "${file_type}" "${1}" sed "${LINENO}"
+  stat=${?}
+  return "${stat}"
+}
+
+# ${1} - XML file
+# ${2} - file type, e.g., XSD, XML, etc
+function normalize_xs_doc_indentation
+{
+  local -r file_type="${2}"
+  local -r command=gawk
+  check_command "${command}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_warning "The command [${command}] was not found; can not normalize identation [<xs:documentation ...>, </xs:documentation>] blocks in [${file_type}] file [${1}]." "${LINENO}"
+    return 1
+  fi
+
+################################################################################
+# Ensuring indentation is consistent for the opening <xs:documentation ...>    #
+# tag and its corresponding closing </xs:documentation> tag.                   #
+################################################################################
+# NOTE: Do not need any variable expansion here.
+# shellcheck disable=SC2016
+  "${command}" --include inplace 'BEGIN {
+    in_xs_doc = 0
+    xs_doc_indent = ""
+  }
+  {
+################################################################################
+# Print the line if it is a <xs:documentation ...>...</xs:documentation> line  #
+# or a <xs:documentation .../> line, and then continue.                        #
+################################################################################
+    if ((0 != match($0, /^\s*<xs:documentation.*<\/xs:documentation>$/)) || (0 != match($0, /^\s*<xs:documentation .*\/>$/)))
+    {
+      print
+      next
+    }
+################################################################################
+# Now inside a [<xs:documentation ...>, </xs:documentation>] block.            #
+################################################################################
+    if (in_xs_doc)
+    {
+      if (match($0, /(^\s*)([^<]*)(<\/xs:documentation>)/, m))
+      {
+        content = m[2]
+################################################################################
+# Trimming leading and trailing whitespace from content.                       #
+################################################################################
+        sub(/^\s*/, "", content)
+        sub(/\s*$/, "", content)
+        if (length(content) > 0)
+        {
+          print xs_doc_indent "  " content
+        }
+################################################################################
+# Printing the correctly indented closing tag.                                 #
+################################################################################
+        print xs_doc_indent m[3]
+################################################################################
+# Resetting state.                                                             #
+################################################################################
+        in_xs_doc = 0
+        xs_doc_indent = ""
+      }
+      else
+      {
+################################################################################
+# Now we have a line of content inside the block.                              #
+################################################################################
+        content = $0
+################################################################################
+# Stripping leading whitespace.                                                #
+################################################################################
+        sub(/^\s*/, "", content)
+        if (length(content) > 0)
+        {
+          print xs_doc_indent "  " content
+        }
+        else
+        {
+################################################################################
+# Preserving empty lines within the block.                                     #
+################################################################################
+          print
+        }
+      }
+    }
+################################################################################
+# We are **not** inside a documentation block.                                 #
+################################################################################
+    else
+    {
+################################################################################
+# Checking for the opening tag. The regex captures the tag and any potential   #
+# content on the same line.                                                    #
+################################################################################
+      if (match($0, /(^\s*)(<xs:documentation[^>]*>)(.*)/, m))
+      {
+        xs_doc_indent = m[1]
+        in_xs_doc = 1
+################################################################################
+# Printing the opening tag.                                                    #
+################################################################################
+        print m[1] m[2]
+        content = m[3]
+################################################################################
+# Trimming leading and trailing whitespace from content.                       #
+################################################################################
+        sub(/^\s*/, "", content)
+        sub(/\s*$/, "", content)
+        if (length(content) > 0)
+        {
+          print xs_doc_indent "  " content
+        }
+      }
+      else
+      {
+################################################################################
+# We have a regular line, printing it as is.                                   #
+################################################################################
+        print
+      }
+    }
+  }' "${1}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_error "Failed to properly normalize identation [<xs:documentation ...>, </xs:documentation>] in [${2}] file [${1}] due to error code [${stat}]." "${LINENO}"
+  fi
+  return "${stat}"
+}
+
+# ${1} - XML file
+# ${2} - file type, e.g., XML, SVG, etc
+function post_beautify_xml
+{
+################################################################################
+# Both ${MULTI_LINE_COMMENT_BLANK_MARKER} and ${XML_BLANK_MARKER} should be    #
+# defined at this point. If either is undefined then print error message(s)    #
+# and return.                                                                  #
+################################################################################
+  if [[ ! -v MULTI_LINE_COMMENT_BLANK_MARKER || ! -v XML_BLANK_MARKER ]]
+  then
+    if [[ ! -v MULTI_LINE_COMMENT_BLANK_MARKER ]]
+    then
+      log_error "The variable [MULTI_LINE_COMMENT_BLANK_MARKER] is not defined." "${LINENO}"
+    fi
+    if [[ ! -v XML_BLANK_MARKER ]]
+    then
+      log_error "The variable [XML_BLANK_MARKER] is not defined." "${LINENO}"
+    fi
+    return 1
+  fi
+
+  local -r file_type="${2}"
+  unindent_xml_comment_markers "${1}" "${file_type}"
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+################################################################################
+# Restoring blank lines within multi-line comments.                            #
+################################################################################
+  sed -i "s/^${MULTI_LINE_COMMENT_BLANK_MARKER}$//" "${1}"
+  stat=${?}
+  check_for_beautifier_error "${stat}" "${file_type}" "${1}" sed "${LINENO}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+################################################################################
+# Restoring blank lines within the body of the XML file.                       #
+################################################################################
+  sed -i "s/^ *${XML_BLANK_MARKER}$//" "${1}"
+  stat=${?}
+  check_for_beautifier_error "${stat}" "${file_type}" "${1}" sed "${LINENO}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  expand_empty_xml_nodes "${1}" "${file_type}"
+  stat=${?}
+  check_for_beautifier_error "${stat}" "${file_type}" "${1}" sed "${LINENO}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  local -r ext="$(get_file_extension "${1}")"
+  if [[ "xsd" == "${ext}" ]]
+  then
+    normalize_xs_doc_indentation "${1}" "${file_type}"
+    stat=${?}
+  fi
+  return "${stat}"
+}
+
+# ${1} - XML file
+# ${2} - file type, e.g., XML, SVG, etc
+function beautify_xml_with_xmllint
+{
+  local -r file_type=${2}
+  pre_beautify_xml "${1}" "${file_type}"
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  local -r command=xmllint
+  XMLLINT_INDENT="${INDENT_SPACES}" "${command}" --noblanks --output "${1}" --format "${1}" 2> /dev/null
+  stat=${?}
+  check_for_beautifier_error "${stat}" "${file_type}" "${1}" "XMLLINT_INDENT=\"${INDENT_SPACES}\" ${command} --output \"${1}\" --format" "${LINENO}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  post_beautify_xml "${1}" "${2}"
+  local -i stat=${?}
+  if [[ 0 -eq ${stat} ]]
+  then
+    log_info "Beautified [${file_type}] file [${1}] using command [${command}]." "${LINENO}"
+  fi
+  return "${stat}"
+}
+
+# ${1} - xml file
+# ${2} - xml file extension
+# ${3} - any non-empty string to disable info message for successful linting
+function beautify_xml_with_power_shell
+{
+  local -r file_type="${2}"
+################################################################################
+# Using mapfile to capture the output lines of the command. Since the command  #
+# runs in a subshell, it is not possible to capture the exit code of the       #
+# command. Therefore, the exit status is returned along with the command       #
+# output, i.e., the last line in the array will be the exit code of the        #
+# command.                                                                     #
+################################################################################
+  local -a beautify_output
+# NOTE: The array beautify_output is actually used.
+# shellcheck disable=SC2034
+  mapfile -t beautify_output < <(${POWER_SHELL_SCRIPT} "${POWER_SHELL_XML_BEAUTIFIER}" -XmlFile "${1}" -FileType "${file_type}" 2>&1 | sed 's/\r$//'; echo "${?}")
+  print_power_shell_output beautify_output "${3}"
+  local -i stat=${?}
+  return "${stat}"
+}
+
+# ${1} - xml file
+# ${2} - xml file extension
+function beautify_xml
+{
+  local -i stat=0
+  local -r file_type="${2}"
+################################################################################
+# Replacing all tabs with 2 spaces.                                            #
+################################################################################
+  sed -i 's/\t/  /g' "${1}"
+  stat=${?}
+  check_for_beautifier_error "${stat}" "${file_type}" "${1}" sed "${LINENO}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  run_xml_lint "${1}" "${2}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  case "${XML_BEAUTIFIER_COMMAND}" in
+    xmllint                         ) beautify_xml_with_xmllint "${1}" "${file_type}"
+                                      stat=${?};;
+    "${POWER_SHELL_XML_BEAUTIFIER}" ) beautify_xml_with_power_shell "${1}" "${file_type}"
+                                      stat=${?};;
+    *                               ) log_warning "[${XML_BEAUTIFIER_COMMAND}] is not recognized; can not beautify [${file_type}] file [${1}]." "${LINENO}"
+                                      return 1;;
+  esac
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
+  add_terminal_blank_line "${1}"
+  stat=${?}
+  return "${stat}"
+}
+
+# ${1} - XML command name, e.g., validator
+# ${2} - XML command set, enclosed in double quotes
+# ${3} - variable to hold XML command
+function set_xml_command
+{
+  local -i stat=0
+  local xcommand0=${3}
+  local command=""
+  for command in ${2}
+  do
+    case "${command}" in
+      *.ps1      ) check_power_shell_script "${command}"
+                   stat=${?};;
+      *          ) check_command "${command}"
+                   stat=${?};;
+    esac
+    if [[ 0 -eq ${stat} ]]
+    then
+      eval "${xcommand0}"="${command}"
+      log_info "XML ${1} command = [${command}]." "${LINENO}"
+      return 0
+    fi
+  done
+  log_warning "Found no XML ${1} command from the set {${2// /, }}." "${LINENO}"
+  return 1
+}
+
+function set_xml_beautifier_command
+{
+  if [[ -v XML_BEAUTIFIER_COMMAND ]]
+  then
+    if [[ -n "${XML_BEAUTIFIER_COMMAND}" ]]
+    then
+      return 0
+    else
+      return 1
+    fi
+  fi
+
+  declare -rg POWER_SHELL_XML_BEAUTIFIER="${HOME}/scripts/power-shell/utilities-xml.ps1"
+
+  if [[ ! -v XML_BEAUTIFIER_COMMANDS ]]
+  then
+    local commands=""
+    commands+=" xmllint"
+    commands+=" ${POWER_SHELL_XML_BEAUTIFIER}"
+    declare -rg XML_BEAUTIFIER_COMMANDS=${commands# }
+  fi
+
+  local xcommand=""
+  set_xml_command beautifier "${XML_BEAUTIFIER_COMMANDS}" xcommand
+  local -i stat=${?}
+
+  declare -rg XML_BEAUTIFIER_COMMAND="${xcommand}"
+  return "${stat}"
+}
+
+function set_xml_linter_command
+{
+  set_power_shell_interpreter
+  if [[ -v XML_LINTER_COMMAND ]]
+  then
+    if [[ -n "${XML_LINTER_COMMAND}" ]]
+    then
+      return 0
+    else
+      return 1
+    fi
+  fi
+
+  declare -rg POWER_SHELL_XML_LINTER="${HOME}/scripts/power-shell/utilities-xml.ps1"
+
+  if [[ ! -v XML_LINTER_COMMANDS ]]
+  then
+    local commands=""
+    commands+=" xmllint"
+    commands+=" ${POWER_SHELL_XML_LINTER}"
+    declare -rg XML_LINTER_COMMANDS=${commands# }
+  fi
+
+  local xcommand=""
+  set_xml_command linter "${XML_LINTER_COMMANDS}" xcommand
+  local -i stat=${?}
+
+  declare -rg XML_LINTER_COMMAND="${xcommand}"
+  return "${stat}"
+}
+
+# ${1} - array indexed with integers
+# ${2} - label (optional)
+function print_int_array
+{
+  local -r label=${2:-${1}}
+  local -n array=${1}
+  echo "${label} size = [${#array[@]}]"
+  local -i i=0
+  for ((i = 0; i < ${#array[@]}; i++))
+  do
+    echo "${label}[${i}] = ${array[${i}]}"
+  done | column -s"=" -o"=" -t
+}
+
+# ${1} - Apache schema file url
+# ${2} - schema file number
+function get_apache_schema
+{
+  local -r xsd="$(basename "${1}")"
+  local schema="${APACHE_SCHEMAS_URL}${xsd}"
+  "${CURL}" "${schema}" 2> /dev/null | sed 's@^<?xml version="1.0"?>$@<?xml version="1.0" encoding="UTF-8"?>@' >| "${xsd}"
+  local -i stat=${PIPESTATUS[0]}
+  if [[ 0 -ne ${?} ]]
+  then
+    echo "[${SCRIPT}] ERROR: Could not download schema [${schema}] due to error code [${stat}]."
+    rm -f "${xsd}"
+  else
+    log_info "Downloaded schema number [${2}] [${1}]." "${LINENO}"
+    dos2unix "${xsd}" > /dev/null 2>&1
+##    beautify_xml "${xsd}" XSD
+  fi
+  echo ''
+}
+
+function get_apache_schemas
+{
+  local -a schemas
+  mapfile -t schemas < <(${CURL} --silent "${APACHE_SCHEMAS_URL}" 2> /dev/null | grep -oP '(?<=href=")[^"]+\.xsd' | grep -Ev -e "-(alpha|beta|rc)-" | sed "s@^@${APACHE_SCHEMAS_URL}@")
+  local -i i=0
+  for ((i = 0; i < ${#schemas[@]}; i++))
+  do
+    get_apache_schema "${schemas[${i}]}" $((${i} + 1))
+  done
+}
+
+function set_variables
+{
+  declare -rg CURL=curl
+  check_command "${CURL}"
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_error "The command [${CURL}] was not found; can not download Apache schema files. Exiting." "${LINENO}"
+    exit 1
+  fi
+
+  set_color_variables
+  set_xml_linter_command
+  set_xml_beautifier_command
+  declare -rg APACHE_SCHEMAS_URL=https://maven.apache.org/xsd/
+  declare -rg INDENT_SPACES="  "
+  echo ''
+}
+
+################################################################################
+# "main"                                                                       #
+################################################################################
+set_variables
+if [[ 0 -eq ${#} ]]
+then
+  get_apache_schemas
+else
+  declare -i index=1
+  while [[ -n "${1}" ]]
+  do
+    get_apache_schema "${1}" "${index}"
+    index=$((${index} + 1))
+    shift 1
+  done
+fi
+
