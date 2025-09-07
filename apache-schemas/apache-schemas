@@ -539,47 +539,47 @@ function process_xml_comments
 function sort_schema_attributes
 {
   local -r file_type="${2}"
+  local -r command=sed
+  check_command "${command}"
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_warning "The command [${command}] was not found; can not sort schema tag attributes in [${file_type}] file [${1}]." "${LINENO}"
+    return 0
+  fi
+
   grep -q '^<xs:schema .*[^>]$' "${1}"
   local -i stat=${?}
-  local -r command=sed
   if [[ 0 -eq ${stat} ]]
   then
 ################################################################################
 # Joining split <xs:schema> tokens.                                            #
 ################################################################################
-    check_command "${command}"
-    local -i stat=${?}
-    if [[ 0 -eq ${stat} ]]
-    then
-      "${command}" -i -E '
+    "${command}" -i -E '
 ################################################################################
 # Detect the start of a split <xs:schema ... line (not ending with ">").       #
 ################################################################################
-        /^<xs:schema [^>]*$/ {
-          :join
+      /^<xs:schema [^>]*$/ {
+        :join
 ################################################################################
 # Read the next line into the pattern space.                                   #
 ################################################################################
-            N
+          N
 ################################################################################
 # Trim leading spaces after the newline.                                       #
 ################################################################################
-            s/\n[[:space:]]+/ /
+          s/\n[[:space:]]+/ /
 ################################################################################
 # If it still does not end with ">", keep joining.                             #
 ################################################################################
-            />$/! b join
-        }
-      ' "${1}"
-      stat=${?}
-      if [[ 0 -ne ${stat} ]]
-      then
-        log_error "Failed to join split [xs:schema] lines in [${file_type}] file [${1}] due to error code [${stat}]" "${LINENO}"
-        return "${stat}"
-      fi
-    else
-      log_warning "The command [${command}] was not found; can not join split [xs:schema] lines in [${file_type}] file [${1}]." "${LINENO}"
-      return 0
+          />$/! b join
+      }
+    ' "${1}"
+    stat=${?}
+    if [[ 0 -ne ${stat} ]]
+    then
+      log_error "Failed to join split [xs:schema] lines in [${file_type}] file [${1}] due to error code [${stat}]" "${LINENO}"
+      return "${stat}"
     fi
   fi
 
@@ -617,6 +617,14 @@ function sort_schema_attributes
 function xml_encoding_to_upper_case
 {
   local -r file_type="${2}"
+  local -r command=sed
+  check_command "${command}"
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_warning "The command [${command}] was not found; can not convert XML encoding to upper case in [${file_type}] file [${1}]." "${LINENO}"
+    return 0
+  fi
 ################################################################################
 # Converting lines resembling:                                                 #
 #   ^<?xml version="1.0"?>$                                                    #
@@ -627,7 +635,7 @@ function xml_encoding_to_upper_case
   local -i stat=${?}
   if [[ 0 -eq ${stat} ]]
   then
-    sed -i '1s@\(^<?xml \+version="[0-9]\+\.[0-9]\+"\)\(?>$\)@\1 encoding="UTF-8"\2@' "${1}"
+    "${command}" -i '1s@\(^<?xml \+version="[0-9]\+\.[0-9]\+"\)\(?>$\)@\1 encoding="UTF-8"\2@' "${1}"
     stat=${?}
     if [[ 0 -ne ${stat} ]]
     then
@@ -642,7 +650,7 @@ function xml_encoding_to_upper_case
 # to:                                                                          #
 #   ^<?xml version="1.0" encoding="UTF-8"?>$                                   #
 ################################################################################
-  sed -i '1s@\(^<?xml \+version="[0-9]\+\.[0-9]\+" \+encoding="\)\([^ ]\+\)\(".*?>\)@\1\U\2\E\3@' "${1}"
+  "${command}" -i '1s@\(^<?xml \+version="[0-9]\+\.[0-9]\+" \+encoding="\)\([^ ]\+\)\(".*?>\)@\1\U\2\E\3@' "${1}"
   stat=${?}
   if [[ 0 -ne ${stat} ]]
   then
