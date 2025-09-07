@@ -541,17 +541,17 @@ function sort_schema_attributes
   local -r file_type="${2}"
   grep -q '^<xs:schema .*[^>]$' "${1}"
   local -i stat=${?}
+  local -r command=sed
   if [[ 0 -eq ${stat} ]]
   then
 ################################################################################
 # Joining split <xs:schema> tokens.                                            #
 ################################################################################
-    local -r command=sed
     check_command "${command}"
     local -i stat=${?}
     if [[ 0 -eq ${stat} ]]
     then
-      sed -i -E '
+      "${command}" -i -E '
 ################################################################################
 # Detect the start of a split <xs:schema ... line (not ending with ">").       #
 ################################################################################
@@ -579,6 +579,7 @@ function sort_schema_attributes
       fi
     else
       log_warning "The command [${command}] was not found; can not join split [xs:schema] lines in [${file_type}] file [${1}]." "${LINENO}"
+      return 0
     fi
   fi
 
@@ -602,7 +603,7 @@ function sort_schema_attributes
   xmlns=$(echo "${xmlns}" | tr ' ' '\n' | sort | paste -sd' ')
   schema_line=$(echo "${schema_line}" | tr ' ' '\n' | sort | paste -sd' ')
   schema_line="${attributes[0]} ${xmlns# } ${schema_line# }>"
-  sed -i "s|^<xs:schema .*>$|${schema_line}|" "${1}"
+  "${command}" -i "s|^<xs:schema .*>$|${schema_line}|" "${1}"
   stat=${?}
   if [[ 0 -ne ${stat} ]]
   then
