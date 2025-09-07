@@ -1,0 +1,33 @@
+#!/usr/bin/gawk -f
+
+##./awk1 --include inplace xdoc-2.0.xsd
+
+BEGIN {
+  in_xs_schema=0;
+}
+
+{
+  if (0 != match($0, /^<xs:schema .*[^>]$/))
+  {
+    in_xs_schema=1;
+    schema_line=$0;
+    next
+  }
+  if (1 == in_xs_schema)
+  {
+    str=$0
+    sub(/^[[:space:]]+/, "", str)
+    schema_line=schema_line " " str;
+    if (0 != match($0, /^.*>$/))
+    {
+      in_xs_schema=0;
+      print schema_line;
+    }
+    next
+  }
+  if (0 == in_xs_schema)
+  {
+    print
+    next
+  }
+}
