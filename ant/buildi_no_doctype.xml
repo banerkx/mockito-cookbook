@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE project SYSTEM "ant.dtd">
+
 <!-- Set the project name, basedir and default target to be executed-->
 <project name="SystemInfo" default="compile" basedir=".">
 
