@@ -543,6 +543,9 @@ function sort_schema_attributes
   local -i stat=${?}
   if [[ 0 -eq ${stat} ]]
   then
+################################################################################
+# Joining split <xs:schema> tokens.                                            #
+################################################################################
     local -r command=sed
     check_command "${command}"
     local -i stat=${?}
@@ -579,6 +582,9 @@ function sort_schema_attributes
     fi
   fi
 
+################################################################################
+# Sorting <xs:schema> tokens.                                                  #
+################################################################################
   local -a attributes
   mapfile -t attributes < <(grep '^<xs:schema .*>$' "${1}" | sed 's/>$//;s/   */ /g;s/ /\n/g')
   local schema_line
