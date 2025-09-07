@@ -625,6 +625,7 @@ function xml_encoding_to_upper_case
     log_warning "The command [${command}] was not found; can not convert XML encoding to upper case in [${file_type}] file [${1}]." "${LINENO}"
     return 0
   fi
+
 ################################################################################
 # Converting lines resembling:                                                 #
 #   ^<?xml version="1.0"?>$                                                    #
