@@ -17,7 +17,7 @@
   specific language governing permissions and limitations
   under the License.
 -->
-<xs:schema version="1.0" xml:lang="en" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://maven.apache.org/FML/1.0" xmlns="http://maven.apache.org/FML/1.0" xmlns:xml="http://www.w3.org/XML/1998/namespace" elementFormDefault="qualified">
+<xs:schema xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://maven.apache.org/FML/1.0" elementFormDefault="qualified" targetNamespace="http://maven.apache.org/FML/1.0" version="1.0" xml:lang="en">
 
   <xs:annotation>
     <xs:documentation source="description">
