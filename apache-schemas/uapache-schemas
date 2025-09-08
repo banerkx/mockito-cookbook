@@ -587,7 +587,7 @@ function sort_schema_attributes
 # Sorting <xs:schema> tokens.                                                  #
 ################################################################################
   local -a attributes
-  mapfile -t attributes < <(grep '^<xs:schema .*>$' "${1}" | sed 's/>$//;s/   */ /g;s/ /\n/g')
+  mapfile -t attributes < <(grep '^<xs:schema .*>$' "${1}" | "${command}" 's/>$//;s/   */ /g;s/ /\n/g')
   local schema_line
   local xmlns
   local -i i=1

@@ -21,6 +21,15 @@ function print_int_array
 function sort_schema_attributes
 {
   local -r file_type="${2}"
+  local -r command=sed
+  command -v "${command}" > /dev/null
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_warning "The command [${command}] was not found; can not sort schema tag attributes in [${file_type}] file [${1}]." "${LINENO}"
+    return 0
+  fi
+
   grep -q '^<xs:schema .*[^>]$' "${1}"
   local -i stat=${?}
   if [[ 0 -eq ${stat} ]]
@@ -28,39 +37,31 @@ function sort_schema_attributes
 ################################################################################
 # Joining split <xs:schema> tokens.                                            #
 ################################################################################
-    local -r command=sed
-    check_command "${command}"
-    local -i stat=${?}
-    if [[ 0 -eq ${stat} ]]
-    then
-      sed -i -E '
+    "${command}" -i -E '
 ################################################################################
 # Detect the start of a split <xs:schema ... line (not ending with ">").       #
 ################################################################################
-        /^<xs:schema [^>]*$/ {
-          :join
+      /^<xs:schema [^>]*$/ {
+        :join
 ################################################################################
 # Read the next line into the pattern space.                                   #
 ################################################################################
-            N
+          N
 ################################################################################
 # Trim leading spaces after the newline.                                       #
 ################################################################################
-            s/\n[[:space:]]+/ /
+          s/\n[[:space:]]+/ /
 ################################################################################
 # If it still does not end with ">", keep joining.                             #
 ################################################################################
-            />$/! b join
-        }
-      ' "${1}"
-      stat=${?}
-      if [[ 0 -ne ${stat} ]]
-      then
-        log_error "Failed to join split [xs:schema] lines in [${file_type}] file [${1}] due to error code [${stat}]" "${LINENO}"
-        return "${stat}"
-      fi
-    else
-      log_warning "The command [${command}] was not found; can not join split [xs:schema] lines in [${file_type}] file [${1}]." "${LINENO}"
+          />$/! b join
+      }
+    ' "${1}"
+    stat=${?}
+    if [[ 0 -ne ${stat} ]]
+    then
+      log_error "Failed to join split [xs:schema] lines in [${file_type}] file [${1}] due to error code [${stat}]" "${LINENO}"
+      return "${stat}"
     fi
   fi
 
@@ -68,7 +69,7 @@ function sort_schema_attributes
 # Sorting <xs:schema> tokens.                                                  #
 ################################################################################
   local -a attributes
-  mapfile -t attributes < <(grep '^<xs:schema .*>$' "${1}" | sed 's/>$//;s/   */ /g;s/ /\n/g')
+  mapfile -t attributes < <(grep '^<xs:schema .*>$' "${1}" | "${command}" 's/>$//;s/   */ /g;s/ /\n/g')
 ##  print_int_array attributes
   local schema_line
   local xmlns
@@ -85,7 +86,7 @@ function sort_schema_attributes
   xmlns=$(echo "${xmlns}" | tr ' ' '\n' | sort | paste -sd' ')
   schema_line=$(echo "${schema_line}" | tr ' ' '\n' | sort | paste -sd' ')
   schema_line="${attributes[0]} ${xmlns# } ${schema_line# }>"
-  sed -i "s|^<xs:schema .*>$|${schema_line}|" "${1}"
+  "${command}" -i "s|^<xs:schema .*>$|${schema_line}|" "${1}"
   stat=${?}
   if [[ 0 -ne ${stat} ]]
   then

@@ -2,6 +2,11 @@
 
 # shellcheck disable=all
 
+if [[ -t 1 ]]
+then
+  clear
+fi
+
 ./upom
 sed -i 's@<!-- <versionqq/> -->@<versionqq/>@' pom.xml
 sed -i 's@<!-- <propertiesqq/> -->@<propertiesqq/>@' pom.xml
