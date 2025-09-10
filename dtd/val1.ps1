@@ -7,7 +7,38 @@ ${xsdPath} = './maven-4.0.0.xsd'
 # Load schema properly
 ${schemaSet} = New-Object System.Xml.Schema.XmlSchemaSet
 ${schemaReader} = [System.Xml.XmlReader]::Create(${xsdPath})
-${null} = ${schemaSet}.Add(${null}, ${schemaReader})
+
+${targetNamespace} = & {
+  param
+  (
+    [Parameter(Mandatory = ${true})]
+    [string]${Schema}
+  )
+
+  try
+  {
+    [xml]${SchemaContent} = Get-Content -Path ${Schema} -ErrorAction Stop
+    ${rootElementName} = if (${SchemaContent}.schema)
+    {
+      'schema'
+    }
+    elseif (${SchemaContent}.'xs:schema')
+    {
+      'xs:schema'
+    }
+    else
+    {
+      return ${null}
+    }
+    return ${SchemaContent}.${rootElementName}.targetNamespace
+  }
+  catch
+  {
+    return ${null}
+  }
+} -Schema ${xsdPath}
+
+${null} = ${schemaSet}.Add(${targetNamespace}, ${schemaReader})
 ${schemaReader}.Close()
 
 # Load XML
