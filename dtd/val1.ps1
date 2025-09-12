@@ -4,11 +4,10 @@
     Validates an XML file against a specified XSD schema file.
 
 .DESCRIPTION
-    This function uses .NET classes to perform schema validation on an XML file.
-    It first loads the XSD schema to determine its target namespace, then loads
-    the XML document, and finally validates the document against a schema set
-    configured with the correct namespace. This is the most reliable method
-    for handling namespaced XML and reporting all errors.
+    This function performs robust schema validation on an XML file by
+    first loading the XSD to explicitly determine its target namespace. It then
+    uses this information to correctly apply the schema to the XML document,
+    ensuring that all validation errors are properly reported.
 
 .PARAMETER XmlPath
     The path to the XML file to be validated.
@@ -51,31 +50,24 @@ function Validate-XmlFile {
         # Create a new XmlSchemaSet to manage the schemas
         $schemaSet = New-Object System.Xml.Schema.XmlSchemaSet
 
-        # Load the XSD schema as an XmlDocument to get the target namespace.
-        # This is a crucial step to correctly link the schema to the XML.
-        $xsdDoc = New-Object System.Xml.XmlDocument
-        $xsdDoc.Load($XsdPath)
+        # Use an XmlReader to load the XSD schema and get its target namespace.
+        # This is the most reliable way to link the schema to the XML.
+        $xsdReader = [System.Xml.XmlReader]::Create($XsdPath)
+        $xsdSchema = [System.Xml.Schema.XmlSchema]::Read($xsdReader, $null)
         
-        # Determine the target namespace of the XSD schema.
-        $targetNamespace = $xsdDoc.documentElement.GetAttribute("targetNamespace")
+        # Add the XSD schema to the set. Use the schema's own target namespace
+        # to ensure it's correctly applied to the XML document.
+        [void]$schemaSet.Add($xsdSchema.TargetNamespace, $XsdPath)
         
-        # Add the XSD schema to the set with its specific target namespace.
-        # If the targetNamespace attribute is not present, the first parameter should be null.
-        if ([string]::IsNullOrEmpty($targetNamespace)) {
-            [void]$schemaSet.Add($null, $XsdPath)
-        } else {
-            [void]$schemaSet.Add($targetNamespace, $XsdPath)
-        }
-
         # Compile the schema set for faster validation
         $schemaSet.Compile()
-
+        
         # Create a new XmlDocument object and load the XML file
         $xmlDoc = New-Object System.Xml.XmlDocument
         $xmlDoc.Load($XmlPath)
-
+        
         # Assign the schema set to the XML document for validation
-        $xmlDoc.Schemas.Add($schemaSet)
+        $xmlDoc.Schemas = $schemaSet
 
         # Create an event handler to capture all validation errors and warnings
         $validationEventHandler = [System.Xml.Schema.ValidationEventHandler]{
