@@ -7,9 +7,16 @@ then
   clear
 fi
 
+source ~/.dotfiles/xml_functions
+
 ./upom
 sed -i 's@<!-- <versionqq/> -->@<versionqq/>@' pom.xml
 sed -i 's@<!-- <propertiesqq/> -->@<propertiesqq/>@' pom.xml
+
+validate_against_schema_with_xmllint pom.xml maven-4.0.0.xsd
+echo ''
+echo "==================================="
+echo ''
 
 ps1-wrapper ./val1.ps1
 stat=${?}
