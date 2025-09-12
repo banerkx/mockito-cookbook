@@ -151,7 +151,7 @@ function remove_terminal_blank_lines
 
 # ${1} - file
 # ${2} - file type
-function add_terminal_blank_line
+function single_terminal_blank_line
 {
   remove_terminal_blank_lines "${1}" "${2}"
   if [[ 0 -ne ${stat} ]]
@@ -266,33 +266,6 @@ function check_for_linter_error
     return "${1}"
   fi
   return 0
-}
-
-# ${1} - beautifier command
-# ${2} - beautifier command options
-# ${3} - file type
-# ${4} - exactly one file that is to be beautified
-# ${5} - line number from where this function was called
-function run_beautify_command
-{
-# NOTE: shellcheck correctly recommends to enclose ${2} in double quotes, but in this instance, do actually want word splitting.
-# shellcheck disable=SC2086
-  ${1} ${2} "${4}" > /dev/null 2>&1
-  local -i stat=${?}
-  check_for_beautifier_error "${stat}" "${3}" "${4}" "${1} ${2}" "${5}"
-  stat=${?}
-  if [[ 0 -ne ${stat} ]]
-  then
-    return "${stat}"
-  fi
-
-  add_terminal_blank_line "${4}" "${3}"
-  stat=${?}
-  if [[ 0 -eq ${stat} ]]
-  then
-    log_info "Beautified [${3}] file [${4}] using [${1}]." "${5}"
-  fi
-  return "${stat}"
 }
 
 # ${1} - linter command
@@ -570,13 +543,6 @@ function pre_beautify_xml
     fi
   fi
 
-  xml_encoding_to_upper_case "${1}" "${file_type}"
-  stat=${?}
-  if [[ 0 -ne ${stat} ]]
-  then
-    return "${stat}"
-  fi
-
 ################################################################################
 # Want to preserve blank lines in multi-line XML comments. So if something     #
 # like the following:                                                          #
@@ -830,54 +796,6 @@ function sort_schema_attributes
   return "${stat}"
 }
 
-# ${1} - xml file
-# ${2} - xml file type
-function xml_encoding_to_upper_case
-{
-  local -r file_type="${2}"
-  local -r command=sed
-  check_command "${command}"
-  local -i stat=${?}
-  if [[ 0 -ne ${stat} ]]
-  then
-    log_warning "The command [${command}] was not found; can not convert XML encoding to upper case in [${file_type}] file [${1}]." "${LINENO}"
-    return 0
-  fi
-
-################################################################################
-# Converting lines resembling:                                                 #
-#   ^<?xml version="1.0"?>$                                                    #
-# to:                                                                          #
-#   ^<?xml version="1.0" encoding="UTF-8"?>$                                   #
-################################################################################
-  head -1 "${1}" | grep -q '^<?xml \+version="[0-9]\+\.[0-9]\+"?>$'
-  local -i stat=${?}
-  if [[ 0 -eq ${stat} ]]
-  then
-    "${command}" -i '1s@\(^<?xml \+version="[0-9]\+\.[0-9]\+"\)\(?>$\)@\1 encoding="UTF-8"\2@' "${1}"
-    stat=${?}
-    if [[ 0 -ne ${stat} ]]
-    then
-      log_error "Failed to add text encoding in [${2}] file [${1}] due to error code [${stat}]." "${LINENO}"
-    fi
-    return "${stat}"
-  fi
-
-################################################################################
-# Converting lines resembling:                                                 #
-#   ^<?xml version="1.0" encoding="utf-8"?>$                                   #
-# to:                                                                          #
-#   ^<?xml version="1.0" encoding="UTF-8"?>$                                   #
-################################################################################
-  "${command}" -i '1s@\(^<?xml \+version="[0-9]\+\.[0-9]\+" \+encoding="\)\([^ ]\+\)\(".*?>\)@\1\U\2\E\3@' "${1}"
-  stat=${?}
-  if [[ 0 -ne ${stat} ]]
-  then
-    log_error "Failed to change encoding to upper case in [${2}] file [${1}] due to error code [${stat}]." "${LINENO}"
-  fi
-  return "${stat}"
-}
-
 # ${1} - XML file
 # ${2} - file type, e.g., XML, SVG, etc
 function unindent_xml_comment_markers
@@ -1108,7 +1026,14 @@ function post_beautify_xml
   then
     normalize_xs_doc_indentation "${1}" "${file_type}"
     stat=${?}
+    if [[ 0 -ne ${stat} ]]
+    then
+      return "${stat}"
+    fi
   fi
+
+  single_terminal_blank_line "${1}" "${file_type}"
+  stat=${?}
   return "${stat}"
 }
 
@@ -1125,7 +1050,7 @@ function beautify_xml_with_xmllint
   fi
 
   local -r command=xmllint
-  XMLLINT_INDENT="${INDENT_SPACES}" "${command}" --noblanks --output "${1}" --format "${1}" 2> /dev/null
+  XMLLINT_INDENT="${INDENT_SPACES}" "${command}" --encode UTF-8 --noblanks --output "${1}" --format "${1}" 2> /dev/null
   stat=${?}
   check_for_beautifier_error "${stat}" "${file_type}" "${1}" "XMLLINT_INDENT=\"${INDENT_SPACES}\" ${command} --output \"${1}\" --format" "${LINENO}"
   stat=${?}
@@ -1198,13 +1123,6 @@ function beautify_xml
     *                               ) log_warning "[${XML_BEAUTIFIER_COMMAND}] is not recognized; can not beautify [${file_type}] file [${1}]." "${LINENO}"
                                       return 1;;
   esac
-  if [[ 0 -ne ${stat} ]]
-  then
-    return "${stat}"
-  fi
-
-  add_terminal_blank_line "${1}"
-  stat=${?}
   return "${stat}"
 }
 
