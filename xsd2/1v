@@ -11,19 +11,19 @@ then
   declare -rg GREEN="${ESCAPE}[0;32m"
 fi
 
-for file in example_*.xml
+while IFS= read -r xml
 do
-  if [[ ${file} =~ 10\. ]]
+  if [[ "${xml}" =~ 10\. ]]
   then
     continue
   fi
-  echo "===== BEGIN [${file}] ====="
-  ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile ${file} -Schema ${file%.xml}.xsd | \
-  grep -Ev '(^$|\[ps1-wrapper)'                                                                 | \
-  sed "s/INFO:/${GREEN}INFO${STOP_COLOR}:/"                                                     | \
-  sed "s/WARNING:/${YELLOW}WARNING${STOP_COLOR}:/"                                              | \
+  echo "===== BEGIN [${xml}] ====="
+  ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile "${xml}" -Schema "${xml%.xml}.xsd" | \
+  grep -Ev '(^$|\[ps1-wrapper)'                                                                   | \
+  sed "s/INFO:/${GREEN}INFO${STOP_COLOR}:/"                                                       | \
+  sed "s/WARNING:/${YELLOW}WARNING${STOP_COLOR}:/"                                                | \
   sed "s/ERROR:/${RED}ERROR${STOP_COLOR}:/"
-  echo "=====  END  [${file}] ====="
+  echo "=====  END  [${xml}] ====="
   echo ''
-done
+done <<< "$(find . -mindepth 2 -maxdepth 2 -not -path "./set10/*" -path "./set[0-9]*/*" -type f -name "example*\.xml" | sed 's/\(^.*example_\)\([0-9]\+\)\(\.x.*$\)/\1 \2 \3/' | sort -n -k2,2 | sed 's/ //g')"
 
