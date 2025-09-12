@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="http://example.com/catalog">
+  <item id="i1">
+    <name>Laptop</name>
+    <price>999.99</price>
+  </item>
+  <item id="i2">
+    <name>Mouse</name>
+    <price>25.50</price>
+  </item>
+</catalog>
+

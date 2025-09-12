@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+  <book isbn="978-0321356680">
+    <title>Effective C++</title>
+    <author>Scott Meyers</author>
+    <year>2005</year>
+  </book>
+  <book isbn="978-0201616224">
+    <title>The Pragmatic Programmer</title>
+    <author>Andrew Hunt</author>
+    <year>1999</year>
+  </book>
+</library>
+
