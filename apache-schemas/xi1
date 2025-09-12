@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# shellcheck disable=all
+
+./xiapache-schemas
+mkdir -p xib
+cp *.xsd xib
+rm *.xsd
+git status -- xib
+
