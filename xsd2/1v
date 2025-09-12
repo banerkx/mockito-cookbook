@@ -11,8 +11,12 @@ then
   declare -rg GREEN="${ESCAPE}[0;32m"
 fi
 
-for file in *.xml
+for file in example_*.xml
 do
+  if [[ ${file} =~ 10\. ]]
+  then
+    continue
+  fi
   echo "===== BEGIN [${file}] ====="
   ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile ${file} -Schema ${file%.xml}.xsd | \
   grep -Ev '(^$|\[ps1-wrapper)'                                                                 | \

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<university>
+  <students>
+    <student id="s1">
+      <name>Alice</name>
+    </student>
+    <student id="s2">
+      <name>Bob</name>
+    </student>
+  </students>
+  <enrollments>
+    <enrollment studentRef="s1" course="Math101"/>
+    <enrollment studentRef="s2" course="CS201"/>
+  </enrollments>
+</university>
+

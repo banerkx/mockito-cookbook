@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- the validator must handle xs:import and multiple schemas: -->
+<p:person xmlns:p="http://example.com/person" xmlns:a="http://example.com/address">
+  <p:name>Alice</p:name>
+  <a:address>
+    <a:street>123 Main St</a:street>
+    <a:city>Wonderland</a:city>
+  </a:address>
+</p:person>
+
