@@ -9,6 +9,7 @@ do
   echo "===== BEGIN [${pom}] ====="
   beautify_xml_with_xmllint "${pom}" 'Maven BOM/POM file'
 ##  beautify_xml_with_xmlstarlet "${pom}" 'Maven BOM/POM file'
+##  beautify_xml_with_xmlindent "${pom}" 'Maven BOM/POM file'
   echo "=====  END  [${pom}] ====="
   echo ''
 done <<< "$(find . -type f \( -name "*\.pom" -o -name "pom\.xml" \) | sort)"
