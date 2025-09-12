@@ -15,9 +15,11 @@ for file in *.xml
 do
   echo "===== BEGIN [${file}] ====="
   ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile ${file} -Schema ${file%.xml}.xsd | \
-  grep -Ev '(^$|\[ps1-wrapper)' | \
-  sed "s/INFO:/${GREEN}INFO${STOP_COLOR}:/" | sed "s/WARNING:/${YELLOW}WARNING${STOP_COLOR}:/" | sed "s/ERROR:/${RED}ERROR${STOP_COLOR}:/"
+  grep -Ev '(^$|\[ps1-wrapper)'                                                                 | \
+  sed "s/INFO:/${GREEN}INFO${STOP_COLOR}:/"                                                     | \
+  sed "s/WARNING:/${YELLOW}WARNING${STOP_COLOR}:/"                                              | \
+  sed "s/ERROR:/${RED}ERROR${STOP_COLOR}:/"
   echo "=====  END  [${file}] ====="
   echo ''
-done 
+done
 
