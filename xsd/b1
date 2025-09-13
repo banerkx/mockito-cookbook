@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# shellcheck disable=all
+
+if [[ -t 1 ]]
+then
+  declare -rg ESCAPE=""
+  declare -rg STOP_COLOR="${ESCAPE}[0m"
+  declare -rg RED="${ESCAPE}[0;31m"
+  declare -rg YELLOW="${ESCAPE}[1;33m"
+  declare -rg GREEN="${ESCAPE}[0;32m"
+fi
+
+while IFS= read -r xml
+do
+  echo "===== BEGIN [${xml}] ====="
+  ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile "${xml}" | \
+  grep -Ev '(^$|\[ps1-wrapper)'                                         | \
+  sed "s/INFO:/${GREEN}INFO${STOP_COLOR}:/"                             | \
+  sed "s/WARNING:/${YELLOW}WARNING${STOP_COLOR}:/"                      | \
+  sed "s/ERROR:/${RED}ERROR${STOP_COLOR}:/"
+  echo "=====  END  [${xml}] ====="
+  echo ''
+done <<< "$(find . -mindepth 2 -maxdepth 2 -path "./[0-9]*set*/*" -type f \( -name "example*\.xml" -o -name "example*\.xsd" \) | sed 's/\(^.*example_\)\([0-9]\+\)\(\.x.*$\)/\1 \2 \3/' | sort -n -k2,2 | sed 's/ //g')"
+
