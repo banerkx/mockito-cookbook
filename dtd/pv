@@ -10,8 +10,8 @@ fi
 ./upom
 sed -i 's@<!-- <versionqq/> -->@<versionqq/>@' pom.xml
 sed -i 's@<!-- <propertiesqq/> -->@<propertiesqq/>@' pom.xml
-##sed -i 's@<properties>@<properties id="22">@' pom.xml
-##sed -i 's@<licenses>@<licenses id="22">@' pom.xml
+sed -i 's@<properties>@<properties id="22">@' pom.xml
+sed -i 's@<licenses>@<licenses id="22">@' pom.xml
 
 ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -FileType "Maven POM"
 ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -Schema ${PWD}/maven-4.0.0.xsd -FileType "Maven POM"

@@ -11,7 +11,6 @@ echo '   	   	   	 		      <modelVersion>4.0.0</modelVersion>   		     	  	  		'
 echo '   	   	   	 		      <groupId>com.in28minutes.mockito</groupId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		      <artifactId>mockito-tutorial</artifactId>   		     	  	  		' >> ${file}
 echo '   	   	   	 		      <version>0.0.1-SNAPSHOT</version>   		     	  	  		' >> ${file}
-echo '<!-- <versionqq/> -->' >> ${file}
 echo '   	   	   	 		         		     	  	  		' >> ${file}
 echo '                      <!-- multi-line commend 1 start' >> ${file}
 echo '   	   	   	 		         		     	  	  		' >> ${file}
@@ -20,7 +19,6 @@ echo '   	   	   	 		        comment line 2		' >> ${file}
 echo '   	   	   	 		         		     	  	  		' >> ${file}
 echo '   	   	   	 		         		     	  	  		' >> ${file}
 echo '                      multi-line commend 1 end -->' >> ${file}
-echo '<!-- <propertiesqq/> -->' >> ${file}
 echo '   	   	   	 		      <properties>   		     	  	  		' >> ${file}
 echo '   	   	   	 		          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>   		     	  	  		' >> ${file}
 echo '   	   	   	 		          		 	 	 	<!-- NOTE: Do not use a literal file separator, i.e., \'/\' or \'\\', in any path value; -->   		     	  	  		' >> ${file}
@@ -52,10 +50,12 @@ echo '   	   	   	 		              <url>https://www.gnu.org/licenses/gpl-3.0.en.
 echo '   	   	   	 		          </license>   		     	  	  		' >> ${file}
 echo '   	   	   	 		      </licenses>   		     	  	  		' >> ${file}
 echo '   	   	   	 		         		     	  	  		' >> ${file}
+echo '<!-- <versionqq/> -->' >> ${file}
 echo '   	   	   	 		      <issueManagement>   		     	  	  		' >> ${file}
 echo '   	   	   	 		          <system>git</system>   		     	  	  		' >> ${file}
 echo '   	   	   	 		          <url>https://gitlab.com/user1/mockito_tutorial.git</url>   		     	  	  		' >> ${file}
 echo '   	   	   	 		      </issueManagement>   		     	  	  		' >> ${file}
+echo '<!-- <propertiesqq/> -->' >> ${file}
 echo '   	   	   	 		         		     	  	  		' >> ${file}
 echo '   	   	   	 		      <ciManagement>   		     	  	  		' >> ${file}
 echo '   	   	   	 		          <system>gitlab</system>   		     	  	  		' >> ${file}
