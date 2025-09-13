@@ -1800,11 +1800,16 @@ function Validate-XML-File
     ${schemaReaderSettings}.ValidationType = [System.Xml.ValidationType]::None
 
 ################################################################################
+# Create a resolver once and reuse it for both the schema set and the reader.  #
+################################################################################
+    ${XmlSchemaSet} = New-Object System.Xml.Schema.XmlSchemaSet
+    ${resolver} = New-Object System.Xml.XmlUrlResolver
+    ${XmlSchemaSet}.XmlResolver = ${resolver}
+################################################################################
 # Creating an XmlReader for the schema file using the new settings.            #
 ################################################################################
     ${schemaReader} = [System.Xml.XmlReader]::Create(${Schema}, ${schemaReaderSettings})
 
-    ${XmlSchemaSet} = New-Object System.Xml.Schema.XmlSchemaSet
 ################################################################################
 # Adding the schema to the XmlSchemaSet using the reader.                      #
 ################################################################################
@@ -1821,6 +1826,10 @@ function Validate-XML-File
       [System.Xml.Schema.XmlSchemaValidationFlags]::ProcessIdentityConstraints -bor `
       [System.Xml.Schema.XmlSchemaValidationFlags]::ReportValidationWarnings -bor `
       [System.Xml.Schema.XmlSchemaValidationFlags]::ProcessInlineSchema
+################################################################################
+# The XmlResolver must also be set on the settings for the XML file reader.    #
+################################################################################
+    ${settings}.XmlResolver = ${resolver}
 
 ################################################################################
 # Ensuring DTD processing is also enabled for the document validation, in case #
