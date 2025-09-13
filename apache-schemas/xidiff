@@ -2,14 +2,22 @@
 
 # shellcheck disable=all
 
+# ${1} - xsd file
+function replace_escape
+{
+   sed "s/&amp;/\&/g;s/&gt;/>/g;s/&lt;/</g;s/&quot;/\"/g;s/&apos;/'/g" "${1}"
+}
+
 declare -i stat=0
 for xsd in xb/*.xsd
 do
-  diff -q "${xsd}" "${xsd/xb/xib}" > /dev/null 2>&1
+  rhs="${xsd/xb\//xib\/}"
+##  diff -q <(replace_escape "${xsd}") <(replace_escape "${rhs}") > /dev/null 2>&1
+  diff -q "${xsd}" "${rhs}" > /dev/null 2>&1
   stat=${?}
   if [[ 0 -ne ${stat} ]]
   then
-    echo "gdiff ${xsd} ${xsd/xb/xib}"
+    echo "gdiff ${xsd} ${rhs}"
   fi
 done
 
