@@ -1934,10 +1934,6 @@ function Validate-XML-File
   {
     try
     {
-      if (${null} -eq ${reader})
-      {
-        break
-      }
       if (-not ${reader}.Read())
       {
         break
