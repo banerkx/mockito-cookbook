@@ -25,5 +25,5 @@ do
   sed "s/ERROR:/${RED}ERROR${STOP_COLOR}:/"
   echo "=====  END  [${xml}] ====="
   echo ''
-done <<< "$(find . -mindepth 2 -maxdepth 2 -not -path "./set10/*" -path "./set[0-9]*/*" -type f -name "example*\.xml" | sed 's/\(^.*example_\)\([0-9]\+\)\(\.x.*$\)/\1 \2 \3/' | sort -n -k2,2 | sed 's/ //g')"
+done <<< "$(find . -mindepth 2 -maxdepth 2 -not -path "./10set/*" -path "./[0-9]set*/*" -type f -name "example*\.xml" | sed 's/\(^.*example_\)\([0-9]\+\)\(\.x.*$\)/\1 \2 \3/' | sort -n -k2,2 | sed 's/ //g')"
 
