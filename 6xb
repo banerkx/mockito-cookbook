@@ -3,7 +3,30 @@
 # shellcheck disable=all
 source ~/.dotfiles/xml_functions
 
-./scr1
+# "de-formats" pom files
+
+declare -i has_crlf=0
+
+while IFS= read -r pom
+do
+  file "${pom}" | grep -Eq '(CRFL|CR)'
+  has_crlf=${?}
+  if [[ 0 -eq ${has_crlf} ]]
+  then
+    dos2unix "${pom}" > /dev/null 2>&1
+  fi
+  sed -i 's/$/                  /'               "${pom}"
+  sed -i 's/<groupId>/               <groupId>/' "${pom}"
+  sed -i 's/<artifactId>/ <artifactId>/'         "${pom}"
+  sed -i 's/<modules>/         <modules>/'       "${pom}"
+  sed -i 's|<name></name>|<name/>|'              "${pom}"
+  sed -i 's/^ *<dependency>/<dependency>/'       "${pom}"
+  if [[ 0 -eq ${has_crlf} ]]
+  then
+    unix2dos "${pom}" > /dev/null 2>&1
+  fi
+done <<< "$(find . -type f \( -name "*\.pom" -o -name "pom\.xml" \) | sort)"
+
 while IFS= read -r pom
 do
   echo "===== BEGIN [${pom}] ====="
