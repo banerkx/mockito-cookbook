@@ -1245,6 +1245,11 @@ function get_apache_schema
     dos2unix "${xsd}" > /dev/null 2>&1
 ##    beautify_xml "${xsd}" XSD
     beautify_xml_with_xmlindent "${xsd}" XSD
+##    sed -i 's/&amp;/\&/g' "${xsd}"
+##    sed -i 's/&gt;/>/g' "${xsd}"
+##    sed -i 's/&lt;/</g' "${xsd}"
+##    sed -i 's/&quot;/"/g' "${xsd}"
+##    sed -i "s/&apos;/'/g" "${xsd}"
   fi
   echo ''
 }
