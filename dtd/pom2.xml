@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.in28minutes.mockito</groupId>
   <artifactId>mockito-tutorial</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
 <!-- NOTE: Do not use a literal file separator, i.e., '/' or '\', in any path value; -->
 <!-- always use the maven variable ${file.separator}. Otherwise, maven will -->
 <!-- not be able to consistently understand the path in a mixed Windows/Linux environment. -->
@@ -52,7 +52,7 @@
         <version>3.2.1</version>
         <configuration>
           <configLocation>checkstyle/checkstyle-configuration.xml</configLocation>
-          <encoding>UTF-8</encoding>
+          <encoding>utf-8</encoding>
           <consoleOutput>true</consoleOutput>
           <failsOnError>false</failsOnError>
         </configuration>

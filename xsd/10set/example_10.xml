@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <!-- the validator must handle xs:import and multiple schemas: -->
 <p:person xmlns:p="http://example.com/person" xmlns:a="http://example.com/address">
