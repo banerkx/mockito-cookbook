@@ -5,7 +5,7 @@
 file=pom.xml
 rm -f ${file}
 
-echo '<?xml version="1.0" encoding="utf-8" standalone="no"?>   		 ' >> ${file}
+echo '<?xml version="1.0" encoding="UTF-8" standalone="no"?>   		 ' >> ${file}
 echo '   	   	   	 		  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">   		     	  	  		' >> ${file}
 echo '   	   	   	 		      <modelVersion>4.0.0</modelVersion>   		     	  	  		' >> ${file}
 echo '   	   	   	 		      <groupId>com.in28minutes.mockito</groupId>   		     	  	  		' >> ${file}
@@ -20,7 +20,7 @@ echo '   	   	   	 		         		     	  	  		' >> ${file}
 echo '   	   	   	 		         		     	  	  		' >> ${file}
 echo '                      multi-line commend 1 end -->' >> ${file}
 echo '   	   	   	 		      <properties>   		     	  	  		' >> ${file}
-echo '   	   	   	 		          <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>   		     	  	  		' >> ${file}
+echo '   	   	   	 		          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>   		     	  	  		' >> ${file}
 echo '   	   	   	 		          		 	 	 	<!-- NOTE: Do not use a literal file separator, i.e., \'/\' or \'\\', in any path value; -->   		     	  	  		' >> ${file}
 echo '   	   	   	 		          		 	 	 	<!-- always use the maven variable ${file.separator}. Otherwise, maven will -->   		     	  	  		' >> ${file}
 echo '   	   	   	 		          		 	 	 	<!-- not be able to consistently understand the path in a mixed Windows/Linux environment. -->   		     	  	  		' >> ${file}
@@ -86,7 +86,7 @@ echo '   	   	   	 		                  <artifactId>maven-checkstyle-plugin</arti
 echo '   	   	   	 		                  <version>3.2.1</version>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  <configuration>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <configLocation>checkstyle/checkstyle-configuration.xml</configLocation>   		     	  	  		' >> ${file}
-echo '   	   	   	 		                      <encoding>utf-8</encoding>   		     	  	  		' >> ${file}
+echo '   	   	   	 		                      <encoding>UTF-8</encoding>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <consoleOutput>true</consoleOutput>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                      <failsOnError>false</failsOnError>   		     	  	  		' >> ${file}
 echo '   	   	   	 		                  </configuration>   		     	  	  		' >> ${file}
