@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# shellcheck disable=all
+
+./xsapache-schemas
+mkdir -p xsb
+cp *.xsd xsb
+rm *.xsd
+git status -- xsb
+
