@@ -70,9 +70,9 @@
         <xs:annotation>
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
-            When this is set to <code>true</code> the plugin checks that the
-            file or directory exists. When set to <code>false</code> it checks
-            that the file or directory does <strong>not</strong> exist.
+            When this is set to &lt;code&gt;true&lt;/code&gt; the plugin checks that the
+            file or directory exists. When set to &lt;code&gt;false&lt;/code&gt; it checks
+            that the file or directory does &lt;strong&gt;not&lt;/strong&gt; exist.
           </xs:documentation>
         </xs:annotation>
       </xs:element>

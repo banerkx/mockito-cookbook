@@ -45,14 +45,14 @@
           <xs:documentation source="description">
 
             Specify the formats of the assembly.  A format is specified by
-            supplying one of the following values in a <format> subelement:
-            <ul>
-            <li><b>"zip"</b> - Creates a ZIP file format</li>
-            <li><b>"gz"</b> - Creates a GZIP format</li>
-            <li><b>"tar"</b> - Creates a TAR format</li>
-            <li><b>"tar.gz"</b> - Creates a gzip'd TAR format</li>
-            <li><b>"tar.bz2</b> - Creates a bzip'd TAR format</li>
-            </ul>
+            supplying one of the following values in a &amp;lt;format&amp;gt; subelement:
+            &lt;ul&gt;
+            &lt;li&gt;&lt;b&gt;"zip"&lt;/b&gt; - Creates a ZIP file format&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"gz"&lt;/b&gt; - Creates a GZIP format&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"tar"&lt;/b&gt; - Creates a TAR format&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"tar.gz"&lt;/b&gt; - Creates a gzip'd TAR format&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"tar.bz2&lt;/b&gt; - Creates a bzip'd TAR format&lt;/li&gt;
+            &lt;/ul&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -202,7 +202,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            When <include> subelements are present, they define
+            When &amp;lt;include&amp;gt; subelements are present, they define
             a set of files and directory to include.
 
           </xs:documentation>
@@ -218,7 +218,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define
+            When &amp;lt;exclude&amp;gt; subelements are present, they define
             a set of files and directory to exclude.
 
           </xs:documentation>
@@ -238,7 +238,7 @@
             component is a sum of Read = 4, Write = 2, and Execute = 1.  For example,
             the default value of 0644 translates to User read-write, Group and Other
             read-only.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -252,7 +252,7 @@
             component is a sum of Read = 4, Write = 2, and Execute = 1.  For example,
             the default value of 0644 translates to User read-write, Group and Other
             read-only.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -341,7 +341,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            When <include> subelements are present, they define
+            When &amp;lt;include&amp;gt; subelements are present, they define
             a set of files and directory to include.
 
           </xs:documentation>
@@ -357,7 +357,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define
+            When &amp;lt;exclude&amp;gt; subelements are present, they define
             a set of files and directory to exclude.
 
           </xs:documentation>
@@ -377,7 +377,7 @@
             component is a sum of Read = 4, Write = 2, and Execute = 1.  For example,
             the default value of 0644 translates to User read-write, Group and Other
             read-only.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -391,7 +391,7 @@
             component is a sum of Read = 4, Write = 2, and Execute = 1.  For example,
             the default value of 0644 translates to User read-write, Group and Other
             read-only.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -408,7 +408,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            This is a list of <include> elements, each containing a module reference of the type groupId:artifactId.
+            This is a list of &amp;lt;include&amp;gt; elements, each containing a module reference of the type groupId:artifactId.
             Modules matching these elements will be included in this set.
 
           </xs:documentation>
@@ -424,7 +424,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            This is a list of <exclude> elements, each containing a module reference of the type groupId:artifactId.
+            This is a list of &amp;lt;exclude&amp;gt; elements, each containing a module reference of the type groupId:artifactId.
             Modules matching these elements will be excluded from this set.
 
           </xs:documentation>
@@ -476,7 +476,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            When <include> subelements are present, they define
+            When &amp;lt;include&amp;gt; subelements are present, they define
             a set of files and directory to include.
 
           </xs:documentation>
@@ -492,7 +492,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define
+            When &amp;lt;exclude&amp;gt; subelements are present, they define
             a set of files and directory to exclude.
 
           </xs:documentation>
@@ -512,7 +512,7 @@
             component is a sum of Read = 4, Write = 2, and Execute = 1.  For example,
             the default value of 0644 translates to User read-write, Group and Other
             read-only.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -526,7 +526,7 @@
             component is a sum of Read = 4, Write = 2, and Execute = 1.  For example,
             the default value of 0644 translates to User read-write, Group and Other
             read-only.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -585,7 +585,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            When <include> subelements are present, they define
+            When &amp;lt;include&amp;gt; subelements are present, they define
             a set of files and directory to include.
 
           </xs:documentation>
@@ -601,7 +601,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define
+            When &amp;lt;exclude&amp;gt; subelements are present, they define
             a set of files and directory to exclude.
 
           </xs:documentation>
@@ -621,7 +621,7 @@
             component is a sum of Read = 4, Write = 2, and Execute = 1.  For example,
             the default value of 0644 translates to User read-write, Group and Other
             read-only.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -635,7 +635,7 @@
             component is a sum of Read = 4, Write = 2, and Execute = 1.  For example,
             the default value of 0644 translates to User read-write, Group and Other
             read-only.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -687,7 +687,7 @@
             component is a sum of Read = 4, Write = 2, and Execute = 1.  For example,
             the default value of 0644 translates to User read-write, Group and Other
             read-only.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -699,13 +699,13 @@
 
             Controls the line-endings of files in this fileSet.
             Valid values are:
-            <ul>
-            <li><b>"keep"</b> - Preserve all line endings</li>
-            <li><b>"unix"</b> - Use Unix-style line endings</li>
-            <li><b>"lf"</b> - Use a single line-feed line endings</li>
-            <li><b>"dos"</b> - Use DOS-style line endings</li>
-            <li><b>"crlf"</b> - Use Carraige-return, line-feed line endings</li>
-            </ul>
+            &lt;ul&gt;
+            &lt;li&gt;&lt;b&gt;"keep"&lt;/b&gt; - Preserve all line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"unix"&lt;/b&gt; - Use Unix-style line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"lf"&lt;/b&gt; - Use a single line-feed line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"dos"&lt;/b&gt; - Use DOS-style line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"crlf"&lt;/b&gt; - Use Carraige-return, line-feed line endings&lt;/li&gt;
+            &lt;/ul&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -742,13 +742,13 @@
 
             Controls the line-endings of files in this fileSet.
             Valid values:
-            <ul>
-            <li><b>"keep"</b> - Preserve all line endings</li>
-            <li><b>"unix"</b> - Use Unix-style line endings</li>
-            <li><b>"lf"</b> - Use a single line-feed line endings</li>
-            <li><b>"dos"</b> - Use DOS-style line endings</li>
-            <li><b>"crlf"</b> - Use Carraige-return, line-feed line endings</li>
-            </ul>
+            &lt;ul&gt;
+            &lt;li&gt;&lt;b&gt;"keep"&lt;/b&gt; - Preserve all line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"unix"&lt;/b&gt; - Use Unix-style line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"lf"&lt;/b&gt; - Use a single line-feed line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"dos"&lt;/b&gt; - Use DOS-style line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"crlf"&lt;/b&gt; - Use Carraige-return, line-feed line endings&lt;/li&gt;
+            &lt;/ul&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -768,7 +768,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            When <include> subelements are present, they define
+            When &amp;lt;include&amp;gt; subelements are present, they define
             a set of files and directory to include.
 
           </xs:documentation>
@@ -784,7 +784,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define
+            When &amp;lt;exclude&amp;gt; subelements are present, they define
             a set of files and directory to exclude.
 
           </xs:documentation>
@@ -804,7 +804,7 @@
             component is a sum of Read = 4, Write = 2, and Execute = 1.  For example,
             the default value of 0644 translates to User read-write, Group and Other
             read-only.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -818,7 +818,7 @@
             component is a sum of Read = 4, Write = 2, and Execute = 1.  For example,
             the default value of 0644 translates to User read-write, Group and Other
             read-only.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>

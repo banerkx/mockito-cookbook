@@ -97,7 +97,7 @@
         <xs:documentation source="description">
 
           The date of this release.
-          <p>This field can be any string, such as "in SVN" when the version isn't yet released but the ISO 8601 date format is recommended.</p>
+          &lt;p&gt;This field can be any string, such as "in SVN" when the version isn't yet released but the ISO 8601 date format is recommended.&lt;/p&gt;
 
         </xs:documentation>
       </xs:annotation>
@@ -126,7 +126,7 @@
             <xs:documentation source="description">
 
               Name of developer who committed the change.
-              <p>This can be either the id of the developer, as specified in the developers section of the pom.xml file, or the name of the developer. If you generate a changes report and specify the id of the developer, a link is created to that developer in the team.html page.</p>
+              &lt;p&gt;This can be either the id of the developer, as specified in the developers section of the pom.xml file, or the name of the developer. If you generate a changes report and specify the id of the developer, a link is created to that developer in the team.html page.&lt;/p&gt;
 
             </xs:documentation>
           </xs:annotation>
@@ -154,8 +154,8 @@
             <xs:documentation source="description">
 
               Id of the issue related to this change. This is the id in your issue tracking system.
-              <p>The Changes plugin will generate a URL out of this id. The URL is constructed using the value of the issueLinkTemplate parameter.</p>
-              <p>See the <a href="changes-report.html">changes-report mojo</a> for more details.</p>
+              &lt;p&gt;The Changes plugin will generate a URL out of this id. The URL is constructed using the value of the issueLinkTemplate parameter.&lt;/p&gt;
+              &lt;p&gt;See the &lt;a href="changes-report.html"&gt;changes-report mojo&lt;/a&gt; for more details.&lt;/p&gt;
 
             </xs:documentation>
           </xs:annotation>
@@ -166,12 +166,12 @@
             <xs:documentation source="description">
 
               Supported action types are the following:
-              <ul>
-              <li>add: added functionality to the project.</li>
-              <li>fix: bug fix for the project.</li>
-              <li>update: updated some part of the project.</li>
-              <li>remove: removed some functionality from the project.</li>
-              </ul>
+              &lt;ul&gt;
+              &lt;li&gt;add: added functionality to the project.&lt;/li&gt;
+              &lt;li&gt;fix: bug fix for the project.&lt;/li&gt;
+              &lt;li&gt;update: updated some part of the project.&lt;/li&gt;
+              &lt;li&gt;remove: removed some functionality from the project.&lt;/li&gt;
+              &lt;/ul&gt;
 
             </xs:documentation>
           </xs:annotation>
@@ -182,8 +182,8 @@
             <xs:documentation source="description">
 
               Id of issue tracking system. If empty 'default' value will be used.
-              <p>The Changes plugin will generate a URL out of this id. The URL is constructed using the value of the issueLinkTemplatePerSystem parameter.</p>
-              <p>See the <a href="changes-report.html">changes-report mojo</a> for more details.</p>
+              &lt;p&gt;The Changes plugin will generate a URL out of this id. The URL is constructed using the value of the issueLinkTemplatePerSystem parameter.&lt;/p&gt;
+              &lt;p&gt;See the &lt;a href="changes-report.html"&gt;changes-report mojo&lt;/a&gt; for more details.&lt;/p&gt;
 
             </xs:documentation>
           </xs:annotation>

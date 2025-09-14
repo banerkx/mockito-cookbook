@@ -66,7 +66,7 @@
       <xs:element minOccurs="0" name="version" type="xs:string">
         <xs:annotation>
           <xs:documentation source="version">0.0.0+</xs:documentation>
-          <xs:documentation source="description">The version of the archetype. <code>RELEASE</code> is a valid version.</xs:documentation>
+          <xs:documentation source="description">The version of the archetype. &lt;code&gt;RELEASE&lt;/code&gt; is a valid version.</xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element minOccurs="0" name="repository" type="xs:string">

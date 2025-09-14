@@ -2136,7 +2136,7 @@
       <xs:attribute name="name">
         <xs:annotation>
           <xs:documentation>
-            the name attribute is required for all but submit & reset
+            the name attribute is required for all but submit &amp; reset
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -2736,7 +2736,7 @@
     <xs:annotation>
       <xs:documentation source="version">1.0.0</xs:documentation>
       <xs:documentation source="description">
-        The <faqs/> element is the root of the FML descriptor.
+        The &lt;faqs/&gt; element is the root of the FML descriptor.
       </xs:documentation>
     </xs:annotation>
     <xs:complexType>

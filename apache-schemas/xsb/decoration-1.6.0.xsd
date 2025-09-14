@@ -26,7 +26,7 @@
     <xs:annotation>
       <xs:documentation source="version">1.0.0+</xs:documentation>
       <xs:documentation source="description">
-        The <code><project></code> element is the root of the site decoration descriptor.
+        The &lt;code&gt;&amp;lt;project&amp;gt;&lt;/code&gt; element is the root of the site decoration descriptor.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -34,7 +34,7 @@
     <xs:annotation>
       <xs:documentation source="version">1.0.0+</xs:documentation>
       <xs:documentation source="description">
-        The <code><project></code> element is the root of the site decoration descriptor.
+        The &lt;code&gt;&amp;lt;project&amp;gt;&lt;/code&gt; element is the root of the site decoration descriptor.
       </xs:documentation>
     </xs:annotation>
     <xs:all>
@@ -108,8 +108,8 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
             Custom configuration for use with customized Velocity templates. Data from this field are
-            accessible in Velocity template from <code>$decoration.custom</code> variable as DOM content.
-            Example: <code>$decoration.custom.getChild( 'customElement' ).getValue()</code>
+            accessible in Velocity template from &lt;code&gt;$decoration.custom&lt;/code&gt; variable as DOM content.
+            Example: &lt;code&gt;$decoration.custom.getChild( 'customElement' ).getValue()&lt;/code&gt;
           </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -129,8 +129,8 @@
       <xs:annotation>
         <xs:documentation source="version">1.6.0+</xs:documentation>
         <xs:documentation source="description">
-          Whether to inherit configuration from a parent project site descriptor (<code>merge</code>)
-          or not (<code>override</code>).
+          Whether to inherit configuration from a parent project site descriptor (&lt;code&gt;merge&lt;/code&gt;)
+          or not (&lt;code&gt;override&lt;/code&gt;).
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -350,7 +350,7 @@
       <xs:annotation>
         <xs:documentation source="version">1.0.0+</xs:documentation>
         <xs:documentation source="description">
-          The way in which the menu is inherited. Can be one of : <code>top</code>, <code>bottom</code>.
+          The way in which the menu is inherited. Can be one of : &lt;code&gt;top&lt;/code&gt;, &lt;code&gt;bottom&lt;/code&gt;.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -358,7 +358,7 @@
       <xs:annotation>
         <xs:documentation source="version">1.0.0+</xs:documentation>
         <xs:documentation source="description">
-          If this is a reference, setting <inheritAsRef>true</inheritAsRef> means that it will be populated
+          If this is a reference, setting &lt;inheritAsRef&gt;true&lt;/inheritAsRef&gt; means that it will be populated
           in the project, whereas if it is false, it is populated in the parent and then inherited.
         </xs:documentation>
       </xs:annotation>
@@ -367,8 +367,8 @@
       <xs:annotation>
         <xs:documentation source="version">1.0.0+</xs:documentation>
         <xs:documentation source="description">
-          A reference to a pre-defined menu, such as a <code>reports</code>, <code>modules</code>
-          or <code>parent</code>.
+          A reference to a pre-defined menu, such as a &lt;code&gt;reports&lt;/code&gt;, &lt;code&gt;modules&lt;/code&gt;
+          or &lt;code&gt;parent&lt;/code&gt;.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

@@ -40,7 +40,7 @@
           <xs:documentation source="description">
 
             Specifies which module files to include in the assembly. A moduleSet
-            is specified by providing one or more of <moduleSet>
+            is specified by providing one or more of &amp;lt;moduleSet&amp;gt;
             subelements.
 
           </xs:documentation>
@@ -57,7 +57,7 @@
           <xs:documentation source="description">
 
             Specifies which groups of files to include in the assembly. A
-            fileSet is specified by providing one or more of <fileSet>
+            fileSet is specified by providing one or more of &amp;lt;fileSet&amp;gt;
             subelements.
 
           </xs:documentation>
@@ -74,7 +74,7 @@
           <xs:documentation source="description">
 
             Specifies which single files to include in the assembly. A file
-            is specified by providing one or more of <file>
+            is specified by providing one or more of &amp;lt;file&amp;gt;
             subelements.
 
           </xs:documentation>
@@ -92,7 +92,7 @@
 
             Specifies which dependencies to include in the assembly. A
             dependencySet is specified by providing one or more of
-            <dependencySet> subelements.
+            &amp;lt;dependencySet&amp;gt; subelements.
 
           </xs:documentation>
         </xs:annotation>
@@ -109,7 +109,7 @@
 
             Specifies a set of repositories to include in the assembly. A
             repository is specified by providing one or more of
-            <repository> subelements.
+            &amp;lt;repository&amp;gt; subelements.
 
           </xs:documentation>
         </xs:annotation>
@@ -162,9 +162,9 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            When <include> subelements are present, they define a set of
+            When &amp;lt;include&amp;gt; subelements are present, they define a set of
             artifact coordinates to include. If none is present, then
-            <includes> represents all valid values.
+            &amp;lt;includes&amp;gt; represents all valid values.
 
             Artifact coordinates may be given in simple groupId:artifactId form,
             or they may be fully qualified in the form groupId:artifactId:type[:classifier]:version.
@@ -183,9 +183,9 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define a set of
+            When &amp;lt;exclude&amp;gt; subelements are present, they define a set of
             dependency artifact coordinates to exclude. If none is present, then
-            <excludes> represents no exclusions.
+            &amp;lt;excludes&amp;gt; represents no exclusions.
 
             Artifact coordinates may be given in simple groupId:artifactId form,
             or they may be fully qualified in the form groupId:artifactId:type[:classifier]:version.
@@ -209,7 +209,7 @@
             Format: (User)(Group)(Other) where each component is a sum of Read = 4,
             Write = 2, and Execute = 1.  For example, the value 0644
             translates to User read-write, Group and Other read-only. The default value is 0644.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -225,7 +225,7 @@
             Format: (User)(Group)(Other) where each component is a sum of
             Read = 4, Write = 2, and Execute = 1.  For example, the value
             0755 translates to User read-write, Group and Other read-only. The default value is 0755.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -345,7 +345,7 @@
           <xs:documentation source="description">
 
             Set of file and/or directory patterns for matching items to be included from an archive as it is unpacked.
-            Each item is specified as <include>some/path</include> (Since 2.2)
+            Each item is specified as &amp;lt;include&amp;gt;some/path&amp;lt;/include&amp;gt; (Since 2.2)
 
           </xs:documentation>
         </xs:annotation>
@@ -361,7 +361,7 @@
           <xs:documentation source="description">
 
             Set of file and/or directory patterns for matching items to be excluded from an archive as it is unpacked.
-            Each item is specified as <exclude>some/path</exclude> (Since 2.2)
+            Each item is specified as &amp;lt;exclude&amp;gt;some/path&amp;lt;/exclude&amp;gt; (Since 2.2)
 
           </xs:documentation>
         </xs:annotation>
@@ -387,13 +387,13 @@
 
             Sets the line-endings of the files. (Since 2.2)
             Valid values:
-            <ul>
-            <li><b>"keep"</b> - Preserve all line endings</li>
-            <li><b>"unix"</b> - Use Unix-style line endings</li>
-            <li><b>"lf"</b> - Use a single line-feed line endings</li>
-            <li><b>"dos"</b> - Use DOS-style line endings</li>
-            <li><b>"crlf"</b> - Use Carraige-return, line-feed line endings</li>
-            </ul>
+            &lt;ul&gt;
+            &lt;li&gt;&lt;b&gt;"keep"&lt;/b&gt; - Preserve all line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"unix"&lt;/b&gt; - Use Unix-style line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"lf"&lt;/b&gt; - Use a single line-feed line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"dos"&lt;/b&gt; - Use DOS-style line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"crlf"&lt;/b&gt; - Use Carraige-return, line-feed line endings&lt;/li&gt;
+            &lt;/ul&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -466,7 +466,7 @@
         and also contains both sha1 and md5 checksums. This is useful for creating
         archives which will be deployed to internal repositories.
 
-        <br/><b>NOTE:</b> Currently, only artifacts from the central repository
+        &lt;br/&gt;&lt;b&gt;NOTE:&lt;/b&gt; Currently, only artifacts from the central repository
         are allowed.
 
       </xs:documentation>
@@ -488,9 +488,9 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            When <include> subelements are present, they define a set of
+            When &amp;lt;include&amp;gt; subelements are present, they define a set of
             artifact coordinates to include. If none is present, then
-            <includes> represents all valid values.
+            &amp;lt;includes&amp;gt; represents all valid values.
 
             Artifact coordinates may be given in simple groupId:artifactId form,
             or they may be fully qualified in the form groupId:artifactId:type[:classifier]:version.
@@ -509,9 +509,9 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define a set of
+            When &amp;lt;exclude&amp;gt; subelements are present, they define a set of
             dependency artifact coordinates to exclude. If none is present, then
-            <excludes> represents no exclusions.
+            &amp;lt;excludes&amp;gt; represents no exclusions.
 
             Artifact coordinates may be given in simple groupId:artifactId form,
             or they may be fully qualified in the form groupId:artifactId:type[:classifier]:version.
@@ -535,7 +535,7 @@
             Format: (User)(Group)(Other) where each component is a sum of Read = 4,
             Write = 2, and Execute = 1.  For example, the value 0644
             translates to User read-write, Group and Other read-only. The default value is 0644.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -551,7 +551,7 @@
             Format: (User)(Group)(Other) where each component is a sum of
             Read = 4, Write = 2, and Execute = 1.  For example, the value
             0755 translates to User read-write, Group and Other read-only. The default value is 0755.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -573,7 +573,7 @@
 
             Specifies that you want to align a group of artifacts to a specified
             version. A groupVersionAlignment is specified by providing one or
-            more of <groupVersionAlignment> subelements.
+            more of &amp;lt;groupVersionAlignment&amp;gt; subelements.
 
           </xs:documentation>
         </xs:annotation>
@@ -624,10 +624,10 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define the
+            When &amp;lt;exclude&amp;gt; subelements are present, they define the
             artifactIds of the artifacts to exclude. If none is present, then
-            <excludes> represents no exclusions. An exclude is specified
-            by providing one or more of <exclude> subelements.
+            &amp;lt;excludes&amp;gt; represents no exclusions. An exclude is specified
+            by providing one or more of &amp;lt;exclude&amp;gt; subelements.
 
           </xs:documentation>
         </xs:annotation>
@@ -644,11 +644,11 @@
       <xs:documentation source="version">1.1.2+</xs:documentation>
       <xs:documentation source="description">
 
-        A moduleSet represent one or more project <module> present inside
+        A moduleSet represent one or more project &amp;lt;module&amp;gt; present inside
         a project's pom.xml. This allows you to include sources or binaries
-        belonging to a project's <modules>.
+        belonging to a project's &amp;lt;modules&amp;gt;.
 
-        <br/><b>NOTE:</b> When using <moduleSets> from the command-line, it
+        &lt;br/&gt;&lt;b&gt;NOTE:&lt;/b&gt; When using &amp;lt;moduleSets&amp;gt; from the command-line, it
         is required to pass first the package phase by doing: "mvn package
         assembly:assembly". This bug/issue is scheduled to be addressed by Maven 2.1.
 
@@ -680,9 +680,9 @@
           <xs:documentation source="version">1.1.2+</xs:documentation>
           <xs:documentation source="description">
 
-            When <include> subelements are present, they define a set of
+            When &amp;lt;include&amp;gt; subelements are present, they define a set of
             project coordinates to include. If none is present, then
-            <includes> represents all valid values.
+            &amp;lt;includes&amp;gt; represents all valid values.
 
             Artifact coordinates may be given in simple groupId:artifactId form,
             or they may be fully qualified in the form groupId:artifactId:type[:classifier]:version.
@@ -701,9 +701,9 @@
           <xs:documentation source="version">1.1.2+</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define a set of
+            When &amp;lt;exclude&amp;gt; subelements are present, they define a set of
             project artifact coordinates to exclude. If none is present, then
-            <excludes> represents no exclusions.
+            &amp;lt;excludes&amp;gt; represents no exclusions.
 
             Artifact coordinates may be given in simple groupId:artifactId form,
             or they may be fully qualified in the form groupId:artifactId:type[:classifier]:version.
@@ -762,9 +762,9 @@
           <xs:documentation source="version">1.1.2+</xs:documentation>
           <xs:documentation source="description">
 
-            When <include> subelements are present, they define a set of
+            When &amp;lt;include&amp;gt; subelements are present, they define a set of
             artifact coordinates to include. If none is present, then
-            <includes> represents all valid values.
+            &amp;lt;includes&amp;gt; represents all valid values.
 
             Artifact coordinates may be given in simple groupId:artifactId form,
             or they may be fully qualified in the form groupId:artifactId:type[:classifier]:version.
@@ -783,9 +783,9 @@
           <xs:documentation source="version">1.1.2+</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define a set of
+            When &amp;lt;exclude&amp;gt; subelements are present, they define a set of
             dependency artifact coordinates to exclude. If none is present, then
-            <excludes> represents no exclusions.
+            &amp;lt;excludes&amp;gt; represents no exclusions.
 
             Artifact coordinates may be given in simple groupId:artifactId form,
             or they may be fully qualified in the form groupId:artifactId:type[:classifier]:version.
@@ -809,7 +809,7 @@
             Format: (User)(Group)(Other) where each component is a sum of Read = 4,
             Write = 2, and Execute = 1.  For example, the value 0644
             translates to User read-write, Group and Other read-only. The default value is 0644.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -825,7 +825,7 @@
             Format: (User)(Group)(Other) where each component is a sum of
             Read = 4, Write = 2, and Execute = 1.  For example, the value
             0755 translates to User read-write, Group and Other read-only. The default value is 0755.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -858,7 +858,7 @@
 
             Specifies which dependencies of the module to include in the assembly. A
             dependencySet is specified by providing one or more of
-            <dependencySet> subelements. (Since 2.2)
+            &amp;lt;dependencySet&amp;gt; subelements. (Since 2.2)
 
           </xs:documentation>
         </xs:annotation>
@@ -937,9 +937,9 @@
           <xs:documentation source="version">1.1.2+</xs:documentation>
           <xs:documentation source="description">
 
-            When <include> subelements are present, they define a set of
+            When &amp;lt;include&amp;gt; subelements are present, they define a set of
             files and directory to include. If none is present, then
-            <includes> represents all valid values.
+            &amp;lt;includes&amp;gt; represents all valid values.
 
           </xs:documentation>
         </xs:annotation>
@@ -954,9 +954,9 @@
           <xs:documentation source="version">1.1.2+</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define a set of
+            When &amp;lt;exclude&amp;gt; subelements are present, they define a set of
             files and directory to exclude. If none is present, then
-            <excludes> represents no exclusions.
+            &amp;lt;excludes&amp;gt; represents no exclusions.
 
           </xs:documentation>
         </xs:annotation>
@@ -976,7 +976,7 @@
             Format: (User)(Group)(Other) where each component is a sum of Read = 4,
             Write = 2, and Execute = 1.  For example, the value 0644
             translates to User read-write, Group and Other read-only. The default value is 0644.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -992,7 +992,7 @@
             Format: (User)(Group)(Other) where each component is a sum of
             Read = 4, Write = 2, and Execute = 1.  For example, the value
             0755 translates to User read-write, Group and Other read-only. The default value is 0755.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -1003,7 +1003,7 @@
           <xs:documentation source="description">
 
             Specifies which groups of files from each included module to include in the assembly. A
-            fileSet is specified by providing one or more of <fileSet> subelements. (Since 2.2)
+            fileSet is specified by providing one or more of &amp;lt;fileSet&amp;gt; subelements. (Since 2.2)
 
           </xs:documentation>
         </xs:annotation>
@@ -1083,9 +1083,9 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            When <include> subelements are present, they define a set of
+            When &amp;lt;include&amp;gt; subelements are present, they define a set of
             files and directory to include. If none is present, then
-            <includes> represents all valid values.
+            &amp;lt;includes&amp;gt; represents all valid values.
 
           </xs:documentation>
         </xs:annotation>
@@ -1100,9 +1100,9 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            When <exclude> subelements are present, they define a set of
+            When &amp;lt;exclude&amp;gt; subelements are present, they define a set of
             files and directory to exclude. If none is present, then
-            <excludes> represents no exclusions.
+            &amp;lt;excludes&amp;gt; represents no exclusions.
 
           </xs:documentation>
         </xs:annotation>
@@ -1122,7 +1122,7 @@
             Format: (User)(Group)(Other) where each component is a sum of Read = 4,
             Write = 2, and Execute = 1.  For example, the value 0644
             translates to User read-write, Group and Other read-only.  The default value is 0644.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -1138,7 +1138,7 @@
             Format: (User)(Group)(Other) where each component is a sum of
             Read = 4, Write = 2, and Execute = 1.  For example, the value
             0755 translates to User read-write, Group and Other read-only. The default value is 0755.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -1160,13 +1160,13 @@
 
             Sets the line-endings of the files in this fileSet.
             Valid values:
-            <ul>
-            <li><b>"keep"</b> - Preserve all line endings</li>
-            <li><b>"unix"</b> - Use Unix-style line endings</li>
-            <li><b>"lf"</b> - Use a single line-feed line endings</li>
-            <li><b>"dos"</b> - Use DOS-style line endings</li>
-            <li><b>"crlf"</b> - Use Carraige-return, line-feed line endings</li>
-            </ul>
+            &lt;ul&gt;
+            &lt;li&gt;&lt;b&gt;"keep"&lt;/b&gt; - Preserve all line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"unix"&lt;/b&gt; - Use Unix-style line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"lf"&lt;/b&gt; - Use a single line-feed line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"dos"&lt;/b&gt; - Use DOS-style line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"crlf"&lt;/b&gt; - Use Carraige-return, line-feed line endings&lt;/li&gt;
+            &lt;/ul&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -1229,7 +1229,7 @@
             Format: (User)(Group)(Other) where each component is a sum of Read = 4,
             Write = 2, and Execute = 1.  For example, the value 0644
             translates to User read-write, Group and Other read-only. The default value is 0644.
-            <a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html">(more on unix-style permissions)</a>
+            &lt;a href="http://www.onlamp.com/pub/a/bsd/2000/09/06/FreeBSD_Basics.html"&gt;(more on unix-style permissions)&lt;/a&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -1241,13 +1241,13 @@
 
             Sets the line-endings of the files in this file.
             Valid values are:
-            <ul>
-            <li><b>"keep"</b> - Preserve all line endings</li>
-            <li><b>"unix"</b> - Use Unix-style line endings</li>
-            <li><b>"lf"</b> - Use a single line-feed line endings</li>
-            <li><b>"dos"</b> - Use DOS-style line endings</li>
-            <li><b>"crlf"</b> - Use Carraige-return, line-feed line endings</li>
-            </ul>
+            &lt;ul&gt;
+            &lt;li&gt;&lt;b&gt;"keep"&lt;/b&gt; - Preserve all line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"unix"&lt;/b&gt; - Use Unix-style line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"lf"&lt;/b&gt; - Use a single line-feed line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"dos"&lt;/b&gt; - Use DOS-style line endings&lt;/li&gt;
+            &lt;li&gt;&lt;b&gt;"crlf"&lt;/b&gt; - Use Carraige-return, line-feed line endings&lt;/li&gt;
+            &lt;/ul&gt;
 
           </xs:documentation>
         </xs:annotation>

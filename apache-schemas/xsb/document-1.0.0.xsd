@@ -357,16 +357,16 @@
     <xs:annotation>
       <xs:documentation source="version">1.0.0</xs:documentation>
       <xs:documentation source="description">
-        <p>
+        &lt;p&gt;
         Metadata is general information about a document.
-        </p>
+        &lt;/p&gt;
 
-        <p>
+        &lt;p&gt;
         The metadata elements used here were mostly inspired by the
-        <a href="http://docs.oasis-open.org/office/v1.1/">Open Document Format Specification v. 1.1</a>,
+        &lt;a href="http://docs.oasis-open.org/office/v1.1/"&gt;Open Document Format Specification v. 1.1&lt;/a&gt;,
         which in turn borrows heavily upon the metadata standards developed by the
-        <a href="http://www.dublincore.org">Dublin Core Metadata Initiative</a>.
-        </p>
+        &lt;a href="http://www.dublincore.org"&gt;Dublin Core Metadata Initiative&lt;/a&gt;.
+        &lt;/p&gt;
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -383,7 +383,7 @@
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
             A shortcut for the unique author of the document, usually as a String of "firstName lastName". For
-            more authors, you could use the <authors/> tag.
+            more authors, you could use the &lt;authors/&gt; tag.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -735,47 +735,47 @@
         <xs:documentation source="version">1.0.0</xs:documentation>
         <xs:documentation source="description">
           the name of the default target frame.
-          <p>
+          &lt;p&gt;
           Specifies the name of the default target frame in which to display
           a document referenced by a hyperlink.
-          </p>
+          &lt;/p&gt;
 
-          <p>
+          &lt;p&gt;
           This attribute can have one of the following values:
-          </p>
+          &lt;/p&gt;
 
-          <dl>
-          <dd>_self</dd>
-          <dt>
+          &lt;dl&gt;
+          &lt;dd&gt;_self&lt;/dd&gt;
+          &lt;dt&gt;
           The referenced document replaces the content
           of the current frame.
-          </dt>
+          &lt;/dt&gt;
 
-          <dd>_blank</dd>
-          <dt>
+          &lt;dd&gt;_blank&lt;/dd&gt;
+          &lt;dt&gt;
           The referenced document is displayed in a new frame.
-          </dt>
+          &lt;/dt&gt;
 
-          <dd>_parent</dd>
-          <dt>
+          &lt;dd&gt;_parent&lt;/dd&gt;
+          &lt;dt&gt;
           The referenced document is displayed in the parent frame
           of the current frame.
-          </dt>
+          &lt;/dt&gt;
 
-          <dd>_top</dd>
-          <dt>
+          &lt;dd&gt;_top&lt;/dd&gt;
+          &lt;dt&gt;
           The referenced document is displayed in the topmost frame,
           that is the frame that contains the current frame as a child
           or descendent but is not contained within another frame.
-          </dt>
+          &lt;/dt&gt;
 
-          <dd>A frame name</dd>
-          <dt>
+          &lt;dd&gt;A frame name&lt;/dd&gt;
+          &lt;dt&gt;
           The referenced document is displayed in the named frame.
           If the named frame does not exist, a new frame with that
           name is created.
-          </dt>
-          </dl>
+          &lt;/dt&gt;
+          &lt;/dl&gt;
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

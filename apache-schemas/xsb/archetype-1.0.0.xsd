@@ -37,22 +37,22 @@
       <xs:element minOccurs="0" name="id" type="xs:string">
         <xs:annotation>
           <xs:documentation source="version">1.0.0</xs:documentation>
-          <xs:documentation source="description">The value should be the same as the artifactId in the archetype <code>pom.xml</code>.</xs:documentation>
+          <xs:documentation source="description">The value should be the same as the artifactId in the archetype &lt;code&gt;pom.xml&lt;/code&gt;.</xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element minOccurs="0" name="allowPartial" type="xs:boolean" default="false">
         <xs:annotation>
           <xs:documentation source="version">1.0.0</xs:documentation>
           <xs:documentation source="description">
-            Setting this option to <code>true</code> makes it possible to run the
-            <code>archetype:create</code> even on existing projects.
+            Setting this option to &lt;code&gt;true&lt;/code&gt; makes it possible to run the
+            &lt;code&gt;archetype:create&lt;/code&gt; even on existing projects.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element minOccurs="0" name="sources">
         <xs:annotation>
           <xs:documentation source="version">1.0.0</xs:documentation>
-          <xs:documentation source="description">Files that will go into <code>src/main/java</code>.</xs:documentation>
+          <xs:documentation source="description">Files that will go into &lt;code&gt;src/main/java&lt;/code&gt;.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:sequence>
@@ -63,7 +63,7 @@
       <xs:element minOccurs="0" name="resources">
         <xs:annotation>
           <xs:documentation source="version">1.0.0</xs:documentation>
-          <xs:documentation source="description">Files that will go into <code>src/main/resources</code>.</xs:documentation>
+          <xs:documentation source="description">Files that will go into &lt;code&gt;src/main/resources&lt;/code&gt;.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:sequence>
@@ -74,7 +74,7 @@
       <xs:element minOccurs="0" name="testSources">
         <xs:annotation>
           <xs:documentation source="version">1.0.0</xs:documentation>
-          <xs:documentation source="description">Files that will go into <code>src/test/java</code>.</xs:documentation>
+          <xs:documentation source="description">Files that will go into &lt;code&gt;src/test/java&lt;/code&gt;.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:sequence>
@@ -85,7 +85,7 @@
       <xs:element minOccurs="0" name="testResources">
         <xs:annotation>
           <xs:documentation source="version">1.0.0</xs:documentation>
-          <xs:documentation source="description">Files that will go into <code>src/test/resources</code>.</xs:documentation>
+          <xs:documentation source="description">Files that will go into &lt;code&gt;src/test/resources&lt;/code&gt;.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:sequence>
@@ -96,7 +96,7 @@
       <xs:element minOccurs="0" name="siteResources">
         <xs:annotation>
           <xs:documentation source="version">1.0.0</xs:documentation>
-          <xs:documentation source="description">Files that will go into <code>src/site</code>.</xs:documentation>
+          <xs:documentation source="description">Files that will go into &lt;code&gt;src/site&lt;/code&gt;.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:sequence>
@@ -121,7 +121,7 @@
             <xs:documentation source="version">1.0.0</xs:documentation>
             <xs:documentation source="description">
               The encoding to be used when reading/writing this file.
-              Platform encoding is used by default, or ISO-8859-1 when filename ends in <code>.properties</code>
+              Platform encoding is used by default, or ISO-8859-1 when filename ends in &lt;code&gt;.properties&lt;/code&gt;
             </xs:documentation>
           </xs:annotation>
         </xs:attribute>
@@ -140,7 +140,7 @@
             <xs:documentation source="version">1.0.0</xs:documentation>
             <xs:documentation source="description">
               The encoding to be used when reading/writing this file.
-              Platform encoding is used by default, or ISO-8859-1 when filename ends in <code>.properties</code>
+              Platform encoding is used by default, or ISO-8859-1 when filename ends in &lt;code&gt;.properties&lt;/code&gt;
             </xs:documentation>
           </xs:annotation>
         </xs:attribute>

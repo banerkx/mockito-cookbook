@@ -43,7 +43,7 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            The local repository.<br><b>Default value is:</b> <code>${user.home}/.m2/repository</code>
+            The local repository.&lt;br&gt;&lt;b&gt;Default value is:&lt;/b&gt; &lt;code&gt;${user.home}/.m2/repository&lt;/code&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -180,7 +180,7 @@
       <xs:documentation source="version">1.0.0+</xs:documentation>
       <xs:documentation source="description">
 
-        The <code><proxy></code> element contains informations required to a proxy settings.
+        The &lt;code&gt;&amp;lt;proxy&amp;gt;&lt;/code&gt; element contains informations required to a proxy settings.
       </xs:documentation>
     </xs:annotation>
     <xs:all>
@@ -266,7 +266,7 @@
       <xs:documentation source="version">1.0.0+</xs:documentation>
       <xs:documentation source="description">
 
-        The <code><server></code> element contains informations required to a server settings.
+        The &lt;code&gt;&amp;lt;server&amp;gt;&lt;/code&gt; element contains informations required to a server settings.
       </xs:documentation>
     </xs:annotation>
     <xs:all>
@@ -434,7 +434,7 @@
 
             Extended configuration specific to this profile goes here.
             Contents take the form of
-            <code><property.name>property.value</property.name></code>
+            &lt;code&gt;&amp;lt;property.name&amp;gt;property.value&amp;lt;/property.name&amp;gt;&lt;/code&gt;
 
           </xs:documentation>
         </xs:annotation>

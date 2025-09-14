@@ -214,7 +214,7 @@
       <xs:documentation source="version">1.0.0</xs:documentation>
       <xs:documentation source="description">
 
-        The <code><proxy></code> element contains informations required to a proxy settings.
+        The &lt;code&gt;&amp;lt;proxy&amp;gt;&lt;/code&gt; element contains informations required to a proxy settings.
       </xs:documentation>
     </xs:annotation>
     <xs:all>
@@ -300,7 +300,7 @@
       <xs:documentation source="version">1.0.0</xs:documentation>
       <xs:documentation source="description">
 
-        The <code><server></code> element contains informations required to a server settings.
+        The &lt;code&gt;&amp;lt;server&amp;gt;&lt;/code&gt; element contains informations required to a server settings.
       </xs:documentation>
     </xs:annotation>
     <xs:all>
@@ -414,7 +414,7 @@
           <xs:documentation source="description">
             Extended configuration specific to this profile goes here.
             Contents take the form of
-            <property.name>property.value</property.name>
+            &lt;property.name&gt;property.value&lt;/property.name&gt;
           </xs:documentation>
         </xs:annotation>
         <xs:complexType>

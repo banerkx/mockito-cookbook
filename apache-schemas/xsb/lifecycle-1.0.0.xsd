@@ -23,13 +23,13 @@
   <xs:element name="lifecycles" type="LifecycleConfiguration">
     <xs:annotation>
       <xs:documentation source="version">1.0.0</xs:documentation>
-      <xs:documentation source="description">Root element of the <code>lifecycle.xml</code> file.</xs:documentation>
+      <xs:documentation source="description">Root element of the &lt;code&gt;lifecycle.xml&lt;/code&gt; file.</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:complexType name="LifecycleConfiguration">
     <xs:annotation>
       <xs:documentation source="version">1.0.0</xs:documentation>
-      <xs:documentation source="description">Root element of the <code>lifecycle.xml</code> file.</xs:documentation>
+      <xs:documentation source="description">Root element of the &lt;code&gt;lifecycle.xml&lt;/code&gt; file.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element minOccurs="0" name="lifecycle" type="Lifecycle" maxOccurs="unbounded">
@@ -75,7 +75,7 @@
       <xs:element minOccurs="0" name="id" type="xs:string">
         <xs:annotation>
           <xs:documentation source="version">1.0.0</xs:documentation>
-          <xs:documentation source="description">The ID of this phase, e.g., <code>generate-sources</code>.</xs:documentation>
+          <xs:documentation source="description">The ID of this phase, e.g., &lt;code&gt;generate-sources&lt;/code&gt;.</xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element minOccurs="0" name="executions">

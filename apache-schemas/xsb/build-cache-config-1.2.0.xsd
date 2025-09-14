@@ -269,7 +269,7 @@
         <xs:annotation>
           <xs:documentation source="version">0.0.0+</xs:documentation>
           <xs:documentation source="description">
-            Type of files to globally scan. All types are scanned by default. Example to scan only java and xml files : <code>{*.java,*.xml}</code>
+            Type of files to globally scan. All types are scanned by default. Example to scan only java and xml files : &lt;code&gt;{*.java,*.xml}&lt;/code&gt;
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -303,24 +303,24 @@
         <xs:annotation>
           <xs:documentation source="version">0.0.0+</xs:documentation>
           <xs:documentation source="description">
-            <p>A file or a directory path to exclude from the checksum computation. Relative path are relative to each module basedir.</p>
+            &lt;p&gt;A file or a directory path to exclude from the checksum computation. Relative path are relative to each module basedir.&lt;/p&gt;
             When referring to a directory, additional properties help adjust the scope of the exclusion:
-            <ul>
-            <li>glob - only entries matching this <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob">glob pattern</a> are excluded</li>
-            <li>entryType - type of entries excluded from the scan</li>
-            <li>matcherType - entry property on which the glob matching is applied</li>
-            </ul>
-            <p>By default, targeting a directory excludes everything underneath it.</p>
+            &lt;ul&gt;
+            &lt;li&gt;glob - only entries matching this &lt;a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"&gt;glob pattern&lt;/a&gt; are excluded&lt;/li&gt;
+            &lt;li&gt;entryType - type of entries excluded from the scan&lt;/li&gt;
+            &lt;li&gt;matcherType - entry property on which the glob matching is applied&lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;p&gt;By default, targeting a directory excludes everything underneath it.&lt;/p&gt;
             Examples :
-            <ul>
-            <li><code><exclude>src/main/doc</exclude></code> : excludes everything under : ${project.basedir}/src/main/doc</li>
-            <li><code><exclude>src/main/java/package-info.java</exclude></code> : excludes this file : ${project.basedir}/src/main/java/package-info.java</li>
-            <li><code><exclude glob="package-info.java"></exclude></code> : excludes all the files named package-info.java</li>
-            <li><code><exclude glob="src/main/resources&#x2F;**.txt" entryType="FILE" matcherType="PATH" ></exclude></code> : excludes all the text files located under the "resources" folder</li>
-            </ul>
-            <p>
-            Exclude elements can also be added per project with the use of <a href="parameters.html#project-level-properties">maven properties.</a>
-            </p>
+            &lt;ul&gt;
+            &lt;li&gt;&lt;code&gt;&amp;lt;exclude&amp;gt;src/main/doc&amp;lt;/exclude&amp;gt;&lt;/code&gt; : excludes everything under : ${project.basedir}/src/main/doc&lt;/li&gt;
+            &lt;li&gt;&lt;code&gt;&amp;lt;exclude&amp;gt;src/main/java/package-info.java&amp;lt;/exclude&amp;gt;&lt;/code&gt; : excludes this file : ${project.basedir}/src/main/java/package-info.java&lt;/li&gt;
+            &lt;li&gt;&lt;code&gt;&amp;lt;exclude glob="package-info.java"&amp;gt;&amp;lt;/exclude&amp;gt;&lt;/code&gt; : excludes all the files named package-info.java&lt;/li&gt;
+            &lt;li&gt;&lt;code&gt;&amp;lt;exclude glob="src/main/resources&amp;#x2F;**.txt" entryType="FILE" matcherType="PATH" &amp;gt;&amp;lt;/exclude&amp;gt;&lt;/code&gt; : excludes all the text files located under the "resources" folder&lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;p&gt;
+            Exclude elements can also be added per project with the use of &lt;a href="parameters.html#project-level-properties"&gt;maven properties.&lt;/a&gt;
+            &lt;/p&gt;
           </xs:documentation>
         </xs:annotation>
         <xs:attribute name="glob" type="xs:string" default="**" use="optional">
@@ -350,8 +350,8 @@
         <xs:annotation>
           <xs:documentation source="version">0.0.0+</xs:documentation>
           <xs:documentation source="description">
-            A <p>file or a directory path to add to checksum computation. Relative path are relative to each module basedir.</p>
-            <p>Include elements can also be added per project with the use of <a href="parameters.html#project-level-properties">maven properties.</a></p>
+            A &lt;p&gt;file or a directory path to add to checksum computation. Relative path are relative to each module basedir.&lt;/p&gt;
+            &lt;p&gt;Include elements can also be added per project with the use of &lt;a href="parameters.html#project-level-properties"&gt;maven properties.&lt;/a&gt;&lt;/p&gt;
           </xs:documentation>
         </xs:annotation>
         <xs:attribute name="recursive" type="xs:boolean" default="true" use="optional">
@@ -564,10 +564,10 @@
           Controls if all plugin properties to be logged (true is default). All the properties
           logged with respect to children:
           * logAll on plugin level overrides global value
-          * true: logged all if no blacklists (<nolog/>) and whitelists (<log/>) specified on
+          * true: logged all if no blacklists (&amp;lt;nolog/&amp;gt;) and whitelists (&amp;lt;log/&amp;gt;) specified on
           plugin level
-          * false: logged only tracked and included by whitelists (<log/>) on plugin level
-          <log/>
+          * false: logged only tracked and included by whitelists (&amp;lt;log/&amp;gt;) on plugin level
+          &amp;lt;log/&amp;gt;
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -615,9 +615,9 @@
           <xs:documentation source="description">
             Controls if all plugin properties to be logged (true is default). All the properties logged
             with respect to log/nolog children:
-            * true: logged all if no blacklists (<nolog/>) and whitelists (<log/>) specified on plugin
+            * true: logged all if no blacklists (&amp;lt;nolog/&amp;gt;) and whitelists (&amp;lt;log/&amp;gt;) specified on plugin
             level
-            * false: logged only tracked and included by whitelists (<log/>) on plugin level
+            * false: logged only tracked and included by whitelists (&amp;lt;log/&amp;gt;) on plugin level
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -885,14 +885,14 @@
           <xs:documentation source="version">0.0.0+</xs:documentation>
           <xs:documentation source="description">
             Path to a directory containing files which needs to be saved/restored (relative to the build directory).
-            <br>
+            &lt;br&gt;
             Examples :
-            <ul>
-            <li><code><dirName>classes</dirName></code> : files in ${project.basedir}/target/classes</li>
-            <li><code><dirName glob="jacoco.xml"></dirName></code> : jacoco report files in ${project.basedir}/target</li>
-            <li><code><dirName>../src/main/javagen</dirName></code> : files in ${project.basedir}/src/main/javagen (in this exemple, javagen is a folder saved in git but erased on clean) </li>
-            </ul>
-            <br><br>
+            &lt;ul&gt;
+            &lt;li&gt;&lt;code&gt;&amp;lt;dirName&amp;gt;classes&amp;lt;/dirName&amp;gt;&lt;/code&gt; : files in ${project.basedir}/target/classes&lt;/li&gt;
+            &lt;li&gt;&lt;code&gt;&amp;lt;dirName glob="jacoco.xml"&amp;gt;&amp;lt;/dirName&amp;gt;&lt;/code&gt; : jacoco report files in ${project.basedir}/target&lt;/li&gt;
+            &lt;li&gt;&lt;code&gt;&amp;lt;dirName&amp;gt;../src/main/javagen&amp;lt;/dirName&amp;gt;&lt;/code&gt; : files in ${project.basedir}/src/main/javagen (in this exemple, javagen is a folder saved in git but erased on clean) &lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;br&gt;&lt;br&gt;
 
           </xs:documentation>
         </xs:annotation>

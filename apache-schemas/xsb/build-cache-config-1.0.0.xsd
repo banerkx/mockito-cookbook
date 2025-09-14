@@ -513,10 +513,10 @@
           Controls if all plugin properties to be logged (true is default). All the properties
           logged with respect to children:
           * logAll on plugin level overrides global value
-          * true: logged all if no blacklists (<nolog/>) and whitelists (<log/>) specified on
+          * true: logged all if no blacklists (&amp;lt;nolog/&amp;gt;) and whitelists (&amp;lt;log/&amp;gt;) specified on
           plugin level
-          * false: logged only tracked and included by whitelists (<log/>) on plugin level
-          <log/>
+          * false: logged only tracked and included by whitelists (&amp;lt;log/&amp;gt;) on plugin level
+          &amp;lt;log/&amp;gt;
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -564,9 +564,9 @@
           <xs:documentation source="description">
             Controls if all plugin properties to be logged (true is default). All the properties logged
             with respect to log/nolog children:
-            * true: logged all if no blacklists (<nolog/>) and whitelists (<log/>) specified on plugin
+            * true: logged all if no blacklists (&amp;lt;nolog/&amp;gt;) and whitelists (&amp;lt;log/&amp;gt;) specified on plugin
             level
-            * false: logged only tracked and included by whitelists (<log/>) on plugin level
+            * false: logged only tracked and included by whitelists (&amp;lt;log/&amp;gt;) on plugin level
           </xs:documentation>
         </xs:annotation>
       </xs:element>

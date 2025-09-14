@@ -24,7 +24,7 @@
     <xs:annotation>
       <xs:documentation source="version">1.0.0+</xs:documentation>
       <xs:documentation source="description">
-        The <code><toolchains></code> element is the root of the descriptor.
+        The &lt;code&gt;&amp;lt;toolchains&amp;gt;&lt;/code&gt; element is the root of the descriptor.
         The following table lists all of the possible child elements.
       </xs:documentation>
     </xs:annotation>
@@ -33,7 +33,7 @@
     <xs:annotation>
       <xs:documentation source="version">1.0.0+</xs:documentation>
       <xs:documentation source="description">
-        The <code><toolchains></code> element is the root of the descriptor.
+        The &lt;code&gt;&amp;lt;toolchains&amp;gt;&lt;/code&gt; element is the root of the descriptor.
         The following table lists all of the possible child elements.
       </xs:documentation>
     </xs:annotation>
@@ -56,12 +56,12 @@
         <xs:annotation>
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
-            Type of toolchain:<ul>
-            <li><code>jdk</code> for
-            <a href="https://maven.apache.org/plugins/maven-toolchains-plugin/toolchains/jdk.html">JDK Standard Toolchain</a>,</li>
-            <li>other value for
-            <a href="https://maven.apache.org/plugins/maven-toolchains-plugin/toolchains/custom.html">Custom Toolchain</a></li>
-            </ul>
+            Type of toolchain:&lt;ul&gt;
+            &lt;li&gt;&lt;code&gt;jdk&lt;/code&gt; for
+            &lt;a href="https://maven.apache.org/plugins/maven-toolchains-plugin/toolchains/jdk.html"&gt;JDK Standard Toolchain&lt;/a&gt;,&lt;/li&gt;
+            &lt;li&gt;other value for
+            &lt;a href="https://maven.apache.org/plugins/maven-toolchains-plugin/toolchains/custom.html"&gt;Custom Toolchain&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -70,11 +70,11 @@
           <xs:documentation source="version">1.1.0+</xs:documentation>
           <xs:documentation source="description">
 
-            <p>Toolchain identification information, which will be matched against project requirements.</p>
-            <p>For Maven 2.0.9 to 3.2.3, the actual content structure was completely open: each toolchain type would define its own format and semantics.
-            In general, this was a properties format.</p>
-            <p>Since Maven 3.2.4, the type for this field has been changed to Properties to match the de-facto format.</p>
-            <p>Each toolchain defines its own properties names and semantics.</p>
+            &lt;p&gt;Toolchain identification information, which will be matched against project requirements.&lt;/p&gt;
+            &lt;p&gt;For Maven 2.0.9 to 3.2.3, the actual content structure was completely open: each toolchain type would define its own format and semantics.
+            In general, this was a properties format.&lt;/p&gt;
+            &lt;p&gt;Since Maven 3.2.4, the type for this field has been changed to Properties to match the de-facto format.&lt;/p&gt;
+            &lt;p&gt;Each toolchain defines its own properties names and semantics.&lt;/p&gt;
           </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -88,10 +88,10 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            <p>Toolchain configuration information, like location or any information that is to be retrieved.</p>
-            <p>Actual content structure is completely open: each toolchain type will define its own format and semantics.</p>
-            <p>In general, this is a properties format: <code><name>value</name></code> with
-            per-toolchain defined properties names.</p>
+            &lt;p&gt;Toolchain configuration information, like location or any information that is to be retrieved.&lt;/p&gt;
+            &lt;p&gt;Actual content structure is completely open: each toolchain type will define its own format and semantics.&lt;/p&gt;
+            &lt;p&gt;In general, this is a properties format: &lt;code&gt;&amp;lt;name&amp;gt;value&amp;lt;/name&amp;gt;&lt;/code&gt; with
+            per-toolchain defined properties names.&lt;/p&gt;
           </xs:documentation>
         </xs:annotation>
         <xs:complexType>

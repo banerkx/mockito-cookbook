@@ -41,7 +41,7 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            The local repository.<br><b>Default value is:</b> <code>${user.home}/.m2/repository</code>
+            The local repository.&lt;br&gt;&lt;b&gt;Default value is:&lt;/b&gt; &lt;code&gt;${user.home}/.m2/repository&lt;/code&gt;
 
           </xs:documentation>
         </xs:annotation>
@@ -61,7 +61,7 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            Whether Maven should use the <code>plugin-registry.xml</code> file to manage plugin versions.
+            Whether Maven should use the &lt;code&gt;plugin-registry.xml&lt;/code&gt; file to manage plugin versions.
 
           </xs:documentation>
         </xs:annotation>
@@ -178,7 +178,7 @@
       <xs:documentation source="version">1.0.0+</xs:documentation>
       <xs:documentation source="description">
 
-        The <code><proxy></code> element contains informations required to a proxy settings.
+        The &lt;code&gt;&amp;lt;proxy&amp;gt;&lt;/code&gt; element contains informations required to a proxy settings.
       </xs:documentation>
     </xs:annotation>
     <xs:all>
@@ -247,7 +247,7 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
 
-            The list of non-proxied hosts (delimited by <code>|</code>).
+            The list of non-proxied hosts (delimited by &lt;code&gt;|&lt;/code&gt;).
 
           </xs:documentation>
         </xs:annotation>
@@ -265,7 +265,7 @@
       <xs:documentation source="version">1.0.0+</xs:documentation>
       <xs:documentation source="description">
 
-        The <code><server></code> element contains informations required to a server settings.
+        The &lt;code&gt;&amp;lt;server&amp;gt;&lt;/code&gt; element contains informations required to a server settings.
       </xs:documentation>
     </xs:annotation>
     <xs:all>
@@ -366,9 +366,9 @@
           <xs:documentation source="description">
 
             A repository id or (since Maven 2.0.9) an expression matching one or many repository ids to mirror, e.g.,
-            <code>central</code> or <code>*,!repo1</code>.
-            <code>*</code> (since Maven 2.0.5), <code>external:*</code> (since Maven 2.0.9) and <code>external:http:*</code> (since Maven 3.8.0) have
-            a special meaning: see <a href="/guides/mini/guide-mirror-settings.html">Mirror Settings</a> guide.
+            &lt;code&gt;central&lt;/code&gt; or &lt;code&gt;*,!repo1&lt;/code&gt;.
+            &lt;code&gt;*&lt;/code&gt; (since Maven 2.0.5), &lt;code&gt;external:*&lt;/code&gt; (since Maven 2.0.9) and &lt;code&gt;external:http:*&lt;/code&gt; (since Maven 3.8.0) have
+            a special meaning: see &lt;a href="/guides/mini/guide-mirror-settings.html"&gt;Mirror Settings&lt;/a&gt; guide.
 
           </xs:documentation>
         </xs:annotation>
@@ -393,7 +393,7 @@
           <xs:documentation source="description">
 
             The layout of the mirror repository.
-            <br><b>Since</b>: Maven 3
+            &lt;br&gt;&lt;b&gt;Since&lt;/b&gt;: Maven 3
 
           </xs:documentation>
         </xs:annotation>
@@ -405,7 +405,7 @@
 
             The layouts of repositories being mirrored. This value can be used to restrict the usage
             of the mirror to repositories with a matching layout (apart from a matching id).
-            <br><b>Since</b>: Maven 3
+            &lt;br&gt;&lt;b&gt;Since&lt;/b&gt;: Maven 3
 
           </xs:documentation>
         </xs:annotation>
@@ -416,8 +416,8 @@
           <xs:documentation source="description">
 
             Whether this mirror should be blocked from any download request but fail the download process, explaining why.
-            <br><b>Default value is</b>: <code>false</code>
-            <br><b>Since</b>: Maven 3.8.0
+            &lt;br&gt;&lt;b&gt;Default value is&lt;/b&gt;: &lt;code&gt;false&lt;/code&gt;
+            &lt;br&gt;&lt;b&gt;Since&lt;/b&gt;: Maven 3.8.0
 
           </xs:documentation>
         </xs:annotation>
@@ -459,7 +459,7 @@
 
             Extended configuration specific to this profile goes here.
             Contents take the form of
-            <code><property.name>property.value</property.name></code>
+            &lt;code&gt;&amp;lt;property.name&amp;gt;property.value&amp;lt;/property.name&amp;gt;&lt;/code&gt;
 
           </xs:documentation>
         </xs:annotation>

@@ -200,7 +200,7 @@
           <xs:documentation source="version">1.0.1+</xs:documentation>
           <xs:documentation source="description">
             The date as String (recommended format is ISO 8601) to appear on the cover.
-            Only used if <code>coverDate</code> is not set.
+            Only used if &lt;code&gt;coverDate&lt;/code&gt; is not set.
             @since 1.1.1
           </xs:documentation>
         </xs:annotation>
@@ -224,7 +224,7 @@
           <xs:documentation source="version">1.0.1+</xs:documentation>
           <xs:documentation source="description">
             A shortcut for the unique author that appears on the cover page.
-            For more authors, you could use the <authors/> tag.
+            For more authors, you could use the &amp;lt;authors/&amp;gt; tag.
             @since 1.1.1
           </xs:documentation>
         </xs:annotation>
@@ -397,16 +397,16 @@
     <xs:annotation>
       <xs:documentation source="version">1.0.0+</xs:documentation>
       <xs:documentation source="description">
-        <p>
+        &lt;p&gt;
         Metadata is general information about a document.
-        </p>
+        &lt;/p&gt;
 
-        <p>
+        &lt;p&gt;
         The metadata elements used here were mostly inspired by the
-        <a href="http://docs.oasis-open.org/office/v1.1/">Open Document Format Specification v. 1.1</a>,
+        &lt;a href="http://docs.oasis-open.org/office/v1.1/"&gt;Open Document Format Specification v. 1.1&lt;/a&gt;,
         which in turn borrows heavily upon the metadata standards developed by the
-        <a href="http://www.dublincore.org">Dublin Core Metadata Initiative</a>.
-        </p>
+        &lt;a href="http://www.dublincore.org"&gt;Dublin Core Metadata Initiative&lt;/a&gt;.
+        &lt;/p&gt;
       </xs:documentation>
     </xs:annotation>
     <xs:all>
@@ -423,7 +423,7 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
             The unique author of the document, usually as a String of "firstName lastName". For
-            more authors, you could use the <authors/> tag.
+            more authors, you could use the &amp;lt;authors/&amp;gt; tag.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -454,7 +454,7 @@
           <xs:documentation source="version">1.0.0+</xs:documentation>
           <xs:documentation source="description">
             The keywords for the document, usually as a String of comma separated keywords.
-            @deprecated use the <keyWords/> tag instead of.
+            @deprecated use the &amp;lt;keyWords/&amp;gt; tag instead of.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -536,7 +536,7 @@
           <xs:documentation source="version">1.0.1+</xs:documentation>
           <xs:documentation source="description">
             The date as String (recommended format is ISO 8601) when the document was created initially.
-            Only used if <code>creationDate</code> is not set.
+            Only used if &lt;code&gt;creationDate&lt;/code&gt; is not set.
             @since 1.1.1
           </xs:documentation>
         </xs:annotation>
@@ -555,7 +555,7 @@
           <xs:documentation source="version">1.0.1+</xs:documentation>
           <xs:documentation source="description">
             The date as String (recommended format is ISO 8601) when the document was last modified.
-            Only used if <code>date</code> is not set.
+            Only used if &lt;code&gt;date&lt;/code&gt; is not set.
             @since 1.1.1
           </xs:documentation>
         </xs:annotation>
@@ -574,7 +574,7 @@
           <xs:documentation source="version">1.0.1+</xs:documentation>
           <xs:documentation source="description">
             The date as String (recommended format is ISO 8601) when the document was last printed.
-            Only used if <code>printDate</code> is not set.
+            Only used if &lt;code&gt;printDate&lt;/code&gt; is not set.
             @since 1.1.1
           </xs:documentation>
         </xs:annotation>
@@ -686,7 +686,7 @@
         <xs:documentation source="version">1.0.1+</xs:documentation>
         <xs:documentation source="description">
           The date as String (recommended format is ISO 8601) when the template was last modified.
-          Only used if <code>date</code> is not set.
+          Only used if &lt;code&gt;date&lt;/code&gt; is not set.
           @since 1.1.1
         </xs:documentation>
       </xs:annotation>
@@ -820,47 +820,47 @@
         <xs:documentation source="version">1.0.0+</xs:documentation>
         <xs:documentation source="description">
           The name of the default target frame.
-          <p>
+          &lt;p&gt;
           Specifies the name of the default target frame in which to display
           a document referenced by a hyperlink.
-          </p>
+          &lt;/p&gt;
 
-          <p>
+          &lt;p&gt;
           This attribute can have one of the following values:
-          </p>
+          &lt;/p&gt;
 
-          <dl>
-          <dd>_self</dd>
-          <dt>
+          &lt;dl&gt;
+          &lt;dd&gt;_self&lt;/dd&gt;
+          &lt;dt&gt;
           The referenced document replaces the content
           of the current frame.
-          </dt>
+          &lt;/dt&gt;
 
-          <dd>_blank</dd>
-          <dt>
+          &lt;dd&gt;_blank&lt;/dd&gt;
+          &lt;dt&gt;
           The referenced document is displayed in a new frame.
-          </dt>
+          &lt;/dt&gt;
 
-          <dd>_parent</dd>
-          <dt>
+          &lt;dd&gt;_parent&lt;/dd&gt;
+          &lt;dt&gt;
           The referenced document is displayed in the parent frame
           of the current frame.
-          </dt>
+          &lt;/dt&gt;
 
-          <dd>_top</dd>
-          <dt>
+          &lt;dd&gt;_top&lt;/dd&gt;
+          &lt;dt&gt;
           The referenced document is displayed in the topmost frame,
           that is the frame that contains the current frame as a child
           or descendent but is not contained within another frame.
-          </dt>
+          &lt;/dt&gt;
 
-          <dd>A frame name</dd>
-          <dt>
+          &lt;dd&gt;A frame name&lt;/dd&gt;
+          &lt;dt&gt;
           The referenced document is displayed in the named frame.
           If the named frame does not exist, a new frame with that
           name is created.
-          </dt>
-          </dl>
+          &lt;/dt&gt;
+          &lt;/dl&gt;
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

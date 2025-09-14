@@ -42,7 +42,7 @@
         <xs:annotation>
           <xs:documentation source="version">1.1.0+</xs:documentation>
           <xs:documentation source="description">
-            Must be <code>true</code> if svn is a cygwin svn command.
+            Must be &lt;code&gt;true&lt;/code&gt; if svn is a cygwin svn command.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -58,7 +58,7 @@
         <xs:annotation>
           <xs:documentation source="version">1.1.0+</xs:documentation>
           <xs:documentation source="description">
-            Switch on if you want to use <code>--non-interactive</code> irrespective of the interactive flag set on the according SCM provider. The value false means that provider's interactive flag is used to determine this CLI argument.
+            Switch on if you want to use &lt;code&gt;--non-interactive&lt;/code&gt; irrespective of the interactive flag set on the according SCM provider. The value false means that provider's interactive flag is used to determine this CLI argument.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -67,7 +67,7 @@
           <xs:documentation source="version">1.1.0+</xs:documentation>
           <xs:documentation source="description">
             Switch on if you want to cache authentication credentials (Warning: this will overwrite existing authentication credentials on your working copy).
-            If you don't change this, the command line option <code>--no-auth-cache</code> is used.
+            If you don't change this, the command line option &lt;code&gt;--no-auth-cache&lt;/code&gt; is used.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -75,7 +75,7 @@
         <xs:annotation>
           <xs:documentation source="version">1.1.0+</xs:documentation>
           <xs:documentation source="description">
-            Switch on to use svn command line option: <code>--trust-server-cert</code>.
+            Switch on to use svn command line option: &lt;code&gt;--trust-server-cert&lt;/code&gt;.
           </xs:documentation>
         </xs:annotation>
       </xs:element>

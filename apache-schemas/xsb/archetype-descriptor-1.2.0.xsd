@@ -155,7 +155,7 @@
       <xs:documentation source="version">1.0.0+</xs:documentation>
       <xs:documentation source="description">
         A fileset defines the way the project's files located in the jar file are used by the Archetype Plugin to generate a project.
-        If file or directory name contains <code>__<i>property</i>__</code> pattern, it is replaced with corresponding property value.
+        If file or directory name contains &lt;code&gt;__&lt;i&gt;property&lt;/i&gt;__&lt;/code&gt; pattern, it is replaced with corresponding property value.
       </xs:documentation>
     </xs:annotation>
     <xs:all>
@@ -196,7 +196,7 @@
         <xs:documentation source="version">1.0.0+</xs:documentation>
         <xs:documentation source="description">
           Filesets can be filtered, which means the selected files will be used as
-          <a href="https://velocity.apache.org/engine/1.5/user-guide.html">Velocity templates</a>.
+          &lt;a href="https://velocity.apache.org/engine/1.5/user-guide.html"&gt;Velocity templates&lt;/a&gt;.
           They can be non-filtered, which means the selected files will be copied without modification.
         </xs:documentation>
       </xs:annotation>
