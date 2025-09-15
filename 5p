@@ -2,5 +2,4 @@
 
 # shellcheck disable=all
 rm -f dtd/pom.xml
-ps1-wrapper ${HOME}/scripts/power-shell/misc/pom-versions.ps1 | \
-grep -Ev '(^$|\[ps1-wrapper)'
+${HOME}/scripts/power-shell/misc/pom-versions
