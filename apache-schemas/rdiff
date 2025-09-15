@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# shellcheck disable=all
+
+# ${1} - xsd file
+function replace_escape
+{
+  sed "s/&amp;/\&/g;s/&gt;/>/g;s/&lt;/</g;s/&quot;/\"/g;s/&apos;/'/g" "${1}"
+}
+
+declare -i stat=0
+declare -r dir=raw
+for xsd in xb/*.xsd
+do
+  rhs="${xsd/xb\//${dir}\/}"
+  diff -q <(replace_escape "${xsd}") <(replace_escape "${rhs}") > /dev/null 2>&1
+##  diff -q "${xsd}" "${rhs}" > /dev/null 2>&1
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    echo "gdiff ${xsd} ${rhs}"
+  fi
+done
+
