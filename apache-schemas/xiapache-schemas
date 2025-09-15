@@ -518,6 +518,13 @@ function pre_beautify_xml
     return "${stat}"
   fi
 
+  xml_tag_delete_terminal_white_space "${1}" "${file_type}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${stat}"
+  fi
+
   separate_xml_inline_comments "${1}" "${file_type}"
   stat=${?}
   if [[ 0 -ne ${stat} ]]
@@ -660,6 +667,20 @@ function pre_beautify_xml
   if [[ 0 -ne ${stat} ]]
   then
     log_error "Failed to replace blank lines with markers in [${2}] file [${1}] due to error code [${stat}]." "${LINENO}"
+  fi
+  return "${stat}"
+}
+
+# ${1} - XML file
+# ${2} - XML file type
+function xml_tag_delete_terminal_white_space
+{
+  local -r file_type="${2}"
+  sed -i 's|\(^[ \t]*<.*"\)\( \+\)\([/]\?>\)\([ \t]*$\)|\1\3|' "${1}"
+  local -i stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    log_error "Failed to delete xml tag terminal white space from [${file_type}] file [${1}] due to error code [${stat}]." "${LINENO}"
   fi
   return "${stat}"
 }
