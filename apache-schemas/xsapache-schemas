@@ -1217,7 +1217,6 @@ function set_xml_beautifier_command
 
 function set_xml_linter_command
 {
-  set_power_shell_interpreter
   if [[ -v XML_LINTER_COMMAND ]]
   then
     if [[ -n "${XML_LINTER_COMMAND}" ]]
