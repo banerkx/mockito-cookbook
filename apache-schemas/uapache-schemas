@@ -676,6 +676,17 @@ function pre_beautify_xml
 function xml_tag_delete_terminal_white_space
 {
   local -r file_type="${2}"
+################################################################################
+# Converting lines resembling:                                                 #
+#                                                                              #
+#   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"   >                 #
+#   <xs:attribute name="type" type="xs:string" use="optional"   />             #
+#                                                                              #
+# to:                                                                          #
+#                                                                              #
+#   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">                    #
+#   <xs:attribute name="type" type="xs:string" use="optional"/>                #
+################################################################################
   sed -i 's|\(^[ \t]*<.*"\)\( \+\)\([/]\?>\)\([ \t]*$\)|\1\3|' "${1}"
   local -i stat=${?}
   if [[ 0 -ne ${stat} ]]
