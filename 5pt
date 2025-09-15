@@ -20,7 +20,7 @@ do
 done
 
 rm -f dtd/pom.xml
-ps1-wrapper ${HOME}/scripts/power-shell/misc/pom-versions.ps1 | \
+ps1-wrapper ${HOME}/scripts/power-shell/misc/pom-versions | \
 grep -Ev '(^$|\[ps1-wrapper)'
 
 for target in ${targets}
