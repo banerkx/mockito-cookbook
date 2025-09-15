@@ -34,7 +34,7 @@
         <xs:element ref="gumpRepositoryId" minOccurs="0"/>
         <xs:element ref="description" minOccurs="0"/>
         <xs:element ref="shortDescription"/>
-        <xs:element ref="url" minOccurs="0" />
+        <xs:element ref="url" minOccurs="0"/>
         <xs:element ref="issueTrackingUrl" minOccurs="0"/>
         <xs:element ref="siteAddress" minOccurs="0"/>
         <xs:element ref="siteDirectory" minOccurs="0"/>
@@ -95,8 +95,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="name"/>
-        <xs:element ref="url" minOccurs="0" />
-        <xs:element ref="logo" minOccurs="0" />
+        <xs:element ref="url" minOccurs="0"/>
+        <xs:element ref="logo" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -185,7 +185,7 @@
       <xs:sequence>
         <xs:element ref="name"/>
         <xs:element ref="id"/>
-        <xs:group ref="contactDetails" />
+        <xs:group ref="contactDetails"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -198,9 +198,9 @@
     <xs:sequence>
       <xs:element ref="email"/>
       <xs:element name="organization" type='xs:string' minOccurs="0"/>
-      <xs:element ref="roles" minOccurs="0" />
-      <xs:element ref="url" minOccurs="0" />
-      <xs:element ref="timezone" minOccurs="0" />
+      <xs:element ref="roles" minOccurs="0"/>
+      <xs:element ref="url" minOccurs="0"/>
+      <xs:element ref="timezone" minOccurs="0"/>
     </xs:sequence>
   </xs:group>
 
@@ -247,7 +247,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="name"/>
-        <xs:group ref="contactDetails" />
+        <xs:group ref="contactDetails"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -268,9 +268,9 @@
 <!-- name of the license, e.g. ASL 1.1 -->
         <xs:element ref="name" minOccurs="0"/>
 <!-- fetchable version of the license -->
-        <xs:element ref="url" minOccurs="0" />
+        <xs:element ref="url" minOccurs="0"/>
 <!-- 'manual' or 'repo' -->
-        <xs:element ref="distribution" minOccurs="0" />
+        <xs:element ref="distribution" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -297,14 +297,14 @@
   <xs:element name="dependency">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="id" minOccurs="0" />
-        <xs:element ref="groupId" minOccurs="0" />
-        <xs:element ref="artifactId" minOccurs="0" />
-        <xs:element name="version" type="xs:string" />
+        <xs:element ref="id" minOccurs="0"/>
+        <xs:element ref="groupId" minOccurs="0"/>
+        <xs:element ref="artifactId" minOccurs="0"/>
+        <xs:element name="version" type="xs:string"/>
         <xs:element ref="jar" minOccurs="0"/>
         <xs:element ref="type" minOccurs="0"/>
         <xs:element ref="url" minOccurs="0"/>
-        <xs:element ref="properties" minOccurs="0" />
+        <xs:element ref="properties" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -367,7 +367,7 @@
       <xs:sequence>
         <xs:element ref="includes" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="excludes" minOccurs="0" maxOccurs="unbounded"/>
-        <xs:element ref="resources" minOccurs="0" />
+        <xs:element ref="resources" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -412,7 +412,7 @@
 
   <xs:element name="directory" type='xs:string'/>
   <xs:element name="targetPath" type='xs:string'/>
-  <xs:element name="filtering" type="xs:boolean" />
+  <xs:element name="filtering" type="xs:boolean"/>
 
   <xs:element name="resource">
     <xs:complexType>
