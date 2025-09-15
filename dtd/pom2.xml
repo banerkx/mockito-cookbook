@@ -489,7 +489,7 @@
             </goals>
             <configuration>
               <rules>
-                <banDuplicatePomDependencyVersions/>
+                <banDuplicatePomDependencyVersions></banDuplicatePomDependencyVersions>
               </rules>
             </configuration>
           </execution>
