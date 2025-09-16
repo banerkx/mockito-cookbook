@@ -13,8 +13,8 @@ source ~/.dotfiles/xml_functions
 sed -i 's@<!-- <versionqq/> -->@<versionqq/>@' pom.xml
 sed -i 's@<!-- <propertiesqq/> -->@<propertiesqq/>@' pom.xml
 
-validate_against_schema_with_xmllint pom.xml maven-4.0.0.xsd
-##validate_against_schema_with_xmlstarlet pom.xml maven-4.0.0.xsd
+validate_against_schema_with_xmllint pom.xml ../maven-4.0.0.xsd
+##validate_against_schema_with_xmlstarlet pom.xml ../maven-4.0.0.xsd
 echo ''
 echo "==================================="
 echo ''

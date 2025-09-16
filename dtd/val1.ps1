@@ -54,18 +54,18 @@ function Validate-XmlFile {
         # This is the most reliable way to link the schema to the XML.
         $xsdReader = [System.Xml.XmlReader]::Create($XsdPath)
         $xsdSchema = [System.Xml.Schema.XmlSchema]::Read($xsdReader, $null)
-        
+
         # Add the XSD schema to the set. Use the schema's own target namespace
         # to ensure it's correctly applied to the XML document.
         [void]$schemaSet.Add($xsdSchema.TargetNamespace, $XsdPath)
-        
+
         # Compile the schema set for faster validation
         $schemaSet.Compile()
-        
+
         # Create a new XmlDocument object and load the XML file
         $xmlDoc = New-Object System.Xml.XmlDocument
         $xmlDoc.Load($XmlPath)
-        
+
         # Assign the schema set to the XML document for validation
         $xmlDoc.Schemas = $schemaSet
 
@@ -103,4 +103,5 @@ function Validate-XmlFile {
     }
 }
 
-Validate-XmlFile -XmlPath pom.xml -XsdPath maven-4.0.0.xsd
+Validate-XmlFile -XmlPath pom.xml -XsdPath ../maven-4.0.0.xsd
+
