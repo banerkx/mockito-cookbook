@@ -871,7 +871,7 @@ function normalize_xs_doc_indentation
   stat=${?}
   if [[ 0 -ne ${stat} ]]
   then
-    log_warning "The command [${command}] was not found; can not normalize identation [<xs:documentation ...>, </xs:documentation>] blocks in [${file_type}] file [${1}]." "${LINENO}"
+    log_warning "The command [${command}] was not found; can not normalize indentation [<xs:documentation ...>, </xs:documentation>] blocks in [${file_type}] file [${1}]." "${LINENO}"
     return 1
   fi
 
@@ -985,7 +985,7 @@ function normalize_xs_doc_indentation
   stat=${?}
   if [[ 0 -ne ${stat} ]]
   then
-    log_error "Failed to properly normalize identation [<xs:documentation ...>, </xs:documentation>] in [${2}] file [${1}] due to error code [${stat}]." "${LINENO}"
+    log_error "Failed to properly normalize indentation [<xs:documentation ...>, </xs:documentation>] in [${2}] file [${1}] due to error code [${stat}]." "${LINENO}"
   fi
   return "${stat}"
 }
