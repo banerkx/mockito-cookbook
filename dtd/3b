@@ -8,42 +8,54 @@ PRE_COMMIT=~/.git_template/.git_hooks_dev/pre-commit
 
 function xindent
 {
+  echo "===== BEGIN [${FUNCNAME[0]}] ====="
   export PRE_COMMIT_XML_BEAUTIFIER_COMMAND=xmlindent
   export PRE_COMMIT_XML_LINTER_COMMAND=xmllint
   export PRE_COMMIT_XML_VALIDATOR_COMMAND=xmllint
   export PRE_COMMIT_XML_XPATH_COMMAND=xmllint
   ./upom
   ${PRE_COMMIT} pom.xml
-  cp pom.xml qq_${PRE_COMMIT_XML_BEAUTIFIER_COMMAND}_pom.xml
+##  cp pom.xml qq_${PRE_COMMIT_XML_BEAUTIFIER_COMMAND}_pom.xml
+  echo "=====  END  [${FUNCNAME[0]}] ====="
+  echo ''
 }
 
 function xlint
 {
+  echo "===== BEGIN [${FUNCNAME[0]}] ====="
   export PRE_COMMIT_XML_BEAUTIFIER_COMMAND=xmllint
   export PRE_COMMIT_XML_LINTER_COMMAND=xmllint
   export PRE_COMMIT_XML_VALIDATOR_COMMAND=xmllint
   export PRE_COMMIT_XML_XPATH_COMMAND=xmllint
   ./upom
   ${PRE_COMMIT} pom.xml
-  cp pom.xml qq_${PRE_COMMIT_XML_BEAUTIFIER_COMMAND}_pom.xml
+##  cp pom.xml qq_${PRE_COMMIT_XML_BEAUTIFIER_COMMAND}_pom.xml
+  echo "=====  END  [${FUNCNAME[0]}] ====="
+  echo ''
 }
 
 function xstar
 {
+  echo "===== BEGIN [${FUNCNAME[0]}] ====="
   export PRE_COMMIT_XML_BEAUTIFIER_COMMAND=xmlstarlet
   export PRE_COMMIT_XML_LINTER_COMMAND=xmlstarlet
   export PRE_COMMIT_XML_VALIDATOR_COMMAND=xmlstarlet
   export PRE_COMMIT_XML_XPATH_COMMAND=xmlstarlet
   ./upom
   ${PRE_COMMIT} pom.xml
-  cp pom.xml qq_${PRE_COMMIT_XML_BEAUTIFIER_COMMAND}_pom.xml
+##  cp pom.xml qq_${PRE_COMMIT_XML_BEAUTIFIER_COMMAND}_pom.xml
+  echo "=====  END  [${FUNCNAME[0]}] ====="
+  echo ''
 }
 
 function xutils
 {
+  echo "===== BEGIN [${FUNCNAME[0]}] ====="
   ./upom
   ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile ${PWD}/pom.xml -FileType 'Maven POM'
-  cp pom.xml qq_utilities_pom.xml
+##  cp pom.xml qq_utilities_pom.xml
+  echo "=====  END  [${FUNCNAME[0]}] ====="
+  echo ''
 }
 
 ##xindent
