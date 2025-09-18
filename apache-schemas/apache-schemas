@@ -1128,17 +1128,6 @@ function beautify_xml
 {
   local -i stat=0
   local -r file_type="${2}"
-################################################################################
-# Replacing all tabs with 2 spaces.                                            #
-################################################################################
-  sed -i 's/\t/  /g' "${1}"
-  stat=${?}
-  check_for_beautifier_error "${stat}" "${file_type}" "${1}" sed "${LINENO}"
-  stat=${?}
-  if [[ 0 -ne ${stat} ]]
-  then
-    return "${stat}"
-  fi
 
   run_xml_lint "${1}" "${2}"
   stat=${?}
@@ -1169,10 +1158,12 @@ function set_xml_command
   for command in ${2}
   do
     case "${command}" in
-      *.ps1      ) check_power_shell_script "${command}"
-                   stat=${?};;
-      *          ) check_command "${command}"
-                   stat=${?};;
+      *.ps1   ) check_power_shell_script "${command}"
+                stat=${?};;
+      xmllint ) check_command "${command}"
+                stat=${?};;
+      *       ) log_error "The XML command [${command}] is not recognized. Exiting." "${LINENO}"
+                exit 1;;
     esac
     if [[ 0 -eq ${stat} ]]
     then
@@ -1198,7 +1189,6 @@ function set_xml_beautifier_command
   fi
 
   declare -rg POWER_SHELL_XML_BEAUTIFIER="${HOME}/scripts/power-shell/utilities-xml.ps1"
-
   if [[ ! -v XML_BEAUTIFIER_COMMANDS ]]
   then
     local commands=""
@@ -1228,7 +1218,6 @@ function set_xml_linter_command
   fi
 
   declare -rg POWER_SHELL_XML_LINTER="${HOME}/scripts/power-shell/utilities-xml.ps1"
-
   if [[ ! -v XML_LINTER_COMMANDS ]]
   then
     local commands=""
