@@ -992,6 +992,40 @@ function normalize_xs_doc_indentation
 
 # ${1} - XML file
 # ${2} - file type, e.g., XML, SVG, etc
+function tidy_doctype_section
+{
+  local -r file_type="${2}"
+################################################################################
+# In between the matching lines                                                #
+#   ^[[:space:]]<!DOCTYPE .* \[$                                               #
+# and                                                                          #
+#   ^[[:space:]]\]                                                             #
+# want to convert:                                                             #
+#   ^<!-- ... --><!-- ... -->...<!-- ... -->                                   #
+# to:                                                                          #
+#   ^<!-- ... -->$                                                             #
+#   ^<!-- ... -->$                                                             #
+#         ...                                                                  #
+#   ^<!-- ... -->$                                                             #
+# and to convert:                                                              #
+#   ^<!-- ... --><!ENTITY ... ">$                                              #
+# to:                                                                          #
+#   ^<!-- ... -->$                                                             #
+#   ^  <!ENTITY ... ">$                                                        #
+# and to finally convert:                                                      #
+#   ^<!ENTITY ...>$                                                            #
+# to:                                                                          #
+#   ^  <!ENTITY ...>$                                                          #
+################################################################################
+  sed -i '/^[[:space:]]*<!DOCTYPE .* \[$/,/^[[:space:]]*\]>$/{ s/--><!--/-->\n<!--/g;s/\(^<!--.*-->\)\(<!ENTITY .*>$\)/\1\n  \2/;s/^<!ENTITY/  <!ENTITY/ }' "${1}"
+  local -i stat=${?}
+  check_for_beautifier_error "${stat}" "${file_type}" "${1}" sed "${LINENO}"
+  stat=${?}
+  return "${stat}"
+}
+
+# ${1} - XML file
+# ${2} - file type, e.g., XML, SVG, etc
 function post_beautify_xml
 {
 ################################################################################
@@ -1062,6 +1096,13 @@ function post_beautify_xml
     then
       return "${stat}"
     fi
+  fi
+
+  tidy_doctype_section "${1}" "${file_type}"
+  stat=${?}
+  if [[ 0 -ne ${stat} ]]
+  then
+    return "${1}"
   fi
 
   single_terminal_blank_line "${1}" "${file_type}"
