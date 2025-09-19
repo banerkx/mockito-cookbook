@@ -2,8 +2,10 @@
 
 # shellcheck disable=all
 
+# removes encoding from xml declaration
+
 while IFS= read -r pom
 do
   sed -i '1s|<?xml version="1.0" encoding="UTF-8"?>|<?xml version="1.0"?>|' "${pom}"
-done <<< "$(find . -type f \( -name "*\.pom" -o -name "pom\.xml" \))"
+done <<< "$(find . -not -path "*/dtd/*" -type f \( -name "*\.pom" -o -name "pom\.xml" \))"
 

@@ -11,8 +11,6 @@ then
   declare -rg GREEN="${ESCAPE}[0;32m"
 fi
 
-rm -f dtd/pom.xml
-
 while IFS= read -r pom
 do
   echo "===== BEGIN [${pom}] ====="
@@ -23,5 +21,5 @@ do
   sed "s/ERROR:/${RED}ERROR${STOP_COLOR}:/"
   echo "=====  END  [${pom}] ====="
   echo ''
-done <<< "$(find . -type f \( -name "*\.pom" -o -name "pom\.xml" \) | sort)"
+done <<< "$(find . -not -path "*/dtd/*" -type f \( -name "*\.pom" -o -name "pom\.xml" \) | sort)"
 

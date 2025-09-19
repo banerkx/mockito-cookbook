@@ -25,7 +25,7 @@ do
   then
     unix2dos "${pom}" > /dev/null 2>&1
   fi
-done <<< "$(find . -type f \( -name "*\.pom" -o -name "pom\.xml" \) | sort)"
+done <<< "$(find . -not -path "*/dtd/*" -type f \( -name "*\.pom" -o -name "pom\.xml" \) | sort)"
 
 while IFS= read -r pom
 do
@@ -35,7 +35,7 @@ do
 ##  beautify_xml_with_xmlindent "${pom}" 'Maven BOM/POM file'
   echo "=====  END  [${pom}] ====="
   echo ''
-done <<< "$(find . -type f \( -name "*\.pom" -o -name "pom\.xml" \) | sort)"
+done <<< "$(find . -not -path "*/dtd/*" -type f \( -name "*\.pom" -o -name "pom\.xml" \) | sort)"
 
 ##git checkout xsd/maven-4.0.0.xsd > /dev/null 2>&1
 ##beautify_xml_with_xmllint xsd/maven-4.0.0.xsd 'Maven BOM/POM schema file'
