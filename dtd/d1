@@ -2,6 +2,7 @@
 
 # shellcheck disable=all
 
+SCHEMAS=${HOME}/.git_template/.git_hooks_dev/pre_commit/schemas
 function add_doctype
 {
   grep -q "DOCTYPE .*\.dtd" "${1}"
@@ -17,7 +18,7 @@ function xval1
   while [[ -n "${1}" ]]
   do
     echo "===== ${FUNCNAME[0]} BEGIN [${1}] ====="
-    xmllint --noout --dtdvalid ./ant.dtd "${1}"
+    xmllint --noout --dtdvalid ${SCHEMAS}/ant.dtd "${1}"
     echo "===== ${FUNCNAME[0]}  END  [${1}] ====="
     echo ''
     shift 1
@@ -29,7 +30,7 @@ function udocval1
   while [[ -n "${1}" ]]
   do
     echo "===== ${FUNCNAME[0]} BEGIN [${1}] ====="
-    ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile "${1}" -Schema ant.dtd
+    ps1-wrapper ${HOME}/scripts/power-shell/utilities-xml.ps1 -XmlFile "${1}" -Schema ${SCHEMAS}/ant.dtd
     echo "===== ${FUNCNAME[0]}  END  [${1}] ====="
     echo ''
     shift 1
