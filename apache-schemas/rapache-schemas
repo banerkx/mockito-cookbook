@@ -1229,7 +1229,11 @@ function set_xml_beautifier_command
     fi
   fi
 
-  declare -rg POWER_SHELL_XML_BEAUTIFIER="${HOME}/scripts/power-shell/utilities-xml.ps1"
+  if [[ ! -v POWER_SHELL_XML_BEAUTIFIER ]]
+  then
+    declare -rg POWER_SHELL_XML_BEAUTIFIER="${HOME}/scripts/power-shell/utilities-xml.ps1"
+  fi
+
   if [[ ! -v XML_BEAUTIFIER_COMMANDS ]]
   then
     local commands=""
@@ -1258,7 +1262,11 @@ function set_xml_linter_command
     fi
   fi
 
-  declare -rg POWER_SHELL_XML_LINTER="${HOME}/scripts/power-shell/utilities-xml.ps1"
+  if [[ ! -v POWER_SHELL_XML_LINTER ]]
+  then
+    declare -rg POWER_SHELL_XML_LINTER="${HOME}/scripts/power-shell/utilities-xml.ps1"
+  fi
+
   if [[ ! -v XML_LINTER_COMMANDS ]]
   then
     local commands=""
