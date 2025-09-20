@@ -1233,7 +1233,7 @@ function set_xml_beautifier_command
   if [[ ! -v XML_BEAUTIFIER_COMMANDS ]]
   then
     local commands=""
-##    commands+=" xmllint"
+    commands+=" xmllint"
     commands+=" ${POWER_SHELL_XML_BEAUTIFIER}"
     declare -rg XML_BEAUTIFIER_COMMANDS=${commands# }
   fi
@@ -1262,7 +1262,7 @@ function set_xml_linter_command
   if [[ ! -v XML_LINTER_COMMANDS ]]
   then
     local commands=""
-##    commands+=" xmllint"
+    commands+=" xmllint"
     commands+=" ${POWER_SHELL_XML_LINTER}"
     declare -rg XML_LINTER_COMMANDS=${commands# }
   fi
@@ -1304,7 +1304,8 @@ function get_apache_schema
   else
     log_info "Downloaded schema number [${2}] [${1}]." "${LINENO}"
     dos2unix "${xsd}" > /dev/null 2>&1
-    beautify_xml "${xsd}" XSD
+##    beautify_xml "${xsd}" XSD
+    beautify_xml_with_power_shell "${xsd}" XSD
   fi
   echo ''
 }
@@ -1322,6 +1323,7 @@ function get_apache_schemas
 
 function set_variables
 {
+  source ~/.dotfiles/xml_functions
   declare -rg CURL=curl
   check_command "${CURL}"
   local -i stat=${?}
