@@ -126,7 +126,12 @@ function get_apache_schema
   else
     log_info "Downloaded schema number [${2}] [${1}]." "${LINENO}"
     dos2unix "${xsd}" > /dev/null 2>&1
-    beautify_xml_with_xmlstarlet "${xsd}" XSD
+    run_xmlstarlet_lint "${xsd}" XSD
+    stat=${?}
+    if [[ 0 -eq ${stat} ]]
+    then
+      beautify_xml_with_xmlstarlet "${xsd}" XSD
+    fi
   fi
   echo ''
 }
@@ -155,8 +160,6 @@ function set_variables
   fi
 
   set_color_variables
-  set_xml_linter_command
-  set_xml_beautifier_command
   declare -rg APACHE_SCHEMAS_URL=https://maven.apache.org/xsd/
   declare -rg INDENT_SPACES="  "
   echo ''
