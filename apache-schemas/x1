@@ -3,7 +3,5 @@
 # shellcheck disable=all
 
 ./apache-schemas
-cp *.xsd xb
-rm *.xsd
 git status -- xb
 

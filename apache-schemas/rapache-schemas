@@ -106,7 +106,7 @@ function print_int_array
 # ${2} - schema file number
 function get_apache_schema
 {
-  local -r xsd="$(basename "${1}")"
+  local -r xsd="${OUTPUT_DIR}/$(basename "${1}")"
   local schema="${APACHE_SCHEMAS_URL}${xsd}"
   "${CURL}" "${schema}" 2> /dev/null | sed 's@^<?xml version="1.0"?>$@<?xml version="1.0" encoding="UTF-8"?>@' >| "${xsd}"
   local -i stat=${PIPESTATUS[0]}
@@ -142,9 +142,8 @@ function set_variables
     exit 1
   fi
 
+  declare -rg OUTPUT_DIR=./raw
   set_color_variables
-  set_xml_linter_command
-  set_xml_beautifier_command
   declare -rg APACHE_SCHEMAS_URL=https://maven.apache.org/xsd/
   declare -rg INDENT_SPACES="  "
   echo ''
