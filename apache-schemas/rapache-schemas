@@ -106,16 +106,17 @@ function print_int_array
 # ${2} - schema file number
 function get_apache_schema
 {
-  local -r xsd="${OUTPUT_DIR}/$(basename "${1}")"
+  local -r xsd="$(basename "${1}")"
   local schema="${APACHE_SCHEMAS_URL}${xsd}"
-  "${CURL}" "${schema}" 2> /dev/null | sed 's@^<?xml version="1.0"?>$@<?xml version="1.0" encoding="UTF-8"?>@' >| "${xsd}"
+  "${CURL}" "${schema}" 2> /dev/null | sed 's@^<?xml version="1.0"?>$@<?xml version="1.0" encoding="UTF-8"?>@' >| "${OUTPUT_DIR}/${xsd}"
   local -i stat=${PIPESTATUS[0]}
   if [[ 0 -ne ${?} ]]
   then
     echo "[${SCRIPT}] ERROR: Could not download schema [${schema}] due to error code [${stat}]."
-    rm -f "${xsd}"
+    rm -f "${OUTPUT_DIR}/${xsd}"
   else
     log_info "Downloaded schema number [${2}] [${1}]." "${LINENO}"
+    dos2unix "${OUTPUT_DIR}/${xsd}" > /dev/null 2>&1
   fi
   echo ''
 }
