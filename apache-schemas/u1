@@ -7,6 +7,7 @@ export XML_BEAUTIFIER_COMMAND=${POWER_SHELL_XML_BEAUTIFIER}
 export POWER_SHELL_XML_LINTER="${HOME}/scripts/power-shell/utilities-xml.ps1"
 export XML_LINTER_COMMAND=${POWER_SHELL_XML_LINTER}
 export POWER_SHELL_SCRIPT="pwsh -NoProfile"
+export OUTPUT_DIR=./ub
 ./apache-schemas
 git status -- ub
 

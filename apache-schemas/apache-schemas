@@ -1339,7 +1339,10 @@ function set_variables
     exit 1
   fi
 
-  declare -rg OUTPUT_DIR=./xb
+  if [[ ! -v OUTPUT_DIR ]]
+  then
+    declare -rg OUTPUT_DIR=./xb
+  fi
   set_color_variables
   set_xml_linter_command
   set_xml_beautifier_command
