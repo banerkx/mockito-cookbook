@@ -11,9 +11,9 @@ then
   declare -rg GREEN="${ESCAPE}[0;32m"
 fi
 
-##ps1-wrapper ${HOME}/scripts/power-shell/misc/artifacts-array.ps1 -Array MOCKITO_COOKBOOK_ARTIFACTS
-ps1-wrapper ${HOME}/scripts/power-shell/misc/artifacts-array.ps1 | \
-grep -Ev '(^$|\[ps1-wrapper)'                                    | \
-sed "s/INFO:/${GREEN}INFO${STOP_COLOR}:/"                        | \
-sed "s/WARNING:/${YELLOW}WARNING${STOP_COLOR}:/"                 | \
+PATH=${PATH}:${HOME}/scripts/power-shell/misc
+ps1-wrapper artifacts-array.ps1                  | \
+grep -Ev '(^$|\[ps1-wrapper)'                    | \
+sed "s/INFO:/${GREEN}INFO${STOP_COLOR}:/"        | \
+sed "s/WARNING:/${YELLOW}WARNING${STOP_COLOR}:/" | \
 sed "s/ERROR:/${RED}ERROR${STOP_COLOR}:/"

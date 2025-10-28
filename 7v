@@ -14,10 +14,10 @@ fi
 while IFS= read -r pom
 do
   echo "===== BEGIN [${pom}] ====="
-  ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile "${pom}" -Schema maven-4.0.0.xsd | \
-  grep -Ev '(^$|\[ps1-wrapper)'                                                                 | \
-  sed "s/INFO:/${GREEN}INFO${STOP_COLOR}:/"                                                     | \
-  sed "s/WARNING:/${YELLOW}WARNING${STOP_COLOR}:/"                                              | \
+  ps1-wrapper utilities-xml.ps1 -XmlFile "${pom}" -Schema maven-4.0.0.xsd | \
+  grep -Ev '(^$|\[ps1-wrapper)'                                           | \
+  sed "s/INFO:/${GREEN}INFO${STOP_COLOR}:/"                               | \
+  sed "s/WARNING:/${YELLOW}WARNING${STOP_COLOR}:/"                        | \
   sed "s/ERROR:/${RED}ERROR${STOP_COLOR}:/"
   echo "=====  END  [${pom}] ====="
   echo ''

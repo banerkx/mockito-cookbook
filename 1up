@@ -11,9 +11,10 @@ then
   declare -rg GREEN="${ESCAPE}[0;32m"
 fi
 
-ps1-wrapper ${HOME}/scripts/power-shell/misc/update-pom-version.ps1 -Version 4.5.6-SNAPSHOT | \
-grep -Ev '(^$|\[ps1-wrapper)'                                                               | \
-sed "s/INFO:/${GREEN}INFO${STOP_COLOR}:/"                                                   | \
-sed "s/WARNING:/${YELLOW}WARNING${STOP_COLOR}:/"                                            | \
+PATH=${PATH}:${HOME}/scripts/power-shell/misc
+ps1-wrapper update-pom-version.ps1 -Version 4.5.6-SNAPSHOT | \
+grep -Ev '(^$|\[ps1-wrapper)'                              | \
+sed "s/INFO:/${GREEN}INFO${STOP_COLOR}:/"                  | \
+sed "s/WARNING:/${YELLOW}WARNING${STOP_COLOR}:/"           | \
 sed "s/ERROR:/${RED}ERROR${STOP_COLOR}:/"
 
