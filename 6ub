@@ -48,7 +48,7 @@ do
 done <<< "$(find . -not -path "*/dtd/*" -type f \( -name "*\.pom" -o -name "pom\.xml" \))"
 
 ##git checkout xsd/maven-4.0.0.xsd > /dev/null 2>&1
-##ps1-wrapper ~/scripts/power-shell/utilities-xml.ps1 -XmlFile xsd/maven-4.0.0.xsd
+##ps1-wrapper utilities-xml.ps1 -XmlFile xsd/maven-4.0.0.xsd
 
 git status
 

@@ -2,4 +2,5 @@
 
 # shellcheck disable=all
 rm -f dtd/pom.xml
-${HOME}/scripts/power-shell/misc/pom-versions
+PATH=${PATH}:${HOME}/scripts/power-shell/misc
+pom-versions
