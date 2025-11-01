@@ -17,6 +17,7 @@
   specific language governing permissions and limitations
   under the License.
 -->
+<!-- This xsd file is from: https://maven.apache.org/xsd -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.0" elementFormDefault="qualified" targetNamespace="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.0">
   <xs:element name="component" type="Component">
     <xs:annotation>
