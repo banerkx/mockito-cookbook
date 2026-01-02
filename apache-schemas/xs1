@@ -4,5 +4,5 @@
 
 mkdir -p xsb
 ./xsapache-schemas
-git status -- xsb
+##git status -- xsb
 

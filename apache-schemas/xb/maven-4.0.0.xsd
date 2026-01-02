@@ -1262,7 +1262,7 @@
       <xs:documentation source="version">4.0.0+</xs:documentation>
       <xs:documentation source="description">
         Deployment repository contains the information needed for deploying to the remote
-        repository, which adds uniqueVersion property to usual repositories for download.
+        repository, which adds {@code uniqueVersion} property to usual repository information for download.
       </xs:documentation>
     </xs:annotation>
     <xs:all>
@@ -1271,7 +1271,7 @@
           <xs:documentation source="version">4.0.0+</xs:documentation>
           <xs:documentation source="description">
             Whether to assign snapshots a unique version comprised of the timestamp and
-            build number, or to use the same version each time
+            build number, or to use the same version each time, when deploying to repository
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -1331,7 +1331,7 @@
   <xs:complexType name="RepositoryPolicy">
     <xs:annotation>
       <xs:documentation source="version">4.0.0+</xs:documentation>
-      <xs:documentation source="description">Download policy.</xs:documentation>
+      <xs:documentation source="description">Repository download policy.</xs:documentation>
     </xs:annotation>
     <xs:all>
       <xs:element minOccurs="0" name="enabled" type="xs:string">

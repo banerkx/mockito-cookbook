@@ -9,5 +9,5 @@ export XML_LINTER_COMMAND=${POWER_SHELL_XML_LINTER}
 export POWER_SHELL_SCRIPT="pwsh -NoProfile"
 export OUTPUT_DIR=./ub
 ./apache-schemas
-git status -- ub
+##git status -- ub
 

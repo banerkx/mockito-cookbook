@@ -4,5 +4,5 @@
 
 mkdir -p xib
 ./xiapache-schemas
-git status -- xib
+##git status -- xib
 

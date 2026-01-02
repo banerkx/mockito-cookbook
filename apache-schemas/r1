@@ -3,5 +3,5 @@
 # shellcheck disable=all
 
 ./rapache-schemas
-git status -- raw
+##git status -- raw
 

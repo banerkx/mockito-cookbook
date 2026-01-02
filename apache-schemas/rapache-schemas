@@ -66,6 +66,8 @@ function log_error
 
 # ${1} - warning message
 # ${2} - line number (optional)
+# NOTE: Left in for possible future use.
+# shellcheck disable=SC2317
 function log_warning
 {
   log_message "${1}" WARNING "${2}"
@@ -90,6 +92,8 @@ function check_command
 
 # ${1} - array indexed with integers
 # ${2} - label (optional)
+# NOTE: Left in for possible use as a debugging aid.
+# shellcheck disable=SC2317
 function print_int_array
 {
   local -r label=${2:-${1}}
@@ -146,27 +150,46 @@ function get_apache_schema
   local schema="${APACHE_SCHEMAS_URL}/${xsd}"
   "${CURL}" "${schema}" 2> /dev/null | sed 's@^<?xml version="1.0"?>$@<?xml version="1.0" encoding="UTF-8"?>@' >| "${OUTPUT_DIR}/${xsd}"
   local -i stat=${PIPESTATUS[0]}
-  if [[ 0 -ne ${?} ]]
+  if [[ 0 -eq ${?} ]]
   then
-    echo "[${SCRIPT}] ERROR: Could not download schema [${schema}] due to error code [${stat}]."
-    rm -f "${OUTPUT_DIR}/${xsd}"
-  else
     log_info "Downloaded schema number [${2}] [${1}]." "${LINENO}"
     dos2unix "${OUTPUT_DIR}/${xsd}" > /dev/null 2>&1
+    stat=${?}
+    if [[ 0 -ne ${stat} ]]
+    then
+      log_error "Failed to convert line endings to Unix style in [schema] file [${schema}] due to [dos2unix] error code [${stat}]." "${LINENO}"
+      return "${stat}"
+    fi
+
     add_source_url "${OUTPUT_DIR}/${xsd}"
+    stat=${?}
+    if [[ 0 -ne ${stat} ]]
+    then
+      return "${stat}"
+    fi
   fi
   echo ''
+  return "${stat}"
 }
 
 function get_apache_schemas
 {
+  local -i cum_stat=0
+  local -i stat=0
   local -a schemas
   mapfile -t schemas < <(${CURL} --silent "${APACHE_SCHEMAS_URL}/" 2> /dev/null | grep -oP '(?<=href=")[^"]+\.xsd' | grep -Ev -e "-(alpha|beta|rc)-" | sed "s@^@${APACHE_SCHEMAS_URL}/@")
   local -i i=0
   for ((i = 0; i < ${#schemas[@]}; i++))
   do
     get_apache_schema "${schemas[${i}]}" $((${i} + 1))
+    stat=${?}
+    if [[ 0 -ne ${stat} ]]
+    then
+      cum_stat=1
+    fi
   done
+  git ls-files --modified --others --exclude-standard ./"${OUTPUT_DIR}"/*.xsd | sed 's/^/git dif /' | sed '1i New/Modified Apache Schema Files:'
+  return "${cum_stat}"
 }
 
 function set_variables
@@ -191,16 +214,25 @@ function set_variables
 # "main"                                                                       #
 ################################################################################
 set_variables
+declare -i cum_stat=0
 if [[ 0 -eq ${#} ]]
 then
   get_apache_schemas
+  cum_stat=${?}
 else
+  declare -i stat=0
   declare -i index=1
   while [[ -n "${1}" ]]
   do
     get_apache_schema "${1}" "${index}"
+    stat=${?}
+    if [[ 0 -ne ${stat} ]]
+    then
+      cum_stat=1
+    fi
     index=$((${index} + 1))
     shift 1
   done
 fi
+exit "${cum_stat}"
 

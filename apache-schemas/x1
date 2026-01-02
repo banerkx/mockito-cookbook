@@ -3,5 +3,5 @@
 # shellcheck disable=all
 
 ./apache-schemas
-git status -- xb
+##git status -- xb
 
