@@ -1,4 +1,143 @@
-* text=auto eol=lf
-*.xml text eol=lf
-pom.xml text eol=lf
-*.pom text eol=lf
+################################################################################
+# Invocation: git-eol-attributes                                           #
+################################################################################
+
+################################################################################
+# With the setting:                                                            #
+#   * text=auto                                                                #
+# git inspects content of each file to guess whether it is text or binary. If  #
+# git decides a file is text, git normalizes line endings to lf (\n) when the  #
+# file is stored in the repository, regardless of what line endings are in     #
+# the working directory. When that file is checked out, git converts the line  #
+# endings to match the native platform convention — crlf (\r\n) on Windows, lf #
+# on Unix/Linux/macOS — if your core.autocrlf setting or platform defaults     #
+# call for it. If core.autocrlf is false (or unset and you are on Unix),       #
+# checkout keeps lf. Files git detects as binary (images, compiled binaries,   #
+# etc.) are left untouched — no conversion happens.                            #
+#                                                                              #
+# To renormalize eol for all files in the current branch, use:                 #
+#   git add --renormalize -A                                                   #
+#                                                                              #
+# This re-reads every tracked file through the current attribute rules and     #
+# re-applies text/EOL normalization, staging any changes needed (only for      #
+# files where normalization actually differs from what is stored).             #
+################################################################################
+* text=auto
+
+################################################################################
+# The following file extensions should be treated as text files.               #
+################################################################################
+*.dtd    text eol=lf
+*.groovy text eol=lf
+*.java   text eol=lf
+*.json   text eol=lf
+*.pom    text eol=lf
+*.xml    text eol=lf
+*.xsd    text eol=lf
+
+################################################################################
+# Need to ensure that a shebang line, e.g., #!/bin/bash, ends in:              #
+#                                                                              #
+#   #!/bin/bash[lf]                                                            #
+#                                                                              #
+# and not:                                                                     #
+#                                                                              #
+#   #!/bin/bash[crlf]                                                          #
+#                                                                              #
+# On Linux, if a shebang line ends in [crlf], then the specified interpreter   #
+# will not be found. For example, if the shebang line is #!/bin/gawk, then     #
+# the script will try to find /bin/gawk[cr] **and not** /bin/gawk. Note that   #
+# a script with the shebang line #!/bin/bash[lf] will also work in git-bash.   #
+#                                                                              #
+# If a file has a shebang line, then git-bash treats that file as executable.  #
+# Linux does not do the same thing; a file must specifically be given execute  #
+# permission.                                                                  #
+#                                                                              #
+# To ensure that such files are executable on Linux, the execute permission    #
+# must be added to the git index for such files.                               #
+#                                                                              #
+# To see if a file has executable permission in the git index, do the          #
+# following:                                                                   #
+#                                                                              #
+#   git ls-files --stage [/path/to/my/script.sh] | cut -d" " -f1               #
+#                                                                              #
+# If the output from the previous command is "100644", then the execute        #
+# permission is missing. The following command can be used to add the execute  #
+# permission to the git index for the file:                                    #
+#                                                                              #
+#   git update-index --chmod=+x [/path/to/my/script.sh]                        #
+#                                                                              #
+# Now re-running the previous command to check the execute permission on the   #
+# file will output "100755".                                                   #
+#                                                                              #
+# If an executable text file is being added to git for the first time, then    #
+# the following "git add" command will add execute permission to the git index #
+# for the file:                                                                #
+#                                                                              #
+#   git add --chmod=+x /path/to/executable/file/some_script.sh                 #
+################################################################################
+
+################################################################################
+# The following file(s) are text scripts and so should always have [lf] eol.   #
+################################################################################
+1up              text eol=lf
+1v               text eol=lf
+1vb              text eol=lf
+2b               text eol=lf
+2up              text eol=lf
+2v               text eol=lf
+3b               text eol=lf
+3g               text eol=lf
+4a               text eol=lf
+4b               text eol=lf
+5p               text eol=lf
+5pt              text eol=lf
+6ub              text eol=lf
+6xb              text eol=lf
+7v               text eol=lf
+apache-schemas   text eol=lf
+b1               text eol=lf
+d1               text eol=lf
+eol1             text eol=lf
+fpoms            text eol=lf
+goc1             text eol=lf
+idiff            text eol=lf
+pv               text eol=lf
+r1               text eol=lf
+rapache-schemas  text eol=lf
+rdiff            text eol=lf
+s1               text eol=lf
+sdiff            text eol=lf
+sort1            text eol=lf
+tobom            text eol=lf
+tocrlf           text eol=lf
+tolf             text eol=lf
+toolchains.sh    text eol=lf
+u1               text eol=lf
+udiff            text eol=lf
+upom             text eol=lf
+v1               text eol=lf
+vip              text eol=lf
+x1               text eol=lf
+xden             text eol=lf
+xi1              text eol=lf
+xiapache-schemas text eol=lf
+xs1              text eol=lf
+xsapache-schemas text eol=lf
+
+################################################################################
+# The following text file extensions should always have [crlf] eol.            #
+################################################################################
+*.ps1 text eol=crlf
+
+################################################################################
+# The following are official .git files.                                       #
+################################################################################
+.gitattributes text eol=lf
+.gitignore     text eol=lf
+
+################################################################################
+# The following file extensions should be treated as binary files.             #
+################################################################################
+*.zip binary
+
